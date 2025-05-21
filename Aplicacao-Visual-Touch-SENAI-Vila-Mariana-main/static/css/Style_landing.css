@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 0.5vh;
+}
+
+body {
+    background-color: #eadaff7a;
+}
+
+section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #A691F2;
+    text-align: center;
+    width: 90%;
+    margin: 2vh auto;
+    font-size: 20px;
+    padding: 2vh 0;
+}
+
+.caixa {
+    height: 50vh;
+    width: 70vh;
+    text-align: left;
+    background-color: white;
+    padding: 5vh;
+    margin: 0 2vh;
+}
+
+.destaque {
+    font-weight: bold;
+    color: #36233e;
+    font-size: 1.1em;
+}
+
+
+header img
+{
+    width: 3%;
+    height: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 2vh;
+    border-top: none;
+    background-color: #36233e;
+}
+
+#topicos {
+    display: flex;
+    list-style: none;
+
+}
+
+.item {
+    padding: 1vh 2vh;
+}
+
+.item>a {
+    color: #85b4f2;
+    text-decoration: none;
+}
+
+.item:hover,
+.item>a:hover {
+    transition: 0.5s ease;
+    background-color: #85b4f2;
+    border-radius: 2vh;
+    color: white;
+}
+
+#Secao3 {
+    text-align: left;
+}
+
+#Secao3 > div > p{
+    margin: 2vh 2vh;
+}
+
+.caixa > img{
+    border: solid black 1px;
+}
+
+#logo{
+    border-radius: 3vh;
+    
+}
+
+#logo:hover{
+    animation: olhar 2s ease-out backwards;
+}
+
+@keyframes olhar {
+    from{
+        transform: translate(0);
+    }
+
+    25%{
+        transform: translate(2vh, 1vh);
+    }
+
+    70%{
+        transform: translate(1vh, 2vh);
+    }
+
+    to{
+        transform: translate(0);
+    }
+}

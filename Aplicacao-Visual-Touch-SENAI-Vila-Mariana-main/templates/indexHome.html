@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreamento Ocular</title>
+    <link rel="shortcut icon" href="{{ url_for ('static', filename='img/favicon.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/styles.css' )}}">
+</head>
+<body>
+
+    <header>
+        <h1>Controle de Rastreamento Ocular</h1>
+    </header>
+
+    <button onclick="startTracking()" class="start">Iniciar Rastreamento</button>
+    <button onclick="stopTracking()" class="stop">Parar Rastreamento</button>
+    <button onclick="StartVoice()" class="start">Iniciar Reconhecimento de voz</button>
+    <button onclick="StopVoice()" class="stop">Parar Reconhecimento de voz</button>
+    <p id="status"></p>
+
+    <footer>
+        <p>&copy; 2024 Visual Touch. Todos os Direitos Reservados</p>
+        <div class="images">
+        <link rel="shortcut icon" href="{{ url_for ('static', filename='img/logo.png')}}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ url_for ('static', filename='img/logoSamsung.png')}}" type="image/x-icon">
+        </div>
+    </footer>
+
+    <script>
+        function startTracking() {
+            fetch('/start-tracking')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function stopTracking() {
+            fetch('/stop-tracking')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function StartVoice() {
+            fetch('/start-voice')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function StopVoice() {
+            fetch('/stop-voice')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+    </script>
+</body>
+</html>

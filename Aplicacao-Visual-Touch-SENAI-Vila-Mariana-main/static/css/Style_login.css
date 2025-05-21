@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #2f213b;
+    color: #fff;
+}
+
+.container {
+    max-width: 1803px;
+    width: 90%;
+    margin: 0 auto;
+    height: 100px;
+}
+
+header img {
+    margin-top: 20px;
+    width: 60px;
+    border-radius: 8px;
+}
+
+header h1 {
+    font-size: 28px;
+    font-family: 'Poppins', sans-serif;
+    margin-left: 88px;
+    margin-top: -50px;
+}
+
+main {
+    margin-top: 80px;
+    margin-left: 0px;
+}
+
+main h2 {
+    color: #fff;
+    font-size: 68px;
+    font-family: 'Poppins', sans-serif;
+}
+
+button {
+    margin-top: 240px;
+    width: 220px;
+    height: 60px;
+    border: none;
+    border-radius: 40px;
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #000005;
+    background: linear-gradient(90deg, #392848, #a569c9);
+    cursor: pointer;
+}
+
+.circle {
+    width: 580px;
+    height: 580px;
+    position: absolute; /* Para posicionamento preciso */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta a centralização */
+    background: radial-gradient(circle, #6e00b5 0%, #320055 70%, #1e052d 100%);
+    border-radius: 50%;
+    margin-left: 450px;
+    z-index: 1; /* Fica atrás da imagem */
+    box-shadow: 
+        0 0 50px 15px #6e00b5, /* Halo brilhante */
+        0 0 80px 30px #8e00ff; /* Difusão suave */
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    margin-left: 450px;
+    transform: translate(-50%, -50%); /* Ajusta a centralização */
+    z-index: 2; /* Garante que fique acima do círculo */
+}
+
+.center img {
+    height: 580px;
+    width: 580px;
+    border-radius: 100%; /* Garante um formato circular */
+    box-shadow: 
+        0 0 20px 5px #8e00ff, /* Brilho interno */
+        0 0 40px 15px #6e00b5, /* Halo */
+        0 0 60px 25px #320055; /* Efeito de difusão */;
+    transition: box-shadow 0.3s ease-in-out; /* Suaviza alterações */
+}
+
+.center img:hover {
+    box-shadow: 
+        0 0 30px 10px #ff00ff, /* Brilho mais intenso */
+        0 0 60px 30px #bf00ff, /* Halo mais vibrante */
+        0 0 80px 40px #5a0077; /* Difusão maior */;
+}
+
