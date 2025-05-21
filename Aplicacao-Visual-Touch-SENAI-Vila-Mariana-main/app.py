@@ -3,7 +3,7 @@ import threading
 from control import voice_active_event
 from voice import reconhecimento_de_voz
 from eye import eye_tracking, set_tracking, cam
-
+import os
 app = Flask(__name__)
 
 @app.route('/')
@@ -50,4 +50,5 @@ def stop_voice():
     return "Reconhecimento de voz parado."
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
