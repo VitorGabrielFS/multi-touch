@@ -4,7 +4,8 @@ import webbrowser
 import os
 import pyttsx3
 
-myname = "Gab"
+myname = "luan santana"
+
 # Pastas comuns para procurar .exe no Windows
 pastas_comuns = [
     os.environ.get("PROGRAMFILES", ""),
@@ -25,9 +26,17 @@ def procurar_exe(nome_exe):
 
 def falar(texto):
     engine = pyttsx3.init()
-    engine.setProperty('rate', 180)
+    voices = engine.getProperty('voices')
+    
+    for voice in voices:
+        if "portuguese" in voice.name.lower() or "maria" in voice.name.lower():
+            engine.setProperty('voice', voice.id)
+            break
+
+    engine.setProperty('rate', 180)  
     engine.say(texto)
     engine.runAndWait()
+
 
 def perguntar_site_ou_app(nome, reconhecedor, mic):
     print(f" Você quer abrir o site ou o aplicativo de '{nome}'?")
@@ -60,6 +69,22 @@ def executar_pesquisa(comando):
         url = f"https://www.google.com/search?q={termo.replace(' ', '+')}"
         print(f" Pesquisando no Google: {termo}")
         webbrowser.open(url)
+
+    elif "navegador 2" in comando or "edge" in comando:
+        termo = comando.replace("pesquisar", "") \
+                       .replace("no edge", "") \
+                       .replace("no navegador 2", "") \
+                       .strip()
+        url = f"https://www.bing.com/search?q={termo.replace(' ', '+')}"
+        print(f" Pesquisando no Edge (Bing): {termo}")
+
+        edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+        if os.path.exists(edge_path):
+            webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
+            webbrowser.get('edge').open(url)
+        else:
+            print(" Navegador Edge não encontrado, abrindo no navegador padrão...")
+            webbrowser.open(url)
 
     else:
         termo = comando.replace("pesquisar", "").strip()

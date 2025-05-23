@@ -5,13 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre nós</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/Style_landing.css') }}">
+    <!-- PARA LIVE SERVER (HTML PURO): -->
+    <!--<link rel="stylesheet" href="static/css/Style_landing.css">
+    <link rel="shortcut icon" href="static/img/logo.png" type="image/x-icon">
+     PARA FLASK, DESCOMENTE AS LINHAS ABAIXO E COMENTE AS DE CIMA: -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Style_landing.css') }}"> 
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png' )}}" type="image/x-icon">
 </head>
 
 <body>
     <header>
-        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Tutorial passo a passo">
+        <!-- PARA LIVE SERVER: -->
+       <!-- <img src="static/img/logo.png" alt="Tutorial passo a passo"> -->
+        <!-- PARA FLASK, DESCOMENTE A LINHA ABAIXO E COMENTE A DE CIMA: -->
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Tutorial passo a passo"> 
 
         <nav>
             <ul id="topicos">
@@ -103,7 +110,10 @@ O cursor se move na tela conforme o olhar do usuário.
             </div>
 
             <br>
-            <img src="{{ url_for('static', filename='img/imagem (1).png') }}" alt="Tutorial passo a passo">
+            <!-- PARA LIVE SERVER: -->
+            <!--<img src="static/img/imagem (1).png" alt="Tutorial passo a passo"> -->
+            <!-- PARA FLASK, DESCOMENTE A LINHA ABAIXO E COMENTE A DE CIMA: -->
+            <img src="{{ url_for('static', filename='img/imagem (1).png') }}" alt="Tutorial passo a passo"> 
         </section>
 
         <section>

@@ -1,7 +1,7 @@
 <div >
 <h1> 
   <img width="40" height="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />
-    Samsung Innovation Campus Brasil-Visual-Touch
+    Brasil-Visual-Touch
   <img src="https://github.com/user-attachments/assets/3b94c6d6-4440-4a15-9f08-7ca2091769c6" alt="Descrição da imagem" width="50" height="50">
     </h1>
 </div>
