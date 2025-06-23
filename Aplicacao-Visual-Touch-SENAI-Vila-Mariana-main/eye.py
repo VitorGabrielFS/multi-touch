@@ -9,11 +9,11 @@ import speech_recognition as sr
 from collections import deque
 
 
-# Configurações iniciais
+#comfigurassao
 screen_w, screen_h = pyautogui.size()
 pyautogui.FAILSAFE = False
 
-# Variáveis globais
+#variavel global
 tracking = False
 cam = None
 
@@ -44,25 +44,25 @@ def eye_tracking():
             if landmark_points:
                 landmarks = landmark_points[0].landmark
 
-                # Pega o nariz
-                nose = landmarks[1]  # (você pode testar com 4 também se quiser)
+                #peguei seu nariz kkkkkk
+                nose = landmarks[1]  #(pode testar com 4 também, melhora responsividade dependendo de como vc ta na cadeira)
                 nose_x = int(nose.x * screen_w)
                 nose_y = int(nose.y * screen_h)
 
                 if base_nose_x is None and base_nose_y is None:
-                    # Primeira vez: define a base do nariz
+                    #definindo(?) a base do nariz
                     base_nose_x = nose_x
                     base_nose_y = nose_y
 
-                # Cálculo relativo ao ponto inicial
+                #calculo relativo ao ponto inicial
                 relative_x = nose_x - base_nose_x
                 relative_y = nose_y - base_nose_y
 
-                # Mapeamento para a tela real
+                #mapeamento para a tela real
                 screen_x = (relative_x / virtual_width) * screen_w + (screen_w / 2)
                 screen_y = (relative_y / virtual_height) * screen_h + (screen_h / 2)
 
-                # Restringe para não sair da tela
+                #restringe para não sair da tela
                 screen_x = max(0, min(screen_w - 1, screen_x))
                 screen_y = max(0, min(screen_h - 1, screen_y))
 
