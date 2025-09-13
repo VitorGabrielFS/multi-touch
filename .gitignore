@@ -1,0 +1,18 @@
+# Arquivo: .gitignore
+
+# Ambientes Virtuais
+.venv/
+venv/
+*.venv
+env/
+.env
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Outros
+.vscode/
+*.egg-info/

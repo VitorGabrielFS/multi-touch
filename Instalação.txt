@@ -1,0 +1,9 @@
+Execute os seguintes códigos no terminal para criar ambiente, e instalar tudo:
+Set-ExecutionPolicy RemoteSigned -Scope Process
+python -m venv .venv
+.venv\Scripts\activate
+
+Talvez seja necessário atualizar o pip também
+python.exe -m pip install --upgrade pip
+
+Faça isso com o Python 3.12.10 instalado
