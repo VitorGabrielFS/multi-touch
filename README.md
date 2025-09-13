@@ -7,7 +7,6 @@
 </div>
 
 <div align="center"> 
-<a href="https://git.io/typing-svg">
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&background=39000000&center=true&vCenter=true&width=600&lines=Visual-Touch;Samsung+Innovation+Campus+SIC;A+nova+fronteira+da+inclusão+digital" alt="Typing SVG" />
 </a>
 <img width='400' height='100' src="https://github.com/user-attachments/assets/480dcbb4-cef2-41ea-8dc4-27303433bb46" />
