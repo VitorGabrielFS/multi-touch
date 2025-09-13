@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import threading
+#se for rodar no senai, so comentar da linha 4 ate a 6 e da 21 ate 52
 from control import voice_active_event
 from voice import reconhecimento_de_voz
 from eye import eye_tracking, set_tracking, cam
