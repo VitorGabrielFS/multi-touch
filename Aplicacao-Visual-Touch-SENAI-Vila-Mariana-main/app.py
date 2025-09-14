@@ -11,8 +11,8 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/sobre')
-def sobre():
+@app.route('/home')
+def home():
     return render_template('indexHome.html')
 
 @app.route('/landing')
