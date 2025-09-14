@@ -5,25 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rastreamento Ocular</title>
     <link rel="shortcut icon" href="{{ url_for ('static', filename='img/favicon.png')}}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/styles.css' )}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <header>
-        <h1>Controle de Rastreamento Ocular</h1>
+        <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand mb-0 h1" href="/">SeeMe</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for ('home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Ajustes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for ('landing') }}">Sobre</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <button onclick="startTracking()" class="start">Iniciar Rastreamento</button>
-    <button onclick="stopTracking()" class="stop">Parar Rastreamento</button>
-    <button onclick="StartVoice()" class="start">Iniciar Reconhecimento de voz</button>
-    <button onclick="StopVoice()" class="stop">Parar Reconhecimento de voz</button>
+    <main>
+        <div class="container d-flex justify-content-center align-items-center vh-100" style="padding: 10px;">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>Controle o Rastreamento Ocular</h2>
+                    <p>Use os botões abaixo para iniciar ou parar o rastreamento ocular e o reconhecimento de voz.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <button onclick="startTracking()" class="btn btn-primary">Iniciar Rastreamento</button>
+    <button onclick="stopTracking()" class="btn btn-danger">Parar Rastreamento</button>
+    <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento de voz</button>
+    <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento de voz</button>
     <p id="status"></p>
 
-    <footer>
-        <p>&copy; 2024 Visual Touch. Todos os Direitos Reservados</p>
-        <div class="images">
-        <link rel="shortcut icon" href="{{ url_for ('static', filename='img/logo.png')}}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ url_for ('static', filename='img/logoSamsung.png')}}" type="image/x-icon">
+    <footer class="bg-primary text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 SeeMe. Todos os direitos reservados.</p>
         </div>
     </footer>
 
