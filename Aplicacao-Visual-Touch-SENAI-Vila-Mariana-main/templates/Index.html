@@ -7,6 +7,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
+<style>
+    body {
+        /* 1. Define a imagem de fundo e a sobreposição escura */
+        background-image:
+            /* Esta é a camada escura. rgba(0,0,0,0.6) é um preto com 60% de opacidade. */
+            linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            /* Substitua este URL pelo caminho da sua imagem */
+            url("{{ url_for('static', filename='img/fundo_tablet.jpg') }}");
+
+        /* 2. Ajusta como a imagem de fundo se comporta */
+        background-size: cover; /* Faz a imagem cobrir toda a tela sem distorcer */
+        background-position: center; /* Centraliza a imagem */
+        background-repeat: no-repeat; /* Impede que a imagem se repita */
+        background-attachment: fixed; /* Deixa a imagem fixa enquanto a página rola (efeito parallax) */
+    }
+</style>
 <body class="d-flex flex-column vh-100">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <header>
@@ -25,7 +41,7 @@
                             <a class="nav-link" href="#">Ajustes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('landing') }}">Sobre</a>
+                            <a class="nav-link" href="{{ url_for ('home') }}">Sobre</a>
                         </li>
                     </ul>
                 </div>
@@ -34,21 +50,22 @@
     </header>
     
     <main>
-        <div class="container d-flex justify-content-center align-items-center vh-100" style="padding: 10px;">
-            <!-- Content here -->
+        <div>
+            <div class="container d-flex justify-content-center align-items-center vh-100" style="padding: 10px;">
             <div class="row">
-                <div class="col-md-7">
-                    <h2>Acessibilidade ampliada com o SeeMe</h2>
-                    <p>O SeeMe é uma aplicação inovadora que utiliza tecnologia de ponta para oferecer uma experiência única aos seus usuários. Com recursos avançados de reconhecimento facial e inteligência artificial, o SeeMe está aqui para transformar a maneira como você interage com o mundo digital.</p>
-                    <p>Navegue pelo menu acima para explorar as funcionalidades do SeeMe, ajustar suas preferências e aprender mais sobre nossa missão e visão.</p>
+                    <div class="col-md-7 text-white">
+                        <h2 class="display-4">Acessibilidade ampliada com o <b>SeeMe</b></h2>
+                        <p class="lead">O SeeMe é uma aplicação inovadora que utiliza tecnologia de ponta para oferecer uma experiência única aos seus usuários. Com recursos avançados de reconhecimento facial e inteligência artificial, o SeeMe está aqui para transformar a maneira como você interage com o mundo digital.</p>
+                        <p class="lead">Navegue pelo menu acima para explorar as funcionalidades do SeeMe, ajustar suas preferências e aprender mais sobre nossa missão e visão.</p>
 
-                    <div class="row">
-                        <a type="button" class="btn btn-primary btn-lg" href="{{ url_for ('home') }}" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Comece já! ></a>
+                        <div class="row">
+                            <a type="button" class="btn btn-primary btn-lg" href="{{ url_for ('home') }}" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Comece já! ></a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4">
-                    <img src="https://via.placeholder.com/500x300" class="img-fluid" alt="Imagem ilustrativa do SeeMe">
+                    <div class="col-md-4">
+                        <img src="https://via.placeholder.com/500x300" class="img-fluid" alt="Imagem ilustrativa do SeeMe">
+                    </div>
                 </div>
             </div>
         </div>
