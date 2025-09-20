@@ -47,6 +47,7 @@
                             <button onclick="startTracking()" class="btn btn-primary">Iniciar Rastreamento</button>
                             <button onclick="stopTracking()" class="btn btn-danger">Parar Rastreamento</button>
                         </div>
+                        <p class="card-text"><small id="status_camera" class="text-body-secondary"></small></p>
                     </div>
                 </div>
             </div>
@@ -65,12 +66,13 @@
                             <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento de voz</button>
                             <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento de voz</button>
                         </div>
+                        <p class="card-text"><small id="status_voz" class="text-body-secondary"></small></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row d-flex justify-content-center align-items-center">
-            <a class="btn btn-primary btn-lg" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
+            <a class="btn btn-primary btn-lg" href="#" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
         </div>
         <p id="status"></p>
         
@@ -87,7 +89,7 @@
             fetch('/start-tracking')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status').innerText = data;
+                    document.getElementById('status_camera').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
@@ -96,7 +98,7 @@
             fetch('/stop-tracking')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status').innerText = data;
+                    document.getElementById('status_camera').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
@@ -105,7 +107,7 @@
             fetch('/start-voice')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status').innerText = data;
+                    document.getElementById('status_voz').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
@@ -114,7 +116,7 @@
             fetch('/stop-voice')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status').innerText = data;
+                    document.getElementById('status_voz').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
