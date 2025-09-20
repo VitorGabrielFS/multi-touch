@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="{{ url_for ('static', filename='img/favicon.png')}}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <header>
         <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
@@ -33,21 +33,48 @@
         </nav>
     </header>
 
-    <main>
-        <div class="container d-flex justify-content-center align-items-center vh-100" style="padding: 10px;">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h2>Controle o Rastreamento Ocular</h2>
-                    <p>Use os botões abaixo para iniciar ou parar o rastreamento ocular e o reconhecimento de voz.</p>
+    <main class="flex-grow-1" style="padding-top: 80px;">
+        <div class="container col-md-8 col-lg-7 mx-auto">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        <img src="{{ url_for ('static', filename='img/camera.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Rastreamento Ocular</h5>
+                            <p class="card-text">Através do ponto médio de seus olhos, manipule o mouse, permitindo uma navegação acessível</p>
+                            <button onclick="startTracking()" class="btn btn-primary">Iniciar Rastreamento</button>
+                            <button onclick="stopTracking()" class="btn btn-danger">Parar Rastreamento</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="container col-md-8 col-lg-7 mx-auto">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        <img src="{{ url_for ('static', filename='img/microphone.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Voice Recognition</h5>
+                            <p class="card-text">Utilize a sua voz para realizar determinadas ações em seu computador. Verifique as opções em “ajustes”</p>
+                            <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento de voz</button>
+                            <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento de voz</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center align-items-center">
+            <a class="btn btn-primary btn-lg" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
+        </div>
+        <p id="status"></p>
+        
     </main>
-    <button onclick="startTracking()" class="btn btn-primary">Iniciar Rastreamento</button>
-    <button onclick="stopTracking()" class="btn btn-danger">Parar Rastreamento</button>
-    <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento de voz</button>
-    <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento de voz</button>
-    <p id="status"></p>
 
     <footer class="bg-primary text-white text-center py-3 mt-auto">
         <div class="container">
