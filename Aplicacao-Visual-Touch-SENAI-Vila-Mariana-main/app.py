@@ -19,6 +19,10 @@ def home():
 def landing():
     return render_template('landing.html')
 
+@app.route('/ajustes')
+def ajustes():
+    return render_template('ajustes.html')
+
 @app.route('/start-tracking')
 def start_tracking():
     if not getattr(eye_tracking, 'is_running', False):
