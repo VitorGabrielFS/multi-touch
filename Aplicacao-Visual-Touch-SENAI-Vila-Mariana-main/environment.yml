@@ -1,0 +1,16 @@
+name: cnn_libras
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - scipy
+  - matplotlib
+  - scikit-learn
+  - h5py
+  - pyyaml
+  - pip
+  - pip:
+      - tensorflow==2.12
+      - opencv-python==4.8.0
