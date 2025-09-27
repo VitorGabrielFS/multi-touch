@@ -13,7 +13,15 @@ def index():
 
 @app.route('/home')
 def home():
-    return render_template('indexHome.html')
+    return render_template('indexHome.html', title="Home")
+
+@app.route('/login')
+def login():
+    return render_template('login.html', title="Login")
+
+@app.route('/cadastrarUsuario')
+def cadastrar_usuario():
+    return render_template('registrar.html', title="Cadastrar Usuário")
 
 @app.route('/landing')
 def landing():
@@ -21,11 +29,11 @@ def landing():
 
 @app.route('/ajustes')
 def ajustes():
-    return render_template('ajustes.html')
+    return render_template('ajustes.html', title="Ajustes e Atalhos")
 
 @app.route('/cadastroAtalho')
 def cadastro_atalho():
-    return render_template('cadastroAtalho.html')
+    return render_template('cadastroAtalho.html', title="Cadastro de Atalhos")
 
 @app.route('/start-tracking')
 def start_tracking():
