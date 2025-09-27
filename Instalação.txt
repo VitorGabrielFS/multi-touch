@@ -7,3 +7,8 @@ Talvez seja necessário atualizar o pip também
 python.exe -m pip install --upgrade pip
 
 Faça isso com o Python 3.12.10 instalado
+
+Para o dlib, vai precisar instalar o "Tools for Visual Studio C++" e CMake
+Por fim, execute:
+
+pip install -r requirements.txt
