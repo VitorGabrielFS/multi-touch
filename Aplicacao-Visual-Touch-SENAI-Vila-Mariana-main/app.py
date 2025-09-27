@@ -23,6 +23,10 @@ def landing():
 def ajustes():
     return render_template('ajustes.html')
 
+@app.route('/cadastroAtalho')
+def cadastro_atalho():
+    return render_template('cadastroAtalho.html')
+
 @app.route('/start-tracking')
 def start_tracking():
     if not getattr(eye_tracking, 'is_running', False):
