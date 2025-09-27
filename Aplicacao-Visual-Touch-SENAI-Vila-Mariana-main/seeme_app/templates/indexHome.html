@@ -19,13 +19,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for ('home') }}">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for ('main.home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('ajustes') }}">Ajustes</a>
+                            <a class="nav-link" href="{{ url_for ('main.ajustes') }}">Ajustes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('landing') }}">Sobre</a>
+                            <a class="nav-link" href="{{ url_for ('main.landing') }}">Sobre</a>
                         </li>
                     </ul>
                 </div>
@@ -92,7 +92,7 @@
         </div>
 
         <div class="row d-flex justify-content-center align-items-center">
-            <a class="btn btn-primary btn-lg" href="{{ url_for ('ajustes') }}" style="margin: 10px; padding: 10px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
+            <a class="btn btn-primary btn-lg" href="{{ url_for ('main.ajustes') }}" style="margin: 10px; padding: 10px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
         </div>
         <p id="status"></p>
     </main>
