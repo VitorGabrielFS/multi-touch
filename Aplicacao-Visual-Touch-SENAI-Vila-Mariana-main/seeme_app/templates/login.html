@@ -26,6 +26,7 @@
     </header>
 
     <main style="padding-top: 100px;">
+        {% include '_flashes.html' %}
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -34,16 +35,16 @@
 
                             <h2 class="text-center mb-4 display-6">Bem-vindo de volta</h2>
 
-                            <form>
+                            <form method="POST" action="{{ url_for('main.login') }}">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <label for="entradaEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="entradaEmail" name="entradaEmail" aria-describedby="emailHelp">
                                     <div id="emailHelp" class="form-text">Usaremos apenas para seu login no site.</div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1">
+                                    <label for="entradaSenha" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="entradaSenha" name="entradaSenha">
                                 </div>
 
                                 <div class="mb-3 form-check">
