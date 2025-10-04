@@ -1,10 +1,10 @@
 from flask import Flask, render_template
 import threading
 #se for rodar no senai, so comentar da linha 4 ate a 6 e da 21 ate 52
-'''from control import voice_active_event
+from control import voice_active_event
 from voice import reconhecimento_de_voz
 from eye import eye_tracking, set_tracking, cam
-import os'''
+import os
 app = Flask(__name__)
 
 @app.route('/')
@@ -13,12 +13,28 @@ def index():
 
 @app.route('/home')
 def home():
-    return render_template('indexHome.html')
+    return render_template('indexHome.html', title="Home")
+
+@app.route('/login')
+def login():
+    return render_template('login.html', title="Login")
+
+@app.route('/cadastrarUsuario')
+def cadastrar_usuario():
+    return render_template('registrar.html', title="Cadastrar Usuário")
 
 @app.route('/landing')
 def landing():
     return render_template('landing.html')
-'''
+
+@app.route('/ajustes')
+def ajustes():
+    return render_template('ajustes.html', title="Ajustes e Atalhos")
+
+@app.route('/cadastroAtalho')
+def cadastro_atalho():
+    return render_template('cadastroAtalho.html', title="Cadastro de Atalhos")
+
 @app.route('/start-tracking')
 def start_tracking():
     if not getattr(eye_tracking, 'is_running', False):
@@ -53,4 +69,3 @@ def stop_voice():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-'''
