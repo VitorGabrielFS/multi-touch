@@ -18,3 +18,5 @@ Para o dlib, vai precisar instalar o "Tools for Visual Studio C++" e CMake
 Por fim, execute:
 
 pip install -r requirements.txt
+
+teste
