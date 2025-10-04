@@ -19,13 +19,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for ('main.home') }}">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for ('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('main.ajustes') }}">Ajustes</a>
+                            <a class="nav-link" href="#">Ajustes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('main.landing') }}">Sobre</a>
+                            <a class="nav-link" href="{{ url_for ('landing') }}">Sobre</a>
                         </li>
                     </ul>
                 </div>
@@ -34,7 +34,6 @@
     </header>
 
     <main class="flex-grow-1" style="padding-top: 80px;">
-        {% include '_flashes.html' %}
         <div class="container col-md-8 col-lg-7 mx-auto">
             <div class="card mb-3">
                 <div class="row g-0">
@@ -48,7 +47,6 @@
                             <button onclick="startTracking()" class="btn btn-primary">Iniciar Rastreamento</button>
                             <button onclick="stopTracking()" class="btn btn-danger">Parar Rastreamento</button>
                         </div>
-                        <p class="card-text"><small id="status_camera" class="text-body-secondary"></small></p>
                     </div>
                 </div>
             </div>
@@ -58,7 +56,7 @@
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4 d-flex justify-content-center align-items-center">
-                        <img src="{{ url_for ('static', filename='img/microfone.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
+                        <img src="{{ url_for ('static', filename='img/microphone.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -67,38 +65,16 @@
                             <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento de voz</button>
                             <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento de voz</button>
                         </div>
-                        <p class="card-text"><small id="status_voz" class="text-body-secondary"></small></p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="container col-md-8 col-lg-7 mx-auto">
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4 d-flex justify-content-center align-items-center">
-                        <img src="{{ url_for ('static', filename='img/hand.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Gestos</h5>
-                            <p class="card-text">Utilize a sua mão para realizar determinadas ações em seu computador. Verifique as opções em “ajustes”</p>
-                            <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento</button>
-                            <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento</button>
-                        </div>
-                        <p class="card-text"><small id="status_voz" class="text-body-secondary"></small></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="row d-flex justify-content-center align-items-center">
-            <a class="btn btn-primary btn-lg" href="{{ url_for ('main.ajustes') }}" style="margin: 10px; padding: 10px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
+            <a class="btn btn-primary btn-lg" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
         </div>
         <p id="status"></p>
+        
     </main>
-
-    <br>
 
     <footer class="bg-primary text-white text-center py-3 mt-auto">
         <div class="container">
@@ -111,7 +87,7 @@
             fetch('/start-tracking')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status_camera').innerText = data;
+                    document.getElementById('status').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
@@ -120,7 +96,7 @@
             fetch('/stop-tracking')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status_camera').innerText = data;
+                    document.getElementById('status').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
@@ -129,7 +105,7 @@
             fetch('/start-voice')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status_voz').innerText = data;
+                    document.getElementById('status').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
@@ -138,7 +114,7 @@
             fetch('/stop-voice')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('status_voz').innerText = data;
+                    document.getElementById('status').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }
