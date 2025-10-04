@@ -9,6 +9,8 @@ class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
+    atalhos = db.relationship('Atalho', backref='autor', lazy=True)
+    # Itens relacionados ao usuário
 
     def __repr__(self):
         return f'<Usuario {self.email}>'
@@ -16,3 +18,15 @@ class Usuario(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
+
+class Atalho(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    tipo = db.Column(db.String(50), nullable=False)
+    caminho = db.Column(db.String(200), nullable=False)
+    dados_imagem = db.Column(db.LargeBinary, nullable=True) # Armazena a imagem como dados binários
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+
+
+    def __repr__(self):
+        return f'<Item {self.nome}>'
