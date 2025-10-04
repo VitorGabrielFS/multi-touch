@@ -42,8 +42,26 @@ def landing():
 def ajustes():
     return render_template('ajustes.html', title="Ajustes e Atalhos")
 
-@main.route('/cadastroAtalho')
+@main.route('/cadastroAtalho', methods=['GET', 'POST'])
+@login_required
 def cadastro_atalho():
+    if request.method == 'POST':
+        nome_site = request.form.get('nomeSite')
+        url_site = request.form.get('entradaUrl')
+        imagem_site = request.files.get('entradaImagem')
+
+        nome_atalho = request.form.get('atalho')
+        tipo_acao = request.form.get('tipoAcao')
+
+        nome_programa = request.form.get('nomePrograma')
+        selecao_programa = request.form.get('selecaoPrograma')
+
+        # Aqui você pode processar os dados recebidos, como salvar no banco de dados
+        # ou realizar outras ações necessárias.
+
+        # Após processar os dados, você pode redirecionar ou renderizar uma página de sucesso.
+        return redirect(url_for('main.ajustes'))
+
     return render_template('cadastroAtalho.html', title="Cadastro de Atalhos")
 
 @main.route('/start-tracking')

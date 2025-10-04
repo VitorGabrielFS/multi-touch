@@ -50,19 +50,19 @@
                                 <form>
                                     <div class="mb-3">
                                         <label for="siteNameInput" class="form-label">Nome do site</label>
-                                        <input type="text" class="form-control" id="siteNameInput" aria-describedby="nameHelp" placeholder="Exemplo">
+                                        <input type="text" class="form-control" id="nomeSite" aria-describedby="nameHelp" name="nomeSite" placeholder="Exemplo">
 
                                         <br>
 
                                         <label for="siteUrlInput" class="form-label">URL do site</label>
-                                        <input type="url" class="form-control" id="siteUrlInput" aria-describedby="urlHelp" placeholder="https://www.exemplo.com">
+                                        <input type="url" class="form-control" id="entradaUrl" aria-describedby="urlHelp" name="entradaUrl" placeholder="https://www.exemplo.com">
                                         <div id="urlHelp" class="form-text">Insira a URL completa do site que você deseja cadastrar.</div>
 
                                         <br>
 
                                         <div class="mb-3">
                                             <label for="formFile" class="form-label">Escolha um icone</label>
-                                            <input class="form-control" type="file" id="formFile">
+                                            <input class="form-control" type="file" id="entradaImagem" name="entradaImagem" accept="image/*">
                                         </div>
                                     </div>
 
@@ -88,11 +88,11 @@
                                 <form>
                                     <div class="mb-3">
                                         <label for="siteNameInput" class="form-label">Nome</label>
-                                        <input type="text" class="form-control" id="siteNameInput" aria-describedby="nameHelp" placeholder="Exemplo">
+                                        <input type="text" class="form-control" id="nomeAtalho" name="atalho" aria-describedby="nameHelp" placeholder="Exemplo">
 
                                         <br>
 
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select class="form-select" id="tipoAcao" name="tipoAcao" aria-label="Default select example">
                                             <option selected>Selecione a ação</option>
                                             <option value="1">Tirar print</option>
                                             <option value="2">Encerrar captura de aúdio</option>
@@ -120,11 +120,11 @@
                                     <form>
                                         <div class="mb-3">
                                             <label for="siteNameInput" class="form-label">Nome</label>
-                                            <input type="text" class="form-control" id="siteNameInput" aria-describedby="nameHelp" placeholder="Exemplo">
+                                            <input type="text" class="form-control" id="nomePrograma" name="nomePrograma" aria-describedby="nameHelp" placeholder="Exemplo">
 
                                             <br>
 
-                                            <select class="form-select" aria-label="Default select example">
+                                            <select class="form-select" name="selecaoPrograma" aria-label="Default select example">
                                                 <option selected>Selecione o programa</option>
                                                 <option value="1">Calculadora</option>
                                                 <option value="2">Bloco de notas</option>

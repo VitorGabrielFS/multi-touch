@@ -1,130 +1,313 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre Nós - SeeMe</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_landing.css') }}" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre nós</title>
-    <!-- PARA LIVE SERVER (HTML PURO): -->
-    <!--<link rel="stylesheet" href="static/css/Style_landing.css">
-    <link rel="shortcut icon" href="static/img/logo.png" type="image/x-icon">
-     PARA FLASK, DESCOMENTE AS LINHAS ABAIXO E COMENTE AS DE CIMA: -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/Style_landing.css') }}"> 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png' )}}" type="image/x-icon">
-</head>
+  <body>
+    <section class="about-us">
+      <div class="split-section">
+        <!-- Metade Azul -->
+        <div class="left-half-up">
+          <img src="Logo SeeMe Branca.PNG" alt="Logo SeeMe" class="logo-img" />
+          <div class="social-icons">
+            <a href="https://www.instagram.com/py_seeme?igsh=MXJsNjFtYXZiZmIxeA==" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.facebook.com/share/17TZR7DBNm/" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://x.com/PySeeme" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+          </div>
+        </div>
+        <!-- Metade Branca -->
+        <div class="right-half-up">
+          <h1>Sobre nós</h1>
+          <p>
+            O SeeMe é uma solução inovadora de acessibilidade digital que
+            transforma a maneira como interagimos com o computador. Utilizando
+            visão computacional e inteligência artificial, o projeto permite
+            controlar o mouse com os olhos, realizar comandos por meio de gestos
+            das mãos e até transcrever sinais em LIBRAS para texto em tempo
+            real.<br /><br />
+            O objetivo é oferecer autonomia a pessoas com mobilidade reduzida,
+            surdas ou que buscam novas formas de interação além do teclado e da
+            voz.
+          </p>
+        </div>
+      </div>
+    </section>
 
-<body>
-    <header>
-        <!-- PARA LIVE SERVER: -->
-       <!-- <img src="static/img/logo.png" alt="Tutorial passo a passo"> -->
-        <!-- PARA FLASK, DESCOMENTE A LINHA ABAIXO E COMENTE A DE CIMA: -->
-        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Tutorial passo a passo"> 
+    <!-- Segunda Parte -->
 
-        <nav>
-            <ul id="topicos">
-                <li class="item"><a href="/">
-                        <h5>Home</h5>
-                    </a></li>
-                <li class="item"><a href="">
-                        <h5>Sobre nós</h5>
-                    </a></li>
-                <li class="item"><a href="/">
-                        <h5>Login</h5>
-                    </a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section style="flex-direction: column;">
-            <h1>Você está em boa companhia</h1>
+    <!-- Section Slogan com Imagens -->
+    <section class="slogan">
+      <div class="slogan-section">
+        <div class="split-section">
+          <!-- Imagem da esquerda -->
+          <div class="left-half">
+            <img src="Foto01.jpg" alt="Imagem 1" class="img-left" />
+          </div>
+          <!-- Frase + Imagem da direita -->
+          <div class="right-half">
+            <div class="titulo">Dê um novo olhar para a interação digital.</div>
+            <img src="Foto02.jpg" alt="Imagem 2" class="img-below" />
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <h3 style="width: 100vh;">
-                Nosso time é formado por alunos
-                dedicados, comprometidos e apaixonados pelo que fazem. Combinando
-                conhecimento técnico e vontade de aprender.
-            </h3>
+    <!-- Terceira Parte -->
+    <h2 class="titulo-recursos">Principais Recursos</h2>
+    <section class="recursos">
+      <!-- ...seu conteúdo dos blocos... -->
+    </section>
+    <!-- Section Principais Recursos -->
 
-        </section>
+    <section class="recursos">
+      <section class="bloco-imagem">
+        <div class="header-azul">
+          <i class="bi bi-camera-fill camera-icone"></i>
+        </div>
+        <div class="footer-preto">
+          <div class="footer-texto">
+            <div>Compatibilidade Acessível</div>
+            <div>Interação Multimodal</div>
+          </div>
+        </div>
+      </section>
 
-        <section style="flex-direction: row;">
+      <section class="bloco-imagem">
+        <div class="header-azul">
+          <i class="bi bi-cc-square-fill camera-icone"></i>
+        </div>
+        <div class="footer-preto">
+          <div class="footer-texto">
+            <div>Transcrição de LIBRAS</div>
+            <div>em Texto</div>
+          </div>
+        </div>
+      </section>
+    </section>
 
-            <div class="caixa">
-                <h1 style="text-align: left; font-size: 30px; margin-bottom: 4vh;">Sobre a inclusão digital</h1>
-                <p style="width: 50vh; text-align: left; font-size: 25px;">
-                    1. Detecção Ocular
-O sistema detecta o movimento dos olhos do usuário.<br>
-                    2. Processamento
-Os dados são processados em tempo real.<br>
-                    3. Movimentação do Cursor
-O cursor se move na tela conforme o olhar do usuário.
+    <section class="recursos">
+      <section class="bloco-imagem">
+        <div class="header-azul">
+          <i class="bi bi-eye-fill camera-icone"></i>
+        </div>
+        <div class="footer-preto">
+          <div class="footer-texto">
+            <div>Compatibilidade Acessível</div>
+            <div>Interação Multimodal</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bloco-imagem">
+        <div class="header-azul">
+          <i class="bi bi-universal-access camera-icone"></i>
+        </div>
+        <div class="footer-preto">
+          <div class="footer-texto">
+            <div>Compatibilidade Acessível</div>
+            <div>Interação Multimodal</div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Quarta Parte -->
+
+    <!-- Section Apresentação da Equipe -->
+    <section class="team-section py-5">
+      <section class="section-titulo-team">
+        <h2 class="titulo-team text-center mb-5">Apresentação da Equipe</h2>
+      </section>
+      <div class="container">
+        <div class="row g-5 justify-content-center">
+          <!-- Perfil 1 -->
+          <div class="col-lg-4 col-md-12">
+            <div class="profile-card text-center">
+              <div class="profile-header">
+                <h3 class="nome">ALESSANDRO</h3>
+                <p class="links-apresentacao">
+                  <a
+                    href="https://www.linkedin.com/in/alessandrogalvaosilva"
+                    target="_blank"
+                  >
+                    LinkedIn
+                  </a>
                 </p>
-            </div>
-
-            <div class="caixa">
-                <img src="static/img/sobreinclusao.png" alt="Descrição da imagem" width="455" height="150">
-                <h3> Inclusão Digital Ampliada 
-                    Tecnologia para Todos
-                </h3>
-                <p>O nosso sistema de controle de cursor com o olhar não se limita a uma tecnologia inovadora; ele é projetado para ser uma solução inclusiva, capaz de integrar a todos no ambiente digital.
+                <p class="links-apresentacao">
+                  <a href="https://github.com/Alezin777" target="_blank">
+                    GitHub
+                  </a>
                 </p>
+              </div>
+              <img
+                src="perfil01.jpg"
+                alt="Foto de Alessandro"
+                class="img-fluid profile-img"
+              />
             </div>
-        </section>
+          </div>
 
-        <section style="flex-direction: row;">
-            <div class="caixa">
-                <img src="static/img/pactosocial.png" alt="Descrição da imagem" width="455" height="150">
-                <h1>Conectadando a com interação digital</h1>
-                <p style="width: 50vh; text-align: left;">
-                    Oferecemos liberdade e inclusão, permitindo que todos possam acessar e interagir com o mundo digital de forma mais fácil, enriquecedora e acessível.
+          <!-- Perfil 2 -->
+          <div class="col-lg-4 col-md-12">
+            <div class="profile-card text-center">
+              <div class="profile-header">
+                <h3 class="nome">ERIK</h3>
+                <p class="links-apresentacao">
+                  <a
+                    href="https://www.linkedin.com/in/erick-silvaa"
+                    target="_blank"
+                  >
+                    LinkedIn
+                  </a>
                 </p>
-            </div>
-
-            <div class="caixa">
-                <ul>
-                    <li>Controle do Cursor: Movimente o cursor
-                        do mouse apenas com o olhar.</li>
-                    <li>Cliques com o Olho: Realize cliques com
-                        um piscar de olho.</li>
-                    <li>Compatibilidade: Funciona com câmeras
-                        padrão e é compatível com a maioria dos</li>
-                </ul>
-                <img src="">
-            </div>
-        </section>
-
-        <section id="Secao3">
-            <div>
-                <p>   Com essa combinação de ferramentas, oferecemos uma experiência visualmente agradável
+                <p class="links-apresentacao">
+                  <a href="https://github.com/erickk-silva" target="_blank">
+                    GitHub
+                  </a>
                 </p>
-
-                <p>
-                    <span class="destaque">Python</span> - Lógica de programação <br>
-                    <span class="destaque">HTML e CSS</span> - Estrutura e design visual <br>
-                    <span class="destaque">Flask</span> - Desenvolvimento web <br>
-                    <span class="destaque">Visual Studio Code (VSCode)</span> - Editor de código <br>
-                    <span class="destaque">Figma</span> - Design de interfaces <br>
-                    <span class="destaque">Postman</span> - Teste e validação de APIs REST <br>
-                    <span class="destaque">Git e GitHub</span> - Controle de versão e colaboração <br>
-                </p>
-                
+              </div>
+              <img
+                src="Foto_ERIK.png"
+                alt="Foto de Erik"
+                class="img-fluid profile-img"
+              />
             </div>
+          </div>
 
-            <br>
-            <!-- PARA LIVE SERVER: -->
-            <!--<img src="static/img/imagem (1).png" alt="Tutorial passo a passo"> -->
-            <!-- PARA FLASK, DESCOMENTE A LINHA ABAIXO E COMENTE A DE CIMA: -->
-            <img src="{{ url_for('static', filename='img/imagem (1).png') }}" alt="Tutorial passo a passo"> 
-        </section>
+          <!-- Perfil 3 -->
+          <div class="col-lg-4 col-md-12">
+            <div class="profile-card text-center">
+              <div class="profile-header">
+                <h3 class="nome">FABIANO</h3>
+                <p class="links-apresentacao">
+                  <a
+                    href="http://linkedin.com/in/fabianolira97"
+                    target="_blank"
+                  >
+                    LinkedIn
+                  </a>
+                </p>
+                <p class="links-apresentacao">
+                  <a href="http://github.com/FabianoLira97" target="_blank">
+                    GitHub
+                  </a>
+                </p>
+              </div>
+              <img
+                src="perfil03.jpg"
+                alt="Foto de Fabiano"
+                class="img-fluid profile-img"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section>
-            <img src="static/img/favicon.png" alt="Descrição da imagem" width="80" height="80">
+    <!-- Quinta Parte -->
 
-            <h1>"Conecte Pessoas, Transforme Vidas: Apoie a Inclusão Digital."</h1> 
+    <section class="team-section py-5">
+      <div class="container">
+        <div class="row g-5 justify-content-center">
+          <!-- Perfil 1 -->
+          <div class="col-lg-4 col-md-12">
+            <div class="profile-card text-center">
+              <div class="profile-header">
+                <h3 class="nome">MARIA</h3>
+                <p class="links-apresentacao">
+                  <a
+                    href="https://linkedin.com/in/maria-yara-bezerra"
+                    target="_blank"
+                  >
+                    LinkedIn
+                  </a>
+                </p>
+                <p class="links-apresentacao">
+                  <a href="https://github.com/yarsz" target="_blank">
+                    GitHub
+                  </a>
+                </p>
+              </div>
+              <img
+                src="Foto_Maria.png"
+                alt="Foto da Maria"
+                class="img-fluid profile-img"
+              />
+            </div>
+          </div>
 
-            <img src="static/img/favicon.png" alt="Descrição da imagem" width="80" height="80">
+          <!-- Perfil 2 -->
+          <div class="col-lg-4 col-md-12">
+            <div class="profile-card text-center">
+              <div class="profile-header">
+                <h3 class="nome">RAFAEL</h3>
+                <p class="links-apresentacao">
+                  <a
+                    href="https://linkedin.com/in/rafael-lima-alves"
+                    target="_blank"
+                  >
+                    LinkedIn
+                  </a>
+                </p>
+                <p class="links-apresentacao">
+                  <a href="https://github.com/RafaelLimaSharp" target="_blank">
+                    GitHub
+                  </a>
+                </p>
+              </div>
+              <img
+                src="perfil02.jpg"
+                alt="Foto de Rafael"
+                class="img-fluid profile-img"
+              />
+            </div>
+          </div>
 
-        </section>
-    </main>
-</body>
+          <!-- Perfil 3 -->
+          <div class="col-lg-4 col-md-12">
+            <div class="profile-card text-center">
+              <div class="profile-header">
+                <h3 class="nome">VITOR</h3>
+                <p class="links-apresentacao">
+                  <a
+                    href="https://www.linkedin.com/in/gabrielfsilva/"
+                    target="_blank"
+                  >
+                    LinkedIn
+                  </a>
+                </p>
+                <p class="links-apresentacao">
+                  <a href="https://github.com/VitorGabrielFS" target="_blank">
+                    GitHub
+                  </a>
+                </p>
+              </div>
+              <img
+                src="perfil03.jpg"
+                alt="Foto de Vitor"
+                class="img-fluid profile-img"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
