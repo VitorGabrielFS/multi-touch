@@ -1,0 +1,386 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.split-section {
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.left-half-up {
+  background: #3069f6;
+  color: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.logo-img {
+  max-width: 220px;
+  margin-bottom: 40px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.social-icons a {
+  color: #fff;
+  font-size: 2rem;
+  transition: color 0.2s;
+}
+
+.social-icons a:hover {
+  color: #ffdd57;
+}
+
+.right-half-up {
+  background: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 40px;
+}
+
+.right-half-up h1 {
+  font-weight: bold;
+  font-size: 2.7rem;
+  margin-bottom: 28px;
+  color: #3069f6;
+}
+
+.right-half-up p {
+  font-size: 1.25rem;
+  color: #222;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/*Segunda Parte*/
+
+.slogan-section {
+  background-color: #fff; /* fundo branco */
+  padding: 40px 0;
+}
+
+.split-section {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.left-half,
+.right-half {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-half {
+  padding-left: 25px;
+  padding-right: 16px;
+}
+
+.img-left {
+  width: 100%;
+  height: 100%;
+  max-height: 800px;
+  object-fit: cover;
+  border-radius: 32px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.right-half {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-right: 32px;
+  padding-left: 16px;
+}
+
+.titulo {
+  margin-top: 5%;
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #222;
+  line-height: 1.1;
+  padding-top: 10%;
+  max-width: 90%;
+}
+
+.img-below {
+  margin-top: 10%;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Terceira Parte */
+.titulo-recursos {
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #000000;
+
+  font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+}
+/* Terceira Parte - Bloco Imagem */
+
+.recursos {
+  display: flex;
+  flex-direction: row;
+  /* espaço entre os blocos */
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  gap: 20px;
+}
+
+.bloco-imagem,
+.bloco-imagem-02 {
+  flex: 1 1 0;
+  min-width: 280px;
+  max-width: 600px;
+}
+
+.bloco-imagem {
+  width: 100%;
+  max-width: 600px; /* ajuste conforme necessário */
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; /* altura total do bloco */
+}
+.bloco-imagem {
+  width: 100%;
+  max-width: 600px; /* ajuste conforme necessário */
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; /* altura total do bloco */
+}
+
+.header-azul {
+  background: #3069f6; /* azul sólido, ajuste se necessário */
+  flex: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70%;
+}
+
+.camera-icone {
+  color: #fff;
+  font-size: 8rem; /* ícone grande */
+}
+
+.footer-preto {
+  background: #111; /* preto sólido */
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30%;
+}
+
+.footer-texto {
+  color: #fff;
+  text-align: center;
+  font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em; /* espaçamento justo entre linhas */
+}
+
+/*Parte Quatro*/
+
+/* Seção da equipe */
+
+.section-titulo-team{
+  background-color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+.titulo-team {
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #ffffff;
+
+  font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.team-section {
+  background-color: #000;
+  color: #fff;
+}
+
+
+/* Card do perfil */
+.profile-card {
+  margin: 0 auto;
+  max-width: 350px;
+}
+
+/* Faixa com nome e links */
+.profile-header {
+  background-color: #111;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
+}
+
+.profile-header .nome {
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.profile-header .links {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin: 0;
+}
+
+/* Foto de perfil */
+.profile-img {
+  width: 100%;
+  border-radius: 0 0 12px 12px;
+  margin-top: -1px;
+  object-fit: cover;
+}
+
+/*Quinta Parte*/
+
+/* Cartão de perfil */
+
+/* Links */
+.links-apresentacao a {
+  color: #0077b5; /* Cor azul do LinkedIn */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  font-size: 18px; /* Fonte maior para os links */
+}
+
+.links-apresentacao a:hover {
+  color: #005582;
+  text-decoration: underline;
+}
+
+/* Espaçamento entre os links */
+.links-apresentacao {
+  margin: 8px 0;
+}
+
+/*Resposividade do titulo parte 3*/
+@media (max-width: 991px) {
+  .titulo-recursos {
+    font-size: 2rem;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+}
+
+/* Responsivo para telas pequenas section recursos */
+@media (max-width: 991px) {
+  .recursos {
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    margin-top: 48px; /* aumenta o espaço acima */
+    margin-bottom: 32px;
+  }
+}
+
+/* Responsivo bloco de recursos*/
+@media (max-width: 600px) {
+  .bloco-imagem {
+    max-width: 98vw;
+    min-height: 250px;
+  }
+  .camera-icone {
+    font-size: 4.5rem;
+  }
+  .footer-texto {
+    font-size: 1.2rem;
+  }
+}
+
+
+/*resposividade da Logo*/
+@media (max-width: 991px) {
+  .split-section {
+    flex-direction: column;
+    gap: 0;
+  }
+  .left-half,
+  .right-half {
+    min-height: 50vh;
+    align-items: center;
+    padding: 30px 10px;
+  }
+  .right-half {
+    align-items: center;
+    text-align: center;
+    padding: 0 10px;
+  }
+  .titulo {
+    font-size: 2rem;
+    max-width: 100%;
+  }
+  .img-below {
+    max-width: 90vw;
+  }
+  .img-left {
+    max-width: 90vw;
+  }
+}
+
+@media (max-width: 991px) {
+  .split-section {
+    flex-direction: column;
+  }
+
+  .left-half,
+  .right-half {
+    min-height: 50vh;
+    align-items: center;
+    padding: 30px 10px;
+  }
+
+  .right-half {
+    align-items: center;
+    text-align: center;
+  }
+}
