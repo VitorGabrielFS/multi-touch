@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre nós</title>
+    <!-- PARA LIVE SERVER (HTML PURO): -->
+    <!--<link rel="stylesheet" href="static/css/Style_landing.css">
+    <link rel="shortcut icon" href="static/img/logo.png" type="image/x-icon">
+     PARA FLASK, DESCOMENTE AS LINHAS ABAIXO E COMENTE AS DE CIMA: -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Style_landing.css') }}"> 
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png' )}}" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <!-- PARA LIVE SERVER: -->
+       <!-- <img src="static/img/logo.png" alt="Tutorial passo a passo"> -->
+        <!-- PARA FLASK, DESCOMENTE A LINHA ABAIXO E COMENTE A DE CIMA: -->
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Tutorial passo a passo"> 
+
+        <nav>
+            <ul id="topicos">
+                <li class="item"><a href="/">
+                        <h5>Home</h5>
+                    </a></li>
+                <li class="item"><a href="">
+                        <h5>Sobre nós</h5>
+                    </a></li>
+                <li class="item"><a href="/">
+                        <h5>Login</h5>
+                    </a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section style="flex-direction: column;">
+            <h1>Você está em boa companhia</h1>
+
+            <h3 style="width: 100vh;">
+                Nosso time é formado por alunos
+                dedicados, comprometidos e apaixonados pelo que fazem. Combinando
+                conhecimento técnico e vontade de aprender.
+            </h3>
+
+        </section>
+
+        <section style="flex-direction: row;">
+
+            <div class="caixa">
+                <h1 style="text-align: left; font-size: 30px; margin-bottom: 4vh;">Sobre a inclusão digital</h1>
+                <p style="width: 50vh; text-align: left; font-size: 25px;">
+                    1. Detecção Ocular
+O sistema detecta o movimento dos olhos do usuário.<br>
+                    2. Processamento
+Os dados são processados em tempo real.<br>
+                    3. Movimentação do Cursor
+O cursor se move na tela conforme o olhar do usuário.
+                </p>
+            </div>
+
+            <div class="caixa">
+                <img src="static/img/sobreinclusao.png" alt="Descrição da imagem" width="455" height="150">
+                <h3> Inclusão Digital Ampliada 
+                    Tecnologia para Todos
+                </h3>
+                <p>O nosso sistema de controle de cursor com o olhar não se limita a uma tecnologia inovadora; ele é projetado para ser uma solução inclusiva, capaz de integrar a todos no ambiente digital.
+                </p>
+            </div>
+        </section>
+
+        <section style="flex-direction: row;">
+            <div class="caixa">
+                <img src="static/img/pactosocial.png" alt="Descrição da imagem" width="455" height="150">
+                <h1>Conectadando a com interação digital</h1>
+                <p style="width: 50vh; text-align: left;">
+                    Oferecemos liberdade e inclusão, permitindo que todos possam acessar e interagir com o mundo digital de forma mais fácil, enriquecedora e acessível.
+                </p>
+            </div>
+
+            <div class="caixa">
+                <ul>
+                    <li>Controle do Cursor: Movimente o cursor
+                        do mouse apenas com o olhar.</li>
+                    <li>Cliques com o Olho: Realize cliques com
+                        um piscar de olho.</li>
+                    <li>Compatibilidade: Funciona com câmeras
+                        padrão e é compatível com a maioria dos</li>
+                </ul>
+                <img src="">
+            </div>
+        </section>
+
+        <section id="Secao3">
+            <div>
+                <p>   Com essa combinação de ferramentas, oferecemos uma experiência visualmente agradável
+                </p>
+
+                <p>
+                    <span class="destaque">Python</span> - Lógica de programação <br>
+                    <span class="destaque">HTML e CSS</span> - Estrutura e design visual <br>
+                    <span class="destaque">Flask</span> - Desenvolvimento web <br>
+                    <span class="destaque">Visual Studio Code (VSCode)</span> - Editor de código <br>
+                    <span class="destaque">Figma</span> - Design de interfaces <br>
+                    <span class="destaque">Postman</span> - Teste e validação de APIs REST <br>
+                    <span class="destaque">Git e GitHub</span> - Controle de versão e colaboração <br>
+                </p>
+                
+            </div>
+
+            <br>
+            <!-- PARA LIVE SERVER: -->
+            <!--<img src="static/img/imagem (1).png" alt="Tutorial passo a passo"> -->
+            <!-- PARA FLASK, DESCOMENTE A LINHA ABAIXO E COMENTE A DE CIMA: -->
+            <img src="{{ url_for('static', filename='img/imagem (1).png') }}" alt="Tutorial passo a passo"> 
+        </section>
+
+        <section>
+            <img src="static/img/favicon.png" alt="Descrição da imagem" width="80" height="80">
+
+            <h1>"Conecte Pessoas, Transforme Vidas: Apoie a Inclusão Digital."</h1> 
+
+            <img src="static/img/favicon.png" alt="Descrição da imagem" width="80" height="80">
+
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreamento Ocular</title>
+    <link rel="shortcut icon" href="{{ url_for ('static', filename='img/favicon.png')}}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <header>
+        <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand mb-0 h1" href="/">SeeMe</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for ('main.home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for ('main.ajustes') }}">Ajustes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for ('main.landing') }}">Sobre</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1" style="padding-top: 80px;">
+        {% include '_flashes.html' %}
+        <div class="container col-md-8 col-lg-7 mx-auto">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        <img src="{{ url_for ('static', filename='img/camera.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Rastreamento Ocular</h5>
+                            <p class="card-text">Através do ponto médio de seus olhos, manipule o mouse, permitindo uma navegação acessível</p>
+                            <button onclick="startTracking()" class="btn btn-primary">Iniciar Rastreamento</button>
+                            <button onclick="stopTracking()" class="btn btn-danger">Parar Rastreamento</button>
+                        </div>
+                        <p class="card-text"><small id="status_camera" class="text-body-secondary"></small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container col-md-8 col-lg-7 mx-auto">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        <img src="{{ url_for ('static', filename='img/microfone.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Voice Recognition</h5>
+                            <p class="card-text">Utilize a sua voz para realizar determinadas ações em seu computador. Verifique as opções em “ajustes”</p>
+                            <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento de voz</button>
+                            <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento de voz</button>
+                        </div>
+                        <p class="card-text"><small id="status_voz" class="text-body-secondary"></small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container col-md-8 col-lg-7 mx-auto">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        <img src="{{ url_for ('static', filename='img/hand.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Gestos</h5>
+                            <p class="card-text">Utilize a sua mão para realizar determinadas ações em seu computador. Verifique as opções em “ajustes”</p>
+                            <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento</button>
+                            <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento</button>
+                        </div>
+                        <p class="card-text"><small id="status_voz" class="text-body-secondary"></small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center align-items-center">
+            <a class="btn btn-primary btn-lg" href="{{ url_for ('main.ajustes') }}" style="margin: 10px; padding: 10px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
+        </div>
+        <p id="status"></p>
+    </main>
+
+    <br>
+
+    <footer class="bg-primary text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 SeeMe. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function startTracking() {
+            fetch('/start-tracking')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status_camera').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function stopTracking() {
+            fetch('/stop-tracking')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status_camera').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function StartVoice() {
+            fetch('/start-voice')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status_voz').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function StopVoice() {
+            fetch('/stop-voice')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status_voz').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+    </script>
+</body>
+</html>

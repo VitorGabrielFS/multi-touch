@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeeMe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<style>
+    body {
+        /* 1. Define a imagem de fundo e a sobreposição escura */
+        background-image:
+            /* Esta é a camada escura. rgba(0,0,0,0.6) é um preto com 60% de opacidade. */
+            linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            /* Substitua este URL pelo caminho da sua imagem */
+            url("{{ url_for('static', filename='img/fundo_tablet.jpg') }}");
+
+        /* 2. Ajusta como a imagem de fundo se comporta */
+        background-size: cover; /* Faz a imagem cobrir toda a tela sem distorcer */
+        background-position: center; /* Centraliza a imagem */
+        background-repeat: no-repeat; /* Impede que a imagem se repita */
+        background-attachment: fixed; /* Deixa a imagem fixa enquanto a página rola (efeito parallax) */
+    }
+</style>
+<body class="d-flex flex-column vh-100">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <header>
+        <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand mb-0 h1" href="#">SeeMe</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{ url_for ('main.home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for ('main.ajustes') }}">Ajustes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for ('main.landing') }}">Sobre</a>
+                        </li>
+                    </ul>
+
+                    {% if current_user.is_authenticated %}
+                        <div class="d-flex ms-auto">
+                            <span class="navbar-text me-3">Olá, {{ current_user.email }}!</span>
+                            <a href="{{ url_for ('main.logout') }}" class="btn btn-outline-light">Sair</a>
+                        </div>
+
+                    {% else %}
+                        <div class="d-flex ms-auto">
+                            <a href="{{ url_for ('main.login') }}" class="btn btn-outline-light me-2">Entrar</a>
+                            <a href="{{ url_for ('main.cadastrar_usuario') }}" class="btn btn-light">Cadastrar</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        {% include '_flashes.html' %}
+        <div>
+            <div class="container d-flex justify-content-center align-items-center vh-100" style="padding: 10px;">
+            <div class="row">
+                    <div class="col-md-7 text-white">
+                        <h2 class="display-4">Acessibilidade ampliada com o <b>SeeMe</b></h2>
+                        <p class="lead">O SeeMe é uma aplicação inovadora que utiliza tecnologia de ponta para oferecer uma experiência única aos seus usuários. Com recursos avançados de reconhecimento facial e inteligência artificial, o SeeMe está aqui para transformar a maneira como você interage com o mundo digital.</p>
+                        <p class="lead">Navegue pelo menu acima para explorar as funcionalidades do SeeMe, ajustar suas preferências e aprender mais sobre nossa missão e visão.</p>
+
+                        <div class="row">
+                            <a type="button" class="btn btn-primary btn-lg" href="{{ url_for ('main.home') }}" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Comece já! ></a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <img src="https://via.placeholder.com/500x300" class="img-fluid" alt="Imagem ilustrativa do SeeMe">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-primary text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 SeeMe. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
