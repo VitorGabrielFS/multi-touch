@@ -6,6 +6,7 @@ python -m venv .venv
 Talvez seja necessário atualizar o pip também
 python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
+pip install -r requirementslab.txt caso esteja na escola
 
 Faça isso com o Python 3.12.10 instalado (ou superior, menos 3.13)
 DLIB não é uma biblioteca comum, precisa instalar um compilador c++, como cmake e "Build Tools for Visual Studio" da Microsoft.
