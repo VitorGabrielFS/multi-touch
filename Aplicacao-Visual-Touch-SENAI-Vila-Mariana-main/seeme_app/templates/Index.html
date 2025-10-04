@@ -45,10 +45,18 @@
                         </li>
                     </ul>
 
-                    <div class="d-flex ms-auto">
-                        <a href="{{ url_for ('main.login') }}" class="btn btn-outline-light me-2">Entrar</a>
-                        <a href="{{ url_for ('main.cadastrar_usuario') }}" class="btn btn-light">Cadastrar</a>
-                    </div>
+                    {% if current_user.is_authenticated %}
+                        <div class="d-flex ms-auto">
+                            <span class="navbar-text me-3">Olá, {{ current_user.email }}!</span>
+                            <a href="{{ url_for ('main.logout') }}" class="btn btn-outline-light">Sair</a>
+                        </div>
+
+                    {% else %}
+                        <div class="d-flex ms-auto">
+                            <a href="{{ url_for ('main.login') }}" class="btn btn-outline-light me-2">Entrar</a>
+                            <a href="{{ url_for ('main.cadastrar_usuario') }}" class="btn btn-light">Cadastrar</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>
