@@ -22,6 +22,7 @@ def load_user(user_id):
 class Atalho(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
+    letra_relacionada = db.Column(db.String(1), nullable=True)  # Letra associada ao atalho
     tipo = db.Column(db.String(50), nullable=False)
     caminho = db.Column(db.String(200), nullable=False)
     dados_imagem = db.Column(db.LargeBinary, nullable=True) # Armazena a imagem como dados binários

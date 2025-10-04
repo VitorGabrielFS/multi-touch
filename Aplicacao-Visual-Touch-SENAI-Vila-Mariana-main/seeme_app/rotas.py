@@ -46,15 +46,32 @@ def ajustes():
 @login_required
 def cadastro_atalho():
     if request.method == 'POST':
-        nome_site = request.form.get('nomeSite')
-        url_site = request.form.get('entradaUrl')
-        imagem_site = request.files.get('entradaImagem')
 
-        nome_atalho = request.form.get('atalho')
-        tipo_acao = request.form.get('tipoAcao')
-
-        nome_programa = request.form.get('nomePrograma')
-        selecao_programa = request.form.get('selecaoPrograma')
+        tipo_formulario = request.form.get('form_type')
+        if tipo_formulario == "cadastrar_site":
+            nome_site = request.form.get('nomeSite')
+            url_site = request.form.get('entradaUrl')
+            imagem_site = request.files.get('entradaImagem')
+            # Processar o cadastro do site aqui
+            # Exemplo: salvar no banco de dados
+            flash(f'Site "{nome_site}" cadastrado com sucesso!', 'success')
+            return redirect(url_for('main.ajustes'))
+        
+        elif tipo_formulario == "cadastrar_acao":
+            nome_acao = request.form.get('nomeAcao')
+            tipo_acao = request.form.get('tipoAcao')
+            # Processar o cadastro da ação aqui
+            # Exemplo: salvar no banco de dados
+            flash(f'Ação "{nome_acao}" cadastrada com sucesso!', 'success')
+            return redirect(url_for('main.ajustes'))
+        
+        elif tipo_formulario == "cadastrar_programa":
+            nome_programa = request.form.get('nomePrograma')
+            selecao_programa = request.form.get('selecaoPrograma')
+            # Processar o cadastro do programa aqui
+            # Exemplo: salvar no banco de dados
+            flash(f'Programa "{nome_programa}" cadastrado com sucesso!', 'success')
+            return redirect(url_for('main.ajustes'))
 
         # Aqui você pode processar os dados recebidos, como salvar no banco de dados
         # ou realizar outras ações necessárias.
