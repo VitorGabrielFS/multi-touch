@@ -93,6 +93,31 @@ def cadastro_atalho():
 
     return render_template('cadastroAtalho.html', title="Cadastro de Atalhos")
 
+# seeme_app/rotas.py
+
+@main.route('/excluir-atalho/<int:atalho_id>', methods=['POST']) # Usar POST é mais seguro para exclusões
+@login_required
+def excluir_atalho(atalho_id):
+    # 1. Encontra o atalho no banco de dados ou retorna um erro 404 se não existir.
+    atalho_para_excluir = Atalho.query.get_or_404(atalho_id)
+
+    # 2. Medida de segurança: Garante que o usuário só pode excluir seus próprios atalhos.
+    if atalho_para_excluir.autor != current_user:
+        flash('Você não tem permissão para excluir este atalho.', 'danger')
+        return redirect(url_for('main.ajustes'))
+
+    try:
+        # 3. O COMANDO FÁCIL: Marque o objeto para ser deletado e confirme.
+        db.session.delete(atalho_para_excluir)
+        db.session.commit()
+        flash('Atalho excluído com sucesso!', 'success')
+    except Exception as e:
+        # Em caso de erro no banco, desfaz a operação e informa o usuário.
+        db.session.rollback()
+        flash(f'Erro ao excluir o atalho: {e}', 'danger')
+
+    # 4. Redireciona o usuário de volta para a página de ajustes.
+    return redirect(url_for('main.ajustes'))
 
 @main.route('/atalho-imagem/<int:atalho_id>')
 @login_required
@@ -132,10 +157,9 @@ def stop_tracking():
 @main.route('/start-voice')
 def start_voice():
     if not voice_active_event.is_set():
-        flash("Bruna está ouvindo", "success")
         voice_active_event.set()
         threading.Thread(target=reconhecimento_de_voz, daemon=True).start()
-        return "Reconhecimento de voz iniciado."
+        return "Fale Bruna para começar."
     return "Reconhecimento de voz já está em andamento."
 
 @main.route('/stop-voice')

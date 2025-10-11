@@ -74,8 +74,12 @@
                                 <td>{{ atalho.nome }}</td>
                                 <td>{{ atalho.tipo }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-primary">Editar</button>
-                                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                                    <a class="btn btn-sm btn-outline-primary">Editar</a>
+                                    <form action="{{ url_for('main.excluir_atalho', atalho_id=atalho.id) }}" 
+                                    method="POST" style="display: inline;">
+                                        <button class="btn btn-sm btn-outline-danger" type="submit"
+                                        onclick="return confirm('Tem certeza que deseja excluir este atalho?');">Excluir</button>
+                                    </form>
                                 </td>
 
                             </tr>
