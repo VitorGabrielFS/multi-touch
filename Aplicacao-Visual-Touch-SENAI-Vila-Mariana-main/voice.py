@@ -21,7 +21,7 @@ except Exception:
     pyautogui = None
 
 # ---------------- CONFIG ----------------
-
+API_KEY = os.getenv("API_KEY_EXTERNA")
 MODEL = "llama-3.1-8b-instant"
 ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 
