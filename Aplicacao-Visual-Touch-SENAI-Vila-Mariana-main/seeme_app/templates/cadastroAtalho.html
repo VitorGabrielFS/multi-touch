@@ -1,147 +1,114 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeeMe</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
+{% block title %}Ajustes - SeeMe{% endblock %}
+{% extends 'base.html' %}
 
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <header>
-        <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand mb-0 h1" href="{{ url_for ('main.index') }}">SeeMe</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ url_for ('main.home') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('main.ajustes') }}">Ajustes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('main.landing') }}">Sobre</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+{% block content %}
 
-    <main class="container" style="padding-top: 100px; padding-bottom: 20px;">
-        {% include '_flashes.html' %}
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Cadastrar atalho para site
-                    </button>
-                </h2>
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Cadastrar atalho para site
+            </button>
+        </h2>
 
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <div>
-                            <div class="card card-body">
-                                <form method="POST" action="{{ url_for('main.cadastro_atalho') }}" enctype="multipart/form-data">
-                                    <div class="mb-3">
-                                        <label for="siteNameInput" class="form-label">Nome do site</label>
-                                        <input type="text" class="form-control" id="nomeSite" aria-describedby="nameHelp" name="nomeSite" placeholder="Exemplo">
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div>
+                    <div class="card card-body">
+                        <form method="POST" action="{{ url_for('main.cadastro_atalho') }}" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="siteNameInput" class="form-label">Nome do site</label>
+                                <input type="text" class="form-control" id="nomeSite" aria-describedby="nameHelp" name="nomeSite" placeholder="Exemplo">
 
-                                        <br>
+                                <br>
 
-                                        <label for="siteUrlInput" class="form-label">URL do site</label>
-                                        <input type="url" class="form-control" id="entradaUrl" aria-describedby="urlHelp" name="entradaUrl" placeholder="https://www.exemplo.com">
-                                        <div id="urlHelp" class="form-text">Insira a URL completa do site que você deseja cadastrar.</div>
+                                <label for="siteUrlInput" class="form-label">URL do site</label>
+                                <input type="url" class="form-control" id="entradaUrl" aria-describedby="urlHelp" name="entradaUrl" placeholder="https://www.exemplo.com">
+                                <div id="urlHelp" class="form-text">Insira a URL completa do site que você deseja cadastrar.</div>
 
-                                        <br>
+                                <br>
 
-                                        <div class="mb-3">
-                                            <label for="formFile" class="form-label">Escolha um icone</label>
-                                            <input class="form-control" type="file" id="entradaImagem" name="entradaImagem" accept="image/*">
-                                        </div>
-                                    </div>
-
-                                    <!--Poderia ser feito com action também-->
-                                    <button type="submit" name="form_type" value="cadastrar_site" class="btn btn-primary">Cadastrar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Ações rápidas
-                    </button>
-                </h2>
-
-                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <div>
-                            <div class="card card-body">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="siteNameInput" class="form-label">Nome</label>
-                                        <input type="text" class="form-control" id="nomeAtalho" name="atalho" aria-describedby="nameHelp" placeholder="Exemplo">
-
-                                        <br>
-
-                                        <select class="form-select" id="tipoAcao" name="tipoAcao" aria-label="Default select example">
-                                            <option selected>Selecione a ação</option>
-                                            <option value="1">Tirar print</option>
-                                            <option value="2">Encerrar captura de aúdio</option>
-                                            <option value="3">Fechar Câmera</option>
-                                        </select>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary" value="cadastrar_acao">Cadastrar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            Abrir programas    
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div>
-                                <div class="card card-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="siteNameInput" class="form-label">Nome</label>
-                                            <input type="text" class="form-control" id="nomePrograma" name="nomePrograma" aria-describedby="nameHelp" placeholder="Exemplo">
-
-                                            <br>
-
-                                            <select class="form-select" name="selecaoPrograma" aria-label="Default select example">
-                                                <option selected>Selecione o programa</option>
-                                                <option value="1">Calculadora</option>
-                                                <option value="2">Bloco de notas</option>
-                                                <option value="3">Explorador de Arquivos</option>
-                                            </select>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary" value="cadastrar_programa">Cadastrar</button>
-                                    </form>
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Escolha um icone</label>
+                                    <input class="form-control" type="file" id="entradaImagem" name="entradaImagem" accept="image/*">
                                 </div>
                             </div>
-                        </div>
+
+                            <!--Poderia ser feito com action também-->
+                            <button type="submit" name="form_type" value="cadastrar_site" class="btn btn-primary">Cadastrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Ações rápidas
+            </button>
+        </h2>
+
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div>
+                    <div class="card card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="siteNameInput" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nomeAtalho" name="atalho" aria-describedby="nameHelp" placeholder="Exemplo">
+
+                                <br>
+
+                                <select class="form-select" id="tipoAcao" name="tipoAcao" aria-label="Default select example">
+                                    <option selected>Selecione a ação</option>
+                                    <option value="1">Tirar print</option>
+                                    <option value="2">Encerrar captura de aúdio</option>
+                                    <option value="3">Fechar Câmera</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" value="cadastrar_acao">Cadastrar</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-    </main>
-</body>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Abrir programas    
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div>
+                        <div class="card card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="siteNameInput" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" id="nomePrograma" name="nomePrograma" aria-describedby="nameHelp" placeholder="Exemplo">
+
+                                    <br>
+
+                                    <select class="form-select" name="selecaoPrograma" aria-label="Default select example">
+                                        <option selected>Selecione o programa</option>
+                                        <option value="1">Calculadora</option>
+                                        <option value="2">Bloco de notas</option>
+                                        <option value="3">Explorador de Arquivos</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" value="cadastrar_programa">Cadastrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

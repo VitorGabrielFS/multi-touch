@@ -1,66 +1,42 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeeMe</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
+{% block title %}Login - SeeMe{% endblock %}
+{% extends 'base.html' %}
 
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <header>
-        <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand mb-0 h1" href="/">SeeMe</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+{% block content %}
 
-    <main style="padding-top: 100px;">
-        {% include '_flashes.html' %}
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                    <div class="card shadow-sm p-4">
-                        <div class="card-body">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-sm p-4">
+                <div class="card-body">
 
-                            <h2 class="text-center mb-4 display-6">Bem-vindo de volta</h2>
+                    <h2 class="text-center mb-4 display-6">Bem-vindo de volta</h2>
 
-                            <form method="POST" action="{{ url_for('main.login') }}">
-                                <div class="mb-3">
-                                    <label for="entradaEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="entradaEmail" name="entradaEmail" aria-describedby="emailHelp">
-                                    <div id="emailHelp" class="form-text">Usaremos apenas para seu login no site.</div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="entradaSenha" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="entradaSenha" name="entradaSenha">
-                                </div>
-
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                                </div>
-                                
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Enviar</button>
-                                </div>
-                            </form>
-
+                    <form method="POST" action="{{ url_for('main.login') }}">
+                        <div class="mb-3">
+                            <label for="entradaEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="entradaEmail" name="entradaEmail" aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">Usaremos apenas para seu login no site.</div>
                         </div>
-                    </div>
+
+                        <div class="mb-3">
+                            <label for="entradaSenha" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="entradaSenha" name="entradaSenha">
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
-    </main>
-</body>
+    </div>
+</div>
+
+{% endblock %}
