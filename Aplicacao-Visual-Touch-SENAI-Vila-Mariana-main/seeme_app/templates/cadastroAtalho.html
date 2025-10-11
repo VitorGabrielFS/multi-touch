@@ -47,7 +47,7 @@
                     <div class="accordion-body">
                         <div>
                             <div class="card card-body">
-                                <form>
+                                <form method="POST" action="{{ url_for('main.cadastro_atalho') }}" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label for="siteNameInput" class="form-label">Nome do site</label>
                                         <input type="text" class="form-control" id="nomeSite" aria-describedby="nameHelp" name="nomeSite" placeholder="Exemplo">
@@ -67,7 +67,7 @@
                                     </div>
 
                                     <!--Poderia ser feito com action também-->
-                                    <button type="submit" value="cadastrar_site"  class="btn btn-primary">Cadastrar</button>
+                                    <button type="submit" name="form_type" value="cadastrar_site" class="btn btn-primary">Cadastrar</button>
                                 </form>
                             </div>
                         </div>

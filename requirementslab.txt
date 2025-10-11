@@ -7,5 +7,4 @@ pyautogui
 SpeechRecognition
 pyttsx3
 face_recognition
-dlib
 pyaudio

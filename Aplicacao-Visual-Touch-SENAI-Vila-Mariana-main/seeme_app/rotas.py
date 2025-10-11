@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Blueprint
+from flask import Flask, render_template, Blueprint, Response
 import threading
 from flask_login import login_user, logout_user, login_required
 from flask_login import current_user
@@ -10,6 +10,7 @@ import os
 from flask import render_template, redirect, url_for, flash, request
 from .modelos import Usuario # Importa o modelo Usuario
 from .extensoes import db, bcrypt # Importa o db e o bcrypt
+from .modelos import Atalho
 
 main = Blueprint('main', __name__)
 
@@ -40,13 +41,17 @@ def landing():
 @main.route('/ajustes')
 @login_required
 def ajustes():
-    return render_template('ajustes.html', title="Ajustes e Atalhos")
+    #Pegar dados relacionados aos atalhos do usuário logado
+    atalhos_usuario = current_user.atalhos  # Supondo que haja um relacionamento definido no modelo Usuario 
+
+    return render_template('ajustes.html', title="Ajustes e Atalhos", lista_atalhos=atalhos_usuario)
 
 @main.route('/cadastroAtalho', methods=['GET', 'POST'])
 @login_required
 def cadastro_atalho():
     if request.method == 'POST':
 
+        # Identificar o tipo de formulário enviado
         tipo_formulario = request.form.get('form_type')
         if tipo_formulario == "cadastrar_site":
             nome_site = request.form.get('nomeSite')
@@ -54,7 +59,12 @@ def cadastro_atalho():
             imagem_site = request.files.get('entradaImagem')
             # Processar o cadastro do site aqui
             # Exemplo: salvar no banco de dados
+            novo_atalho = Atalho(nome=nome_site, tipo='site', caminho=url_site, usuario_id=current_user.id, 
+                                 dados_imagem=imagem_site.read() if imagem_site else None)
+            db.session.add(novo_atalho)
+            db.session.commit()
             flash(f'Site "{nome_site}" cadastrado com sucesso!', 'success')
+
             return redirect(url_for('main.ajustes'))
         
         elif tipo_formulario == "cadastrar_acao":
@@ -72,7 +82,9 @@ def cadastro_atalho():
             # Exemplo: salvar no banco de dados
             flash(f'Programa "{nome_programa}" cadastrado com sucesso!', 'success')
             return redirect(url_for('main.ajustes'))
-
+        
+        else:
+            print("Tipo de formulário desconhecido.")
         # Aqui você pode processar os dados recebidos, como salvar no banco de dados
         # ou realizar outras ações necessárias.
 
@@ -80,6 +92,24 @@ def cadastro_atalho():
         return redirect(url_for('main.ajustes'))
 
     return render_template('cadastroAtalho.html', title="Cadastro de Atalhos")
+
+
+@main.route('/atalho-imagem/<int:atalho_id>')
+@login_required
+def get_atalho_imagem(atalho_id):
+        # Busca o atalho pelo ID
+    atalho = Atalho.query.get_or_404(atalho_id)
+
+    # Verificação de segurança: garante que o usuário só pode ver suas próprias imagens
+    if atalho.autor != current_user:
+        return "Acesso negado", 403
+
+    # Se não houver imagem, retorna um erro (ou uma imagem padrão)
+    if not atalho.dados_imagem:
+        return "Imagem não encontrada", 404
+
+    # Cria uma resposta HTTP com os dados da imagem e o tipo de conteúdo correto
+    return Response(atalho.dados_imagem, mimetype='image/jpeg')
 
 @main.route('/start-tracking')
 def start_tracking():
