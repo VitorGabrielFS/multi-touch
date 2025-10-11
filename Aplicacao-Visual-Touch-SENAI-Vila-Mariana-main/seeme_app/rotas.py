@@ -132,6 +132,7 @@ def stop_tracking():
 @main.route('/start-voice')
 def start_voice():
     if not voice_active_event.is_set():
+        flash("Bruna está ouvindo", "success")
         voice_active_event.set()
         threading.Thread(target=reconhecimento_de_voz, daemon=True).start()
         return "Reconhecimento de voz iniciado."
