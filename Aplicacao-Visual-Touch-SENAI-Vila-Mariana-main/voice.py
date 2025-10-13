@@ -18,9 +18,6 @@ else:
 
 # ---------------- CONFIG ----------------
 API_KEY = os.getenv('GROQ_API_KEY')
-if not API_KEY:
-    print("❌ ERRO: GROQ_API_KEY não encontrada! Crie um arquivo .env com GROQ_API_KEY=sua_chave_aqui")
-    exit(1)
 MODEL = "llama-3.1-8b-instant"
 ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 CACHE_FILE = "apps_cache.json"
