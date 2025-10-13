@@ -10,4 +10,5 @@ pyttsx3
 face_recognition
 dlib
 pyaudio
-dotenv
+python-dotenv
+requests

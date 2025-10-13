@@ -6,6 +6,7 @@ from flask_login import current_user
 from .control import voice_active_event
 from voice import reconhecimento_de_voz
 from .eye import eye_tracking, set_tracking, cam
+
 import os
 from flask import render_template, redirect, url_for, flash, request
 from .modelos import Usuario # Importa o modelo Usuario

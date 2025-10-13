@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="{{ url_for ('static', filename='img/favicon.png')}}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100" style="background-color: #cfcecf;">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <header>
         <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
@@ -37,7 +37,7 @@
         {% include '_flashes.html' %}
         <div class="container col-md-8 col-lg-7 mx-auto">
             <div class="card mb-3">
-                <div class="row g-0">
+                <div class="row g-0" style="background-color: #cfcecf;">
                     <div class="col-md-4 d-flex justify-content-center align-items-center">
                         <img src="{{ url_for ('static', filename='img/camera.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
                     </div>
@@ -56,7 +56,7 @@
 
         <div class="container col-md-8 col-lg-7 mx-auto">
             <div class="card mb-3">
-                <div class="row g-0">
+                <div class="row g-0" style="background-color: #cfcecf;">
                     <div class="col-md-4 d-flex justify-content-center align-items-center">
                         <img src="{{ url_for ('static', filename='img/microfone.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
                     </div>
@@ -75,7 +75,7 @@
 
         <div class="container col-md-8 col-lg-7 mx-auto">
             <div class="card mb-3">
-                <div class="row g-0">
+                <div class="row g-0" style="background-color: #cfcecf;">
                     <div class="col-md-4 d-flex justify-content-center align-items-center">
                         <img src="{{ url_for ('static', filename='img/hand.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
                     </div>
