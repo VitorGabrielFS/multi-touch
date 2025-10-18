@@ -168,8 +168,10 @@ def start_voice():
 
 @main.route('/stop-voice')
 def stop_voice():
-    voice_active_event.clear()
-    return "Reconhecimento de voz parado."
+    if voice_active_event.is_set():
+        voice_active_event.clear()
+        return "Reconhecimento de voz parado."
+    return "Reconhecimento de voz já está inativo."
 controller = GestureController(
     tempo_minimo_gesto=1.0,  # segundos
     intervalo_antiloop=2.0   # segundos
@@ -177,23 +179,33 @@ controller = GestureController(
 
 controller.registrar_acao(1, lambda: subprocess.Popen("start chrome", shell=True))
 controller.registrar_acao(2, lambda: subprocess.Popen("start notepad", shell=True))
+@main.route('/start-gestos')
+@login_required
+def start_gestos():
+    # Se já estiver em execução, retorna mensagem informando isso
+    if gestos_active_event.is_set():
+        return "Rastreamento de gestos já está em andamento."
+    
+    # Inicia o rastreamento
+    gestos_active_event.set()
+    return "Rastreamento de gestos iniciado."
+
 @main.route('/rastreio-gestos')
 @login_required
 def rastreio_gestos():
-    # Se já estiver em execução, retorna mensagem informando isso
-    if not gestos_active_event.is_set():
-        gestos_active_event.set()
+    # Retorna o stream de vídeo apenas se o rastreamento estiver ativo
+    if gestos_active_event.is_set():
         return Response(controller.gerar_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-        
-    return "Rastreamento de gestos já está em andamento."
-
+    return "Rastreamento não está ativo."
 
 
 @main.route('/parar-rastreio-gestos')
 @login_required
-def parar_rastreio_gestos():
-    gestos_active_event.clear() #limpa a flag para indicar que o rastreio de gestos deve parar
-    return "Rastreamento de gestos parado."
+def stop_gestos():
+    if gestos_active_event.is_set():
+        gestos_active_event.clear()
+        return "Rastreamento de gestos parado."
+    return "Rastreamento de gestos já está inativo."
 
 @main.route('/registrar', methods=['GET', 'POST'])
 def registrar():

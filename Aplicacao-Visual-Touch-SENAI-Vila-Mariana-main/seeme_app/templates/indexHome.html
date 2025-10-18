@@ -92,6 +92,16 @@
             </div>
         </div>
 
+        <!-- Área para exibir o stream de vídeo dos gestos -->
+        <div class="container col-md-8 col-lg-7 mx-auto" id="video-container" style="display: none;">
+            <div class="card mb-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Stream de Rastreamento</h5>
+                    <img id="gesture-stream" src="" alt="Stream de gestos" style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+
         <div class="row d-flex justify-content-center align-items-center">
             <a class="btn btn-primary btn-lg" href="{{ url_for ('main.ajustes') }}" style="margin: 10px; padding: 10px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
         </div>
@@ -144,10 +154,15 @@
         }
 
         function StartGestos() {
-            fetch('/rastreio-gestos')
+            fetch('/start-gestos')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('status_gestos').innerText = data;
+                    if (data.includes('iniciado')) {
+                        // Mostra o container de vídeo e inicia o stream
+                        document.getElementById('video-container').style.display = 'block';
+                        document.getElementById('gesture-stream').src = '/rastreio-gestos';
+                    }
                 })
                 .catch(error => console.error('Erro:', error));
         }
@@ -157,6 +172,9 @@
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('status_gestos').innerText = data;
+                    // Oculta o container de vídeo e para o stream
+                    document.getElementById('video-container').style.display = 'none';
+                    document.getElementById('gesture-stream').src = '';
                 })
                 .catch(error => console.error('Erro:', error));
         }
