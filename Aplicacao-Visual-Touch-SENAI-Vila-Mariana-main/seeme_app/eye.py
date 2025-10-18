@@ -3,6 +3,7 @@ import mediapipe as mp
 import pyautogui
 import time
 import math
+from .control import resource_manager
 
 # --- CONFIGURAÇÕES GLOBAIS ---
 screen_w, screen_h = pyautogui.size()
@@ -64,7 +65,8 @@ def eye_tracking():
 
     mp_face = mp.solutions.face_mesh
     with mp_face.FaceMesh(max_num_faces=1, refine_landmarks=True) as face_mesh:
-        cam = cv2.VideoCapture(0)
+        # Usa a câmera compartilhada do ResourceManager
+        cam = resource_manager.get_shared_camera()
 
         base_nose_x = base_nose_y = None
         smoothed_x = smoothed_y = None
@@ -166,8 +168,7 @@ def eye_tracking():
                 tracking = False
                 break
 
-        if cam is not None:
-            cam.release()
+        # Não libera a câmera aqui, deixa o ResourceManager gerenciar
         cv2.destroyAllWindows()
         tracking = False
-        print("Rastreamento finalizado.")
+        print("Rastreamento ocular finalizado.")

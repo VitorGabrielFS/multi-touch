@@ -3,11 +3,10 @@ import threading
 from flask_login import login_user, logout_user, login_required
 from flask_login import current_user
 #se for rodar no senai, so comentar da linha 4 ate a 6 e da 21 ate 52
-from .control import voice_active_event
+from .control import voice_active_event, gestos_active_event, eye_tracking_active_event, resource_manager
 from voice import reconhecimento_de_voz
 from .eye import eye_tracking, set_tracking, cam
 from .exec_mao import GestureController
-from .control import gestos_active_event
 import subprocess
 
 import os
@@ -142,39 +141,46 @@ def get_atalho_imagem(atalho_id):
 
 @main.route('/start-tracking')
 def start_tracking():
-    if not getattr(eye_tracking, 'is_running', False):
-        set_tracking(True)
-        t = threading.Thread(target=eye_tracking, daemon=True)
-        t.start()
-        eye_tracking.is_running = True
-        return "Rastreamento iniciado."
-    return "Rastreamento já está em andamento."
+    if not resource_manager.is_resource_active('eye_tracking'):
+        if resource_manager.start_resource('eye_tracking'):
+            set_tracking(True)
+            t = threading.Thread(target=eye_tracking, daemon=True)
+            t.start()
+            eye_tracking.is_running = True
+            return "Rastreamento ocular iniciado."
+    return "Rastreamento ocular já está em andamento."
 
 @main.route('/stop-tracking')
 def stop_tracking():
-    set_tracking(False)
-    if cam is not None:
-        cam.release()
-    eye_tracking.is_running = False
-    return "Rastreamento parado."
+    if resource_manager.is_resource_active('eye_tracking'):
+        resource_manager.stop_resource('eye_tracking')
+        set_tracking(False)
+        eye_tracking.is_running = False
+        # Libera a câmera compartilhada se não há mais recursos usando
+        resource_manager.release_shared_camera()
+        return "Rastreamento ocular parado."
+    return "Rastreamento ocular já está inativo."
 
 @main.route('/start-voice')
 def start_voice():
-    if not voice_active_event.is_set():
-        voice_active_event.set()
-        threading.Thread(target=reconhecimento_de_voz, daemon=True).start()
-        return "Fale Bruna para começar."
+    if not resource_manager.is_resource_active('voice'):
+        if resource_manager.start_resource('voice'):
+            voice_active_event.set()
+            threading.Thread(target=reconhecimento_de_voz, daemon=True).start()
+            return "Reconhecimento de voz iniciado. Fale 'Bruna' para começar."
     return "Reconhecimento de voz já está em andamento."
 
 @main.route('/stop-voice')
 def stop_voice():
-    if voice_active_event.is_set():
+    if resource_manager.is_resource_active('voice'):
+        resource_manager.stop_resource('voice')
         voice_active_event.clear()
         return "Reconhecimento de voz parado."
     return "Reconhecimento de voz já está inativo."
 controller = GestureController(
     tempo_minimo_gesto=1.0,  # segundos
-    intervalo_antiloop=2.0   # segundos
+    intervalo_antiloop=2.0,  # segundos
+    espelhar_imagem=True     # Espelha a imagem como um espelho
 )
 
 controller.registrar_acao(1, lambda: subprocess.Popen("start chrome", shell=True))
@@ -182,19 +188,17 @@ controller.registrar_acao(2, lambda: subprocess.Popen("start notepad", shell=Tru
 @main.route('/start-gestos')
 @login_required
 def start_gestos():
-    # Se já estiver em execução, retorna mensagem informando isso
-    if gestos_active_event.is_set():
-        return "Rastreamento de gestos já está em andamento."
-    
-    # Inicia o rastreamento
-    gestos_active_event.set()
-    return "Rastreamento de gestos iniciado."
+    if not resource_manager.is_resource_active('gestos'):
+        if resource_manager.start_resource('gestos'):
+            gestos_active_event.set()
+            return "Rastreamento de gestos iniciado."
+    return "Rastreamento de gestos já está em andamento."
 
 @main.route('/rastreio-gestos')
 @login_required
 def rastreio_gestos():
     # Retorna o stream de vídeo apenas se o rastreamento estiver ativo
-    if gestos_active_event.is_set():
+    if resource_manager.is_resource_active('gestos'):
         return Response(controller.gerar_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
     return "Rastreamento não está ativo."
 
@@ -202,10 +206,25 @@ def rastreio_gestos():
 @main.route('/parar-rastreio-gestos')
 @login_required
 def stop_gestos():
-    if gestos_active_event.is_set():
+    if resource_manager.is_resource_active('gestos'):
+        resource_manager.stop_resource('gestos')
         gestos_active_event.clear()
+        # Libera a câmera compartilhada se não há mais recursos usando
+        resource_manager.release_shared_camera()
         return "Rastreamento de gestos parado."
     return "Rastreamento de gestos já está inativo."
+
+@main.route('/status-recursos')
+def status_recursos():
+    """Retorna o status de todos os recursos"""
+    active = resource_manager.get_active_resources()
+    status = {
+        'eye_tracking': 'eye_tracking' in active,
+        'voice': 'voice' in active,
+        'gestos': 'gestos' in active,
+        'total_active': len(active)
+    }
+    return status
 
 @main.route('/registrar', methods=['GET', 'POST'])
 def registrar():

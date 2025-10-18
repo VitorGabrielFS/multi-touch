@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
-from seeme_app.control import gestos_active_event
+from seeme_app.control import gestos_active_event, resource_manager
 from typing import Callable, Dict
 
 class GestureController:
@@ -16,7 +16,8 @@ class GestureController:
                  tempo_minimo_gesto=1.0,
                  intervalo_antiloop=2.0,
                  mostrar_landmarks=False,  # Desabilitado por padrão
-                 jpeg_quality=70):  # Qualidade menor = mais rápido
+                 jpeg_quality=70,  # Qualidade menor = mais rápido
+                 espelhar_imagem=True):  # Controla se a imagem deve ser espelhada
         
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(
@@ -31,6 +32,7 @@ class GestureController:
         self.INTERVALO_ANTILOOP = intervalo_antiloop
         self.mostrar_landmarks = mostrar_landmarks
         self.jpeg_quality = jpeg_quality
+        self.espelhar_imagem = espelhar_imagem
         
         # Estado
         self.ultima_acao = None
@@ -61,8 +63,12 @@ class GestureController:
     
     def processar_frame(self, frame):
         """Processa frame de forma otimizada."""
-        # Flip + conversão RGB em uma operação
-        rgb = cv2.cvtColor(cv2.flip(frame, 1), cv2.COLOR_BGR2RGB)
+        # Aplica espelhamento se configurado
+        if self.espelhar_imagem:
+            frame = cv2.flip(frame, 1)  # Espelha horizontalmente (como um espelho)
+        
+        # Conversão RGB
+        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         resultado = self.hands.process(rgb)
         
         dedos = 0
@@ -115,12 +121,12 @@ class GestureController:
         
         return frame
     
-    def gerar_frames(self, camera_id=0):
+    def gerar_frames(self):
         """
-        Gerador otimizado de frames para Flask streaming.
+        Gerador otimizado de frames para Flask streaming usando câmera compartilhada.
         """
-        cap = cv2.VideoCapture(camera_id)
-        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)  # Reduz latência
+        # Usa a câmera compartilhada do ResourceManager
+        cap = resource_manager.get_shared_camera()
         
         # Parâmetros de encode otimizados
         encode_params = [cv2.IMWRITE_JPEG_QUALITY, self.jpeg_quality]
@@ -140,5 +146,5 @@ class GestureController:
                        b'Content-Type: image/jpeg\r\n\r\n' + 
                        buffer.tobytes() + b'\r\n')
         finally:
-            cap.release()
-            cv2.destroyAllWindows()
+            # Não libera a câmera aqui, deixa o ResourceManager gerenciar
+            pass
