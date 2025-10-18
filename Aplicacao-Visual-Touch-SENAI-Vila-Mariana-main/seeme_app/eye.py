@@ -9,7 +9,7 @@ screen_w, screen_h = pyautogui.size()
 pyautogui.FAILSAFE = False
 
 tracking = False  # Controlado pelo Flask
-cam = None  # Acesso global pra liberar no stop
+cam = None  # Acesso global pra liberar no stopp
 
 # Sensibilidade e suavização
 sensitivity = 2.0
