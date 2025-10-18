@@ -1,88 +1,67 @@
 <div>
 <h1> 
-  <img width="40" height="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />
-    Brasil-Visual-Touch
-  <img src="https://github.com/user-attachments/assets/3b94c6d6-4440-4a15-9f08-7ca2091769c6" alt="logo visual touch" width="50" height="50">
+  <img width="40" height="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />
+    SeeMe
+  <img src="/O_SeeMe_Icone.PNG" alt="Logo SeeMe" width="50" height="50">
 </h1>
 </div>
 
 <div align="center">
-
-</a>
-<img width='400' height='100' src="https://github.com/user-attachments/assets/480dcbb4-cef2-41ea-8dc4-27303433bb46" />
+    <img width='400' height='100' src="https://github.com/user-attachments/assets/480dcbb4-cef2-41ea-8dc4-27303433bb46" />
+  </a>
 </div>
 
 ---
 
-# 🦾 Visual Touch – Inclusão em Movimento
+# 👁️ SeeMe – Solução de Inclusão Digital Acessível com Visão Computacional
 
-O **Visual Touch** nasceu como um projeto para controlar o cursor do mouse com os olhos, mas evoluiu para algo muito maior:  
-um **hub de acessibilidade digital** que une **visão, voz e Libras** para criar uma interação fluida entre pessoas e máquinas.  
+O **SeeMe** é um projeto inovador que nasceu com o objetivo de promover a **inclusão digital** e a **autonomia** de pessoas com deficiência ou mobilidade reduzida.
 
-🚀 Hoje, o Visual Touch vai além:  
-- Gesto com os **olhos** para controlar o mouse.  
-- **Reconhecimento de voz** para comandos rápidos.  
-- Tradução básica de **Libras para texto/voz**, aproximando mundos.  
-- Possibilidade de **atalhos com gestos das mãos**, trazendo praticidade no dia a dia.  
+Desenvolvido como **Trabalho de Conclusão de Curso (TCC)** do **SAMSUNG Innovation Campus 2025** em parceria com o **SENAI**, o SeeMe transforma a câmera de um notebook em um **hub de acessibilidade digital**, utilizando **Visão Computacional e Inteligência Artificial** para oferecer novas formas de interação.
 
-Tudo isso com foco em **inclusão, autonomia e inovação**.  
+🚀 **O SeeMe vai além, integrando:**
+- **Controle do mouse com os olhos** para navegação.
+- **Interação por gestos das mãos** para comandos e atalhos.
+- **Transcrição de LIBRAS para texto em tempo real**, promovendo a comunicação.
+- **Compatibilidade com máquinas de baixo custo**, garantindo a acessibilidade.
+
+Tudo isso com foco em **autonomia total, inclusão social e hardware leve**.
 
 ---
 
 ## 🎥 Demonstrações
 
-![miniatura](https://github.com/user-attachments/assets/2773a9cb-524c-4a2e-9e55-3ba819aa6644)  
-![Captura de tela](https://github.com/user-attachments/assets/9824460e-8d72-415c-bc39-2dacdb91b3f6)  
-![Captura de tela](https://github.com/user-attachments/assets/08f43fd7-c281-403a-8e91-60dee0c4b810)  
-![Captura de tela](https://github.com/user-attachments/assets/c8e8a418-382a-4699-9c1b-db143f427f8c)  
-![Captura de tela](https://github.com/user-attachments/assets/27011b53-bf8f-413e-923f-9fbc3e8ee715)  
 
-🎬 [Assista a demonstração completa](https://www.youtube.com/watch?v=VWJLNymJehQ&t=20s)
+```markdown
+![Funções](Funçoes.png) 
 
----
 
-## 🌍 Impacto e Benefícios
+🌍 Impacto e Objetivos
+O projeto visa solucionar a carência de ferramentas integradas e práticas, retirando a dependência do teclado e oferecendo maior utilidade e melhor interface humano-máquina.
 
-### Para Pessoas com Deficiências
-- Controle total do computador sem usar as mãos.  
-- Tradução de Libras para comunicação em tempo real.  
-- Voz como alternativa para expressar comandos.  
+Resultados Esperados
+Inclusão Social: Abranger diversos grupos sociais e minorias com o software.
 
-### Para Profissionais Ocupados
-- Mãos livres para multitarefas.  
-- Atalhos personalizados com gestos e voz.  
+Autonomia Total: Garantir autonomia para usuários com mobilidade reduzida.
 
-### Para Todos
-- Experiência tecnológica intuitiva, divertida e imersiva.  
-- Uma nova forma de navegar e interagir com o computador.  
+Transcrições: Transcrever LIBRAS com legendas na tela, adaptável a diferentes qualidades de webcam.
 
----
+Hardware Leve: Execução em uma variedade maior de hardwares, utilizando modelos de IA mais leves.
 
-## 🧩 Funcionalidades Atuais
+🧩 Funcionalidades Atuais
+👁 Controle do Mouse com os Olhos: Navegação do cursor através de movimentos oculares.
 
-- 👁 **Controle do Cursor com os Olhos**  
-- 👁‍🗨 **Cliques por piscar ou olhar fixado**  
-- 🎙 **Comandos de Voz**  
-- 🖐 **Gestos das mãos para atalhos**  
-- 🤟 **Tradução de Libras (experimental)**  
-- 🖥 **Compatível com câmeras comuns e sistemas Windows/Linux**  
-- ⚙️ **Configuração de sensibilidade e calibração personalizada**  
+🖐 Interação por Gestos Manuais: Reconhecimento e interpretação de gestos para ações no computador (ex: clicar ou rolar a tela).
 
----
+🤟 Transcrição de LIBRAS para Texto: Reconhecimento de sinais da Língua Brasileira de Sinais (LIBRAS) e transcrição em tempo real.
 
-## 🛠️ Tecnologias Utilizadas
+🖥 Compatibilidade de Hardware: Projetado para funcionar com webcams comuns e máquinas de baixo custo.
 
-- [MediaPipe](https://google.github.io/mediapipe/) – rastreamento de rosto, mãos e movimentos.  
-- [OpenCV](https://opencv.org/) – visão computacional.  
-- [PyAutoGUI](https://pyautogui.readthedocs.io/) – automação do cursor.  
-- [SpeechRecognition](https://pypi.org/project/SpeechRecognition/) – reconhecimento de voz.  
-- [TensorFlow/Keras](https://www.tensorflow.org/) – modelos de IA para Libras.  
+🛠️ Tecnologias e Deep Learning
+🧠 Módulo LIBRAS - Deep Learning (CNN) :hand: :raised_hand: :fist: :point_up:
+A funcionalidade de Transcrição de LIBRAS é alimentada por um classificador de Deep Learning dedicado.
 
----
+Este módulo tem como objetivo gerar um classificador com Redes Neurais Convolucionais (CNNs) para reconhecimento de gestos estáticos do alfabeto em LIBRAS.
 
-## 📋 Como Usar
-
-1. Clone este repositório.  
-2. Crie um ambiente virtual e instale as dependências com:  
-   ```bash
-   pip install -r requirements.txt
+Contexto
+Este projeto é o TCC do curso Pocket Python + Inteligência Artificial (240 horas) do SAMSUNG Innovation Campus 2025.
