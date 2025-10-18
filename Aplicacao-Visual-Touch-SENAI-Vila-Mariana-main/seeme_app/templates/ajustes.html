@@ -3,61 +3,98 @@
 
 {% block content %}
 <div class="container" style="padding: 10px;">
-    <div class="row">
-        <h1 class="display-4"><b>Ajustes</b></h1>
-    </div>
+    
+    <h1 class="display-4"><b>Ajustes</b></h1>
     <br>
+
     <div class="row">
-        <div class="container" style="padding-bottom: 20px; padding-top: 30px;">
-            <a href="{{ url_for ('main.cadastro_atalho') }}" class="btn btn-primary btn-lg">Adicionar atalho</a>
+        <div class="col-md-3 col-lg-2">
+            <div class="bg-light p-3 rounded shadow-sm">
+                <nav class="nav nav-pills flex-column me-3" id="v-pills-tab" 
+                    role="tablist" aria-orientation="vertical">
+
+                    <button class="nav-link active text-start" id="v-pills-atalhos-tab" data-bs-toggle="pill" 
+                            data-bs-target="#v-pills-atalhos" type="button" role="tab" 
+                            aria-controls="v-pills-atalhos" aria-selected="true">
+                        Meus Atalhos
+                    </button>
+
+                    <button class="nav-link text-start" id="v-pills-adicionar-tab" data-bs-toggle="pill" 
+                            data-bs-target="#v-pills-adicionar" type="button" role="tab" 
+                            aria-controls="v-pills-adicionar" aria-selected="false">
+                        Rastreamento Ocular
+                    </button>
+
+                    <button class="nav-link text-start" id="v-pills-perfil-tab" data-bs-toggle="pill" 
+                            data-bs-target="#v-pills-perfil" type="button" role="tab" 
+                            aria-controls="v-pills-perfil" aria-selected="false">
+                        Modo de Voz
+                    </button>
+                </nav>
+            </div>
         </div>
 
-        <div class="rounded-4 overflow-hidden border">
-            <h1 class="display-6">Atalhos</h1>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Imagem</th>
-                        <th scope="col">Letra</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for atalho in lista_atalhos %}
-                    <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        
-                        <td>
-                            {% if atalho.dados_imagem %}
-                            <img src="{{ url_for('main.get_atalho_imagem', atalho_id=atalho.id) }}" alt="Imagem do Atalho" style="width: 50px; height: 50px; object-fit: cover;">
-                            {% else %}
-                            <img src="{{ url_for('static', filename='img/quick.png') }}" alt="Imagem Padrão" style="width: 50px; height: 50px; object-fit: cover;">
-                            {% endif %}
-                        </td>
-                        <td>{{ atalho.letra_relacionada or 'n/a'}}</td>
-                        <td>{{ atalho.nome }}</td>
-                        <td>{{ atalho.tipo }}</td>
-                        <td>
-                            <a class="btn btn-sm btn-outline-primary">Editar</a>
-                            <form action="{{ url_for('main.excluir_atalho', atalho_id=atalho.id) }}" 
-                            method="POST" style="display: inline;">
-                                <button class="btn btn-sm btn-outline-danger" type="submit"
-                                onclick="return confirm('Tem certeza que deseja excluir este atalho?');">Excluir</button>
-                            </form>
-                        </td>
+        <div class="col-md-9 col-lg-10">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="tab-pane fade show active" id="v-pills-atalhos" role="tabpanel" 
+                            aria-labelledby="v-pills-atalhos-tab" tabindex="0">
+                            <div class="container" style="padding-bottom: 20px; padding-top: 30px;">
+                                <a href="{{ url_for ('main.cadastro_atalho') }}" class="btn btn-primary btn-lg">Adicionar atalho</a>
+                            </div>
 
-                    </tr>
+                            <div class="rounded-4 overflow-hidden border" style="padding: 13px">
+                                <h1 class="display-6">Atalhos</h1>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Imagem</th>
+                                            <th scope="col">Letra</th>
+                                            <th scope="col">Nome</th>
+                                            <th scope="col">Tipo</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for atalho in lista_atalhos %}
+                                        <tr>
+                                            <th scope="row">{{ loop.index }}</th>
+                                            
+                                            <td>
+                                                {% if atalho.dados_imagem %}
+                                                <img src="{{ url_for('main.get_atalho_imagem', atalho_id=atalho.id) }}" alt="Imagem do Atalho" style="width: 50px; height: 50px; object-fit: cover;">
+                                                {% else %}
+                                                <img src="{{ url_for('static', filename='img/quick.png') }}" alt="Imagem Padrão" style="width: 50px; height: 50px; object-fit: cover;">
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ atalho.letra_relacionada or 'n/a'}}</td>
+                                            <td>{{ atalho.nome }}</td>
+                                            <td>{{ atalho.tipo }}</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-outline-primary">Editar</a>
+                                                <form action="{{ url_for('main.excluir_atalho', atalho_id=atalho.id) }}" 
+                                                method="POST" style="display: inline;">
+                                                    <button class="btn btn-sm btn-outline-danger" type="submit"
+                                                    onclick="return confirm('Tem certeza que deseja excluir este atalho?');">Excluir</button>
+                                                </form>
+                                            </td>
 
-                    {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center">Nenhum atalho cadastrado.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                        </tr>
+
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="6" class="text-center">Nenhum atalho cadastrado.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
