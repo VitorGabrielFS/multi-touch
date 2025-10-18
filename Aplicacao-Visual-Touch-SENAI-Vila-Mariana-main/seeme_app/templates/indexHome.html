@@ -83,10 +83,10 @@
                         <div class="card-body">
                             <h5 class="card-title">Gestos</h5>
                             <p class="card-text">Utilize a sua mão para realizar determinadas ações em seu computador. Verifique as opções em “ajustes”</p>
-                            <button onclick="StartVoice()" class="btn btn-primary">Iniciar Reconhecimento</button>
-                            <button onclick="StopVoice()" class="btn btn-danger">Parar Reconhecimento</button>
+                            <button onclick="StartGestos()" class="btn btn-primary">Iniciar Reconhecimento</button>
+                            <button onclick="StopGestos()" class="btn btn-danger">Parar Reconhecimento</button>
                         </div>
-                        <p class="card-text"><small id="status_voz" class="text-body-secondary"></small></p>
+                        <p class="card-text"><small id="status_gestos" class="text-body-secondary"></small></p>
                     </div>
                 </div>
             </div>
@@ -139,6 +139,24 @@
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('status_voz').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function StartGestos() {
+            fetch('/rastreio-gestos')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status_gestos').innerText = data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function StopGestos() {
+            fetch('/parar-rastreio-gestos')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status_gestos').innerText = data;
                 })
                 .catch(error => console.error('Erro:', error));
         }

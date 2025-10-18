@@ -6,6 +6,9 @@ from flask_login import current_user
 from .control import voice_active_event
 from voice import reconhecimento_de_voz
 from .eye import eye_tracking, set_tracking, cam
+from .exec_mao import GestureController
+from .control import gestos_active_event
+import subprocess
 
 import os
 from flask import render_template, redirect, url_for, flash, request
@@ -167,14 +170,30 @@ def start_voice():
 def stop_voice():
     voice_active_event.clear()
     return "Reconhecimento de voz parado."
+controller = GestureController(
+    tempo_minimo_gesto=1.0,  # segundos
+    intervalo_antiloop=2.0   # segundos
+)
 
+controller.registrar_acao(1, lambda: subprocess.Popen("start chrome", shell=True))
+controller.registrar_acao(2, lambda: subprocess.Popen("start notepad", shell=True))
 @main.route('/rastreio-gestos')
 @login_required
 def rastreio_gestos():
-    if not getattr(reconhecimento_de_voz, 'is_running', False):
-        threading.Thread(target=reconhecimento_de_voz, daemon=True).start()
-        reconhecimento_de_voz.is_running = True
-        return "Rastreamento de gestos iniciado."
+    # Se já estiver em execução, retorna mensagem informando isso
+    if not gestos_active_event.is_set():
+        gestos_active_event.set()
+        return Response(controller.gerar_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+        
+    return "Rastreamento de gestos já está em andamento."
+
+
+
+@main.route('/parar-rastreio-gestos')
+@login_required
+def parar_rastreio_gestos():
+    gestos_active_event.clear() #limpa a flag para indicar que o rastreio de gestos deve parar
+    return "Rastreamento de gestos parado."
 
 @main.route('/registrar', methods=['GET', 'POST'])
 def registrar():

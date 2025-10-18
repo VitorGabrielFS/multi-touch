@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import subprocess
 import time
+from seeme_app.control import gestos_active_event
 from typing import Callable, Dict
 
 class GestureController:
@@ -133,7 +134,7 @@ class GestureController:
         cap = cv2.VideoCapture(camera_id)
         
         try:
-            while True:
+            while gestos_active_event.is_set():
                 sucesso, frame = cap.read()
                 if not sucesso:
                     break
