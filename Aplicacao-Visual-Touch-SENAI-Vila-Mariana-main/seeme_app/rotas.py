@@ -168,6 +168,14 @@ def stop_voice():
     voice_active_event.clear()
     return "Reconhecimento de voz parado."
 
+@main.route('/rastreio-gestos')
+@login_required
+def rastreio_gestos():
+    if not getattr(reconhecimento_de_voz, 'is_running', False):
+        threading.Thread(target=reconhecimento_de_voz, daemon=True).start()
+        reconhecimento_de_voz.is_running = True
+        return "Rastreamento de gestos iniciado."
+
 @main.route('/registrar', methods=['GET', 'POST'])
 def registrar():
     # Se o usuário já estiver logado, redireciona para a home
