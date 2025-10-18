@@ -148,4 +148,5 @@ class GestureController:
                 yield (b'--frame\r\n'
                        b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
         finally:
-            cap.release()
+            if cap:
+                cap.release()

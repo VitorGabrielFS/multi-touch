@@ -9,6 +9,7 @@ from .eye import eye_tracking, set_tracking, cam
 from .exec_mao import GestureController
 from .control import gestos_active_event
 import subprocess
+from flask import jsonify
 
 import os
 from flask import render_template, redirect, url_for, flash, request
@@ -170,21 +171,25 @@ def start_voice():
 def stop_voice():
     voice_active_event.clear()
     return "Reconhecimento de voz parado."
+
+
 controller = GestureController(
     tempo_minimo_gesto=1.0,  # segundos
     intervalo_antiloop=2.0   # segundos
 )
-
 controller.registrar_acao(1, lambda: subprocess.Popen("start chrome", shell=True))
 controller.registrar_acao(2, lambda: subprocess.Popen("start notepad", shell=True))
+
 @main.route('/rastreio-gestos')
-@login_required
 def rastreio_gestos():
+    
+
     # Se já estiver em execução, retorna mensagem informando isso
     if not gestos_active_event.is_set():
         gestos_active_event.set()
+
         return Response(controller.gerar_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-        
+
     return "Rastreamento de gestos já está em andamento."
 
 
