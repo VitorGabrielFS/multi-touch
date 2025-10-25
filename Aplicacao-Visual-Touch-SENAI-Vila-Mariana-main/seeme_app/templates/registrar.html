@@ -13,6 +13,11 @@
 
                     <form method="POST" action="{{ url_for('main.registrar') }}">
                         <div class="mb-3">
+                            <label for="entradaNome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="entradaNome" name="entradaNome" aria-describedby="nomeHelp" required>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="entradaEmail" class="form-label">Email</label>
                             <input type="email" class="form-control" id="entradaEmail" name="entradaEmail" aria-describedby="emailHelp" required>
                             <div id="emailHelp" class="form-text">Usaremos apenas para seu login no site.</div>

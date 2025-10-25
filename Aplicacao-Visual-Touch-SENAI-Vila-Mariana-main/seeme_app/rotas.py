@@ -229,6 +229,7 @@ def registrar():
     # Se o método for POST, significa que o formulário foi enviado
     if request.method == 'POST':
         # 1. PEGAR OS DADOS DO FORMULÁRIO
+        nome = request.form.get('entradaNome')
         email = request.form.get('entradaEmail')
         senha = request.form.get('entradaSenha')
         confirm_senha = request.form.get('confirmacaoSenha')
@@ -248,7 +249,7 @@ def registrar():
         senha_criptografada = bcrypt.generate_password_hash(senha).decode('utf-8')
     
         # 2. CRIAR UM NOVO USUÁRIO
-        novo_usuario = Usuario(email=email, password_hash=senha_criptografada)
+        novo_usuario = Usuario(nome = nome, email=email, password_hash=senha_criptografada)
         db.session.add(novo_usuario)
         db.session.commit()
 

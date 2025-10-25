@@ -7,6 +7,7 @@ from .extensoes import login_manager
 
 class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     atalhos = db.relationship('Atalho', backref='autor', lazy=True)
@@ -31,3 +32,21 @@ class Atalho(db.Model):
 
     def __repr__(self):
         return f'<Item {self.nome}>'
+    
+class Configuracao(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    # --- Configurações Oculares ---
+    # Usamos os valores padrão do seu 'eye.py'
+    eye_sensitivity = db.Column(db.Float, nullable=False, default=2.0)
+    eye_deadzone = db.Column(db.Integer, nullable=False, default=20)
+    
+    # --- Configurações de Voz (Exemplo Futuro) ---
+    voice_keyword = db.Column(db.String(50), nullable=False, default="bruna")
+    voice_timeout = db.Column(db.Integer, nullable=False, default=5)
+
+    # --- O Link de volta para o Usuário ---
+    # 'unique=True' é o que garante que será Um-para-Um
+    # (um usuário não pode ter duas linhas de configuração)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), unique=True, nullable=False)
+    # =============================================================
