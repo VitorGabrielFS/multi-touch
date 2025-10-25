@@ -36,10 +36,10 @@
 
         <div class="col-md-9 col-lg-10">
             <div class="tab-content" id="v-pills-tabContent">
-                <div class="card shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="tab-pane fade show active" id="v-pills-atalhos" role="tabpanel" 
-                            aria-labelledby="v-pills-atalhos-tab" tabindex="0">
+                <div class="tab-pane fade show active" id="v-pills-atalhos" role="tabpanel" 
+                    aria-labelledby="v-pills-atalhos-tab" tabindex="0">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
                             <div class="container" style="padding-bottom: 20px; padding-top: 30px;">
                                 <a href="{{ url_for ('main.cadastro_atalho') }}" class="btn btn-primary btn-lg">Adicionar atalho</a>
                             </div>
@@ -91,6 +91,17 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="v-pills-adicionar" role="tabpanel" 
+                    aria-labelledby="v-pills-ocular-tab" tabindex="0">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h2>Rastreamento Ocular</h2>
+                            <p>Ajustes relacionados ao rastreamento ocular serão exibidos aqui.</p> 
                         </div>
                     </div>
                 </div>
