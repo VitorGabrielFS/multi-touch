@@ -100,8 +100,22 @@
                     aria-labelledby="v-pills-ocular-tab" tabindex="0">
                     <div class="card shadow-sm">
                         <div class="card-body p-4">
-                            <h2>Rastreamento Ocular</h2>
-                            <p>Ajustes relacionados ao rastreamento ocular serão exibidos aqui.</p> 
+                            <form>
+                                <div>
+                                    <label for="sensibilidadeInput" class="form-label">Sensibilidade Ocular</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="0.5" value="3" id="sensibilidadeInput">
+                                    <output for="sensibilidadeInput" id="sensibilidadeOutput" aria-hidden="true"></output>
+
+                                    <br><br>
+
+                                    <label for="deadzoneInput" class="form-label">Deadzone</label>
+                                    <input type="range" class="form-range" min="5" max="40" step="5" value="20" id="deadzoneInput">
+                                    <output for="deadzoneInput" id="deadzoneOutput" aria-hidden="true"></output>
+
+                                    <br><br>
+                                    <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -109,4 +123,27 @@
         </div>
     </div>
 </div>
+
+<script>
+  // This is an example script, please modify as needed
+  const sensibilidadeInput = document.getElementById('sensibilidadeInput');
+  const sensibilidadeOutput = document.getElementById('sensibilidadeOutput');
+
+  const deadzoneInput = document.getElementById('deadzoneInput');
+  const deadzoneOutput = document.getElementById('deadzoneOutput');
+
+  // Set initial value
+  sensibilidadeOutput.textContent = sensibilidadeInput.value;
+
+  sensibilidadeInput.addEventListener('input', function() {
+    sensibilidadeOutput.textContent = this.value;
+  });
+
+  // Set initial value
+  deadzoneOutput.textContent = deadzoneInput.value;
+
+  deadzoneInput.addEventListener('input', function() {
+    deadzoneOutput.textContent = this.value;
+  });
+</script>
 {% endblock %}
