@@ -54,6 +54,7 @@ body {
 }
 
 .right-half-up h1 {
+  margin-top: 28px;
   font-weight: bold;
   font-size: 2.7rem;
   margin-bottom: 28px;
@@ -115,13 +116,13 @@ body {
 }
 
 .titulo {
-  margin-top: 5%;
+  margin-top: 1%;
   font-size: 2.8rem;
   font-weight: bold;
   margin-bottom: 25px;
   color: #222;
   line-height: 1.1;
-  padding-top: 10%;
+  padding-top: 4%;
   max-width: 90%;
 }
 
@@ -280,9 +281,107 @@ body {
   object-fit: cover;
 }
 
+/* ===== Carrossel Base ===== */
+section#carrossel {
+  max-width: 1000px;
+  margin: 50px auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-item img {
+  object-fit: cover;
+  height: 500px; /* Padrão para desktop */
+  width: 100%;
+}
+
+/* ===== Indicadores ===== */
+.carousel-indicators {
+  position: absolute;
+  bottom: 3px;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: #797979;
+  width: 25px;   /* corrigido (antes estava "35 px") */
+  height: 4px;
+  border-radius: 4px;
+  box-shadow: 4 4 6px rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.carousel-indicators [data-bs-target].active {
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.carousel-control-prev-icon{
+  background-color: #2c2a2a;
+}
+
+.carousel-control-next-icon{
+  background-color: #2c2a2a;
+}
+
+/* ===== Responsividade ===== */
+
+/* Tablets (até 992px) */
+@media (max-width: 992px) {
+  section#carrossel {
+    max-width: 90%;
+  }
+  .carousel-item img {
+    height: 400px;
+  }
+}
+
+/* Celulares médios (até 768px) */
+@media (max-width: 768px) {
+  section#carrossel {
+    margin: 30px auto;
+    border-radius: 15px;
+  }
+  .carousel-item img {
+    height: 300px;
+  }
+  .carousel-indicators [data-bs-target] {
+    width: 25px;
+    height: 4px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  section#carrossel {
+    margin: 20px auto;
+  }
+  .carousel-item img {
+    height: 220px;
+  }
+  .carousel-indicators [data-bs-target] {
+    width: 20px;
+    height: 3px;
+  }
+}
+
+
+/*Resposividade do titulo parte 3*/
+@media (max-width: 991px) {
+  .titulo-recursos {
+    font-size: 2rem;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+}
+
 /*Quinta Parte*/
 
 /* Cartão de perfil */
+
+
+
 
 /* Links */
 .links-apresentacao a {
@@ -303,16 +402,7 @@ body {
   margin: 8px 0;
 }
 
-/*Resposividade do titulo parte 3*/
-@media (max-width: 991px) {
-  .titulo-recursos {
-    font-size: 2rem;
-    margin-top: 24px;
-    margin-bottom: 12px;
-  }
-}
-
-/* Responsivo para telas pequenas section recursos */
+/* Responsivo para telas pequenas */
 @media (max-width: 991px) {
   .recursos {
     flex-direction: column;
@@ -323,7 +413,7 @@ body {
   }
 }
 
-/* Responsivo bloco de recursos*/
+/* Responsivo */
 @media (max-width: 600px) {
   .bloco-imagem {
     max-width: 98vw;
@@ -337,8 +427,7 @@ body {
   }
 }
 
-
-/*resposividade da Logo*/
+/* Responsivo */
 @media (max-width: 991px) {
   .split-section {
     flex-direction: column;
