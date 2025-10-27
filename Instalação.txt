@@ -18,3 +18,17 @@ Para o dlib, vai precisar instalar o "Tools for Visual Studio C++" e CMake
 Por fim, execute:
 
 pip install -r requirements.txt
+
+
+Linux:
+Os comandos anteriores muitos não são reconhecidos, com o python já instalado:
+python3.12 .venv\Scripts\activate       (Se seu python foi instalado versão 3.12.12 por exemplo)
+.venv\Scripts\activate
+python3.12 -m pip install --upgrade pip
+pip install -r requirements.txt    *instale cmake primeiro, se der exceção com pyaudio, veja a próxima linha
+
+Exceção com Pyaudio execute esse bloco abaixo
+sudo apt update
+sudo apt install -y build-essential portaudio19-dev python3-dev
+python3.12 -m pip install --upgrade pip
+python3.12 -m pip install pyaudio
