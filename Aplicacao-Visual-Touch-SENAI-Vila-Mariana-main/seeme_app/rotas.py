@@ -7,6 +7,7 @@ from .control import voice_active_event, gestos_active_event, eye_tracking_activ
 from voice import reconhecimento_de_voz
 from .eye import eye_tracking, set_tracking, cam
 from .exec_mao import GestureController
+from .modelos import Configuracoes
 import subprocess
 from flask import jsonify
 
@@ -47,7 +48,21 @@ def landing():
 def ajustes():
     #Pegar dados relacionados aos atalhos do usuário logado
     atalhos_usuario = current_user.atalhos  # Supondo que haja um relacionamento definido no modelo Usuario 
+    
+    try:
+        if current_user.config is None:
+            nova_config = Configuracoes(usuario=current_user)
+            db.session.add(nova_config)
+            db.session.commit()
 
+            print(f"Objeto de configuração padrão criado para o usuário {current_user.id}")
+            # Damos um 'refresh' para garantir que o current_user seja atualizado na sessão
+            db.session.refresh(current_user) 
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Erro ao criar configuração padrão: {e}", "danger")
+        
     return render_template('ajustes.html', title="Ajustes e Atalhos", lista_atalhos=atalhos_usuario)
 
 @main.route('/cadastroAtalho', methods=['GET', 'POST'])
@@ -121,6 +136,27 @@ def excluir_atalho(atalho_id):
         flash(f'Erro ao excluir o atalho: {e}', 'danger')
 
     # 4. Redireciona o usuário de volta para a página de ajustes.
+    return redirect(url_for('main.ajustes'))
+
+@main.route('/salvar_ajustes_olhos', methods=['POST'])
+def salvar_ajustes_olhos():
+    try:
+        #Pega os dados do formulário
+        nova_sensibilidade = float(request.form.get('sensibilidadeInput'))
+        nova_deadzone = float(request.form.get('deadzoneInput'))
+
+        #Atualiza as configurações do usuário atual
+        current_user.config.eye_sensitivity = nova_sensibilidade
+        current_user.config.eye_deadzone = nova_deadzone
+
+        db.session.commit()
+        flash('Configurações oculares salvas com sucesso!', 'success')
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Erro ao salvar as configurações: {e}', 'danger')
+        # desfazemos a operação para não corromper o banco.
+        db.session.rollback()
     return redirect(url_for('main.ajustes'))
 
 @main.route('/atalho-imagem/<int:atalho_id>')

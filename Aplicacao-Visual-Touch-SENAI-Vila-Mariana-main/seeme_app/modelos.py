@@ -12,6 +12,9 @@ class Usuario(db.Model, UserMixin):
     password_hash = db.Column(db.String(200), nullable=False)
     atalhos = db.relationship('Atalho', backref='autor', lazy=True)
     # Itens relacionados ao usuário
+    # Ela cria o atributo 'current_user.config'
+    # ====================================================================
+    config = db.relationship('Configuracoes', backref='usuario', uselist=False, cascade="all, delete-orphan")
 
     def __repr__(self):
         return f'<Usuario {self.email}>'
@@ -33,7 +36,7 @@ class Atalho(db.Model):
     def __repr__(self):
         return f'<Item {self.nome}>'
     
-class Configuracao(db.Model):
+class Configuracoes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # --- Configurações Oculares ---
