@@ -12,7 +12,7 @@ pyautogui.FAILSAFE = False
 tracking = False  # Controlado pelo Flask
 cam = None  # Acesso global pra liberar no stopp
 
-# Sensibilidade e suavização
+# Sensibilidade e suavização padrão
 sensitivity = 2.0
 smoothing_alpha = 0.6
 deadzone = 20
@@ -59,9 +59,14 @@ def calculate_ear(landmarks, points_indices):
 
 
 # --- Função principal ---
-def eye_tracking():
+def eye_tracking(active_event, configuracoes_usuario):
     global cam, tracking, is_dragging, drag_start_time, last_action_time
     global left_eye_state, right_eye_state
+
+    # Atualiza as configurações com as do usuário
+    sensitivity = configuracoes_usuario.eye_sensitivity
+    deadzone = configuracoes_usuario.eye_deadzone
+    print(f"THREAD EYE: Iniciando com Sensibilidade={sensitivity}, Deadzone={deadzone}")
 
     mp_face = mp.solutions.face_mesh
     with mp_face.FaceMesh(max_num_faces=1, refine_landmarks=True) as face_mesh:

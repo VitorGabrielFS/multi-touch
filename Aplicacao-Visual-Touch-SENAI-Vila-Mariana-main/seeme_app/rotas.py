@@ -62,7 +62,7 @@ def ajustes():
     except Exception as e:
         db.session.rollback()
         flash(f"Erro ao criar configuração padrão: {e}", "danger")
-        
+
     return render_template('ajustes.html', title="Ajustes e Atalhos", lista_atalhos=atalhos_usuario)
 
 @main.route('/cadastroAtalho', methods=['GET', 'POST'])
@@ -180,8 +180,11 @@ def get_atalho_imagem(atalho_id):
 def start_tracking():
     if not resource_manager.is_resource_active('eye_tracking'):
         if resource_manager.start_resource('eye_tracking'):
+            configuracoes_usuario = current_user.config
+            # Atualiza as configurações do eye.py com as do usuário
             set_tracking(True)
-            t = threading.Thread(target=eye_tracking, daemon=True)
+            t = threading.Thread(target=eye_tracking, args=(eye_tracking_active_event, 
+                                                            configuracoes_usuario), daemon=True)
             t.start()
             eye_tracking.is_running = True
             return "Rastreamento ocular iniciado."
