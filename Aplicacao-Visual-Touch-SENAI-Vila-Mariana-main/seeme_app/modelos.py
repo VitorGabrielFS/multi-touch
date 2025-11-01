@@ -1,6 +1,7 @@
 # seeme_app/models.py
 from .extensoes import db  # Importa a instância do db
 from flask_login import UserMixin
+from sqlalchemy import UniqueConstraint
 
 # A função user_loader precisa estar aqui para acessar o modelo User
 from .extensoes import login_manager 
@@ -32,6 +33,10 @@ class Atalho(db.Model):
     dados_imagem = db.Column(db.LargeBinary, nullable=True) # Armazena a imagem como dados binários
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
 
+    # e 'letra_relacionada' DEVE ser única em toda esta tabela."
+    __table_args__ = (
+        UniqueConstraint('usuario_id', 'letra_relacionada', name='_usuario_letra_uc'),
+    )
 
     def __repr__(self):
         return f'<Item {self.nome}>'

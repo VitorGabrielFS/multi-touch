@@ -73,13 +73,28 @@ def cadastro_atalho():
         # Identificar o tipo de formulário enviado
         tipo_formulario = request.form.get('form_type')
         if tipo_formulario == "cadastrar_site":
+            letra = request.form.get('letraNumero')
+            
+            if letra:
+                letra = letra.upper()
+                #consultar no banco de dados se é a mesma letra
+                atalho_existente = Atalho.query.filter_by(
+                    usuario_id = current_user.id,
+                    letra_relacionada = letra
+                ).first()
+
+                #Se letra/número já está sendo usado
+                if atalho_existente:
+                    flash(f"A letra/número {letra} já está sendo usada por {atalho_existente.nome}", "danger")
+                    return redirect(url_for("main.cadastro_atalho"))
+
             nome_site = request.form.get('nomeSite')
             url_site = request.form.get('entradaUrl')
             imagem_site = request.files.get('entradaImagem')
             # Processar o cadastro do site aqui
             # Exemplo: salvar no banco de dados
             novo_atalho = Atalho(nome=nome_site, tipo='site', caminho=url_site, usuario_id=current_user.id, 
-                                 dados_imagem=imagem_site.read() if imagem_site else None)
+                                 dados_imagem=imagem_site.read() if imagem_site else None, letra_relacionada=request.form.get('letraNumero'))
             db.session.add(novo_atalho)
             db.session.commit()
             flash(f'Site "{nome_site}" cadastrado com sucesso!', 'success')
@@ -229,15 +244,20 @@ controller = GestureController(
 controller.registrar_acao(1, lambda: subprocess.Popen("start chrome", shell=True))
 controller.registrar_acao(2, lambda: subprocess.Popen("start notepad", shell=True))
 
+@main.route('/start-gestos')
+def start_gestos():
+    if not resource_manager.is_resource_active('gestos'):
+        if resource_manager.start_resource('gestos'):
+            gestos_active_event.set()
+            return "Rastreamento de gestos iniciado."
+    return "Rastreamento de gestos já está em andamento."
+
 @main.route('/rastreio-gestos')
 def rastreio_gestos():
     # Se já estiver em execução, retorna mensagem informando isso
-    if not gestos_active_event.is_set():
-        gestos_active_event.set()
-        threading.Thread(target=controller.gerar_frames(), daemon=True).start()
+    if resource_manager.is_resource_active('gestos'):
         return Response(controller.gerar_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-    return "Rastreamento de gestos já está em andamento."
+    return "Rastreamento não está ativo."
 
 
 
