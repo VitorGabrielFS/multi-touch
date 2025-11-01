@@ -263,9 +263,14 @@ def rastreio_gestos():
 
 @main.route('/parar-rastreio-gestos')
 @login_required
-def parar_rastreio_gestos():
-    gestos_active_event.clear() #limpa a flag para indicar que o rastreio de gestos deve parar
-    return "Rastreamento de gestos parado."
+def stop_gestos():
+    if resource_manager.is_resource_active('gestos'):
+        resource_manager.stop_resource('gestos')
+        gestos_active_event.clear()
+        # Libera a câmera compartilhada se não há mais recursos usando
+        resource_manager.release_shared_camera()
+        return "Rastreamento de gestos parado."
+    return "Rastreamento de gestos já está inativo."
 
 @main.route('/status-recursos')
 def status_recursos():
