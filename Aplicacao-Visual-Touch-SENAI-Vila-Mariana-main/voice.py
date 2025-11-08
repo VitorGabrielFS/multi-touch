@@ -209,7 +209,7 @@ def processar_comando(user_input):
     falar("Pesquisando no navegador"); log_mensagem(WAKE_WORD,"Fallback pesquisa",'bruna')
 
 # ---------------- VOZ ----------------
-def reconhecimento_de_voz():
+def reconhecimento_de_voz(nome_usuario):
     global assistente_ativa
     rec = sr.Recognizer()
     with sr.Microphone() as mic:
@@ -228,7 +228,7 @@ def reconhecimento_de_voz():
                     audio = rec.listen(mic, phrase_time_limit=3)
                     try: text = rec.recognize_google(audio, language="pt-BR").lower()
                     except: continue
-                    if WAKE_WORD in text: assistente_ativa=True; falar(f"Olá {MYNAME}"); mostrar_popup()
+                    if WAKE_WORD in text: assistente_ativa=True; falar(f"Olá {nome_usuario}"); mostrar_popup()
             except KeyboardInterrupt: desativar_assistente(); falar("Até logo"); break
             except Exception as e: print("Erro:",e)
 

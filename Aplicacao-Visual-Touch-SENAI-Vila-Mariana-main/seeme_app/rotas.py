@@ -199,7 +199,7 @@ def start_tracking():
             # Atualiza as configurações do eye.py com as do usuário
             set_tracking(True)
             t = threading.Thread(target=eye_tracking, args=(eye_tracking_active_event, 
-                                                            configuracoes_usuario), daemon=True)
+                                                            configuracoes_usuario, ), daemon=True)
             t.start()
             eye_tracking.is_running = True
             return "Rastreamento ocular iniciado."
@@ -221,7 +221,7 @@ def start_voice():
     if not resource_manager.is_resource_active('voice'):
         if resource_manager.start_resource('voice'):
             voice_active_event.set()
-            threading.Thread(target=reconhecimento_de_voz, daemon=True).start()
+            threading.Thread(target=reconhecimento_de_voz,args=(current_user.nome,), daemon=True).start()
             return "Reconhecimento de voz iniciado. Fale 'Bruna' para começar."
     return "Reconhecimento de voz já está em andamento."
 
