@@ -17,12 +17,12 @@ else:
     load_dotenv()  # Fallback para o padrão
 
 # ---------------- CONFIG ----------------
-API_KEY = os.getenv('GROQ_API_KEY')
+API_KEY = os.getenv('API_KEY')
 MODEL = "llama-3.1-8b-instant"
 ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 CACHE_FILE = "apps_cache.json"
 MYNAME = "gabriel"
-WAKE_WORD = "bruna"
+WAKE_WORD = "teste"
 assistente_ativa = False
 popup_window = None
 chat_text_area = None
