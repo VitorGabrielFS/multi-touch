@@ -8,8 +8,15 @@ from voice import reconhecimento_de_voz
 from .eye import eye_tracking, set_tracking, cam
 from .exec_mao import GestureController
 from .modelos import Configuracoes
+import webbrowser
+import time
 import subprocess
 from flask import jsonify
+import pyautogui
+import threading
+from plyer import notification
+import win32clipboard
+from io import BytesIO
 
 import os
 from flask import render_template, redirect, url_for, flash, request
@@ -104,16 +111,56 @@ def cadastro_atalho():
         elif tipo_formulario == "cadastrar_acao":
             nome_acao = request.form.get('nomeAcao')
             tipo_acao = request.form.get('tipoAcao')
+            
+            match(tipo_acao):
+                case "1":
+                    caminho_acao = "print_tela"  # print
+
+                case "2":
+                    caminho_acao = "encerrar_audio"  # Desligar
+
+                case "3":
+                    caminho_acao = "fechar_camera"  # Desligar
+
+                case "4":
+                    caminho_acao = "captura"  # Desligar
+
+            novo_atalho = Atalho(nome=nome_acao, tipo='acao', caminho=caminho_acao, usuario_id=current_user.id, letra_relacionada=request.form.get('letraNumeroAcao'))
+
             # Processar o cadastro da ação aqui
             # Exemplo: salvar no banco de dados
+            db.session.add(novo_atalho)
+            db.session.commit()
+
             flash(f'Ação "{nome_acao}" cadastrada com sucesso!', 'success')
             return redirect(url_for('main.ajustes'))
         
         elif tipo_formulario == "cadastrar_programa":
             nome_programa = request.form.get('nomePrograma')
             selecao_programa = request.form.get('selecaoPrograma')
+            match(selecao_programa):
+                case "1":
+                    caminho_programa = "C:\\Windows\\System32\\calc.exe"  # Calculadora
+                
+                case "2":
+                    caminho_programa = "C:\\Windows\\System32\\notepad.exe"  #
+
+                case "3":
+                    caminho_programa = "explorer"  #Explorador de Arquivos
+
+                case "4":
+                    caminho_programa = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"  #Chrome
+
+                case _:
+                    caminho_programa = ""  # Caminho vazio para seleção inválida
+
+            novo_atalho = Atalho(nome=nome_programa, tipo='programa', caminho=caminho_programa, usuario_id=current_user.id, letra_relacionada=request.form.get('letraNumeroPrograma'))
+
             # Processar o cadastro do programa aqui
             # Exemplo: salvar no banco de dados
+            db.session.add(novo_atalho)
+            db.session.commit()
+
             flash(f'Programa "{nome_programa}" cadastrado com sucesso!', 'success')
             return redirect(url_for('main.ajustes'))
         
@@ -245,9 +292,107 @@ controller.registrar_acao(1, lambda: subprocess.Popen("start chrome", shell=True
 controller.registrar_acao(2, lambda: subprocess.Popen("start notepad", shell=True))
 
 @main.route('/start-gestos')
+@login_required
 def start_gestos():
     if not resource_manager.is_resource_active('gestos'):
         if resource_manager.start_resource('gestos'):
+            # Carrega atalhos do usuário e registra ações dinamicamente
+            try:
+                atalhos = Atalho.query.filter_by(usuario_id=current_user.id).order_by(Atalho.id).all()
+                # Limpa ações anteriores
+                controller.acoes.clear()
+
+                for atalho in atalhos:
+                    letra = (atalho.letra_relacionada or '').strip()
+                    if not letra:
+                        print(f"Ignorando atalho '{atalho.nome}' sem 'letra_relacionada'.")
+                        continue
+
+                    # tenta interpretar a letra como número de dedos (inteiro)
+                    try:
+                        num_dedos = int(letra)
+                    except ValueError:
+                        print(f"Valor inválido em 'letra_relacionada' para atalho '{atalho.nome}': {letra}")
+                        continue
+
+                    # valida faixa razoável (0-5 dedos)
+                    if num_dedos < 0 or num_dedos > 5:
+                        print(f"Número de dedos fora da faixa (0-5) para atalho '{atalho.nome}': {num_dedos}")
+                        continue
+
+                    if atalho.tipo == 'site':
+                        def _open_site(a=atalho):
+                            try:
+                                webbrowser.open(a.caminho)
+                            except Exception as e:
+                                print('Erro ao abrir site do atalho:', e)
+                        controller.registrar_acao(num_dedos, _open_site)
+
+                    elif atalho.tipo == 'programa':
+                        def _start_program(a=atalho):
+                            try:
+                                subprocess.Popen(a.caminho, shell=True)
+                            except Exception as e:
+                                print('Erro ao iniciar programa do atalho:', e)
+                        controller.registrar_acao(num_dedos, _start_program)
+
+                    elif atalho.tipo == 'acao':
+                        match(atalho.caminho):
+                            case "captura":
+                                def _print_screen(a=atalho):
+                                    try:
+                                        pyautogui.press('printscreen')
+                                    except Exception as e:
+                                        print('Erro ao executar ação de print screen:', e)
+                                controller.registrar_acao(num_dedos, _print_screen)
+
+                            case "encerrar_audio":
+                                def _stop_audio(a=atalho):
+                                    try:
+                                        voice_active_event.clear()
+                                    except Exception as e:
+                                        print('Erro ao executar ação de encerrar áudio:', e)
+                                controller.registrar_acao(num_dedos, _stop_audio)
+
+                            case "fechar_camera":
+                                def _stop_gestos(a=atalho):
+                                    try:
+                                        if resource_manager.is_resource_active('gestos'):
+                                            resource_manager.stop_resource('gestos')
+                                            gestos_active_event.clear()
+                                            # Libera a câmera compartilhada se não há mais recursos usando
+                                            resource_manager.release_shared_camera()
+                                            print("Rastreamento de gestos finalizado via atalho.")
+                                    except Exception as e:
+                                        print('Erro ao executar ação de fechar câmera:', e)
+                                controller.registrar_acao(num_dedos, _stop_gestos)
+
+                            case "print_tela":
+                                def _print_screen(a=atalho):
+                                    foto = pyautogui.screenshot()
+                                    caminho = os.path.join(os.path.expanduser("~"), "Pictures", "Screenshots")
+                                    os.makedirs(caminho, exist_ok=True)
+                                    filename = f"screenshot_{int(time.time())}.png"
+                                    foto.save(os.path.join(caminho, filename))
+                                    print(f'Screenshot salva em {os.path.join(caminho, filename)}')
+                                    screenshot_to_clipboard(foto)
+
+                                    #Avisar usuário
+                                    notificaoes("Screenshot Capturada e Copiada", f"Sua screenshot foi salva em {os.path.join(caminho, filename)}")
+
+                                controller.registrar_acao(num_dedos, _print_screen)
+
+                            case _:
+                                print(f"Ação desconhecida para atalho '{atalho.nome}': {atalho.caminho}")
+
+                    else:
+                        def _noop(a=atalho):
+                            print(f"Atalho '{a.nome}' (tipo={a.tipo}) acionado, mas nenhuma ação definida.")
+                        controller.registrar_acao(num_dedos, _noop)
+
+            except Exception as e:
+                print('Erro ao carregar atalhos para gestos:', e)
+
             gestos_active_event.set()
             return "Rastreamento de gestos iniciado."
     return "Rastreamento de gestos já está em andamento."
@@ -351,7 +496,55 @@ def login():
 
     return render_template('login.html', title='Login')
 
+@main.route('/area-transferencia')
+def screenshot_to_clipboard(imagem):
+    # 1. Tira o print (retorna uma imagem PIL)
+    image = imagem
+
+    # 2. Cria um buffer na memória para guardar a imagem
+    output = BytesIO()
+
+    # 3. Converte a imagem para RGB e salva no buffer como BMP
+    # O Windows prefere o formato BMP (DIB) para a área de transferência
+    image.convert("RGB").save(output, "BMP")
+
+    # 4. Pega os dados brutos (bytes) da imagem
+    data = output.getvalue()[14:]  # Removemos os primeiros 14 bytes (cabeçalho do arquivo BMP)
+                                   # pois a área de transferência espera apenas o DIB (Device Independent Bitmap)
+    output.close()
+
+    # 5. Abre a área de transferência, limpa e coloca a imagem
+    win32clipboard.OpenClipboard()
+    win32clipboard.EmptyClipboard()
+    win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
+    win32clipboard.CloseClipboard()
+
+    print("Print copiado para a área de transferência!")
+
+
+
 @main.route('/logout')
 def logout():
     logout_user() # Função mágica do Flask-Login que encerra a sessão
     return redirect(url_for('main.login'))
+
+@main.route('/notificaoes')
+def notificaoes(titulo, mensagem):
+    """
+    Envia uma notificação nativa do sistema operacional em uma thread separada
+    para não travar o fluxo principal do vídeo/flask.
+    """
+    def _notificar():
+        try:
+            notification.notify(
+                title=titulo,
+                message=mensagem,
+                app_name='SeeMe',
+                timeout=3  # A notificação fica visível por 3 segundos
+                # app_icon='caminho/para/icone.ico' # Opcional: ícone .ico (Windows) ou .png (Linux)
+            )
+        except Exception as e:
+            print(f"Erro ao enviar notificação: {e}")
+
+    # Inicia a thread daemon (que morre se o programa fechar)
+    threading.Thread(target=_notificar, daemon=True).start()

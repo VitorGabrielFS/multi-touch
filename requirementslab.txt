@@ -9,3 +9,6 @@ pyttsx3
 face_recognition
 dotenv
 pyaudio
+plyer
+pywin32
+pillow

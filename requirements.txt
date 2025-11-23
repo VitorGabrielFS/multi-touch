@@ -12,3 +12,6 @@ dlib
 pyaudio
 python-dotenv
 requests
+plyer
+pywin32
+pillow

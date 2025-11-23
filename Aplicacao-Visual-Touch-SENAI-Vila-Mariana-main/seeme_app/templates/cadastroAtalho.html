@@ -61,10 +61,10 @@
             <div class="accordion-body">
                 <div>
                     <div class="card card-body">
-                        <form>
+                        <form method="POST" action="{{ url_for('main.cadastro_atalho') }}">
                             <div class="mb-3">
                                 <label for="siteNameInput" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nomeAtalho" name="atalho" aria-describedby="nameHelp" placeholder="Exemplo">
+                                <input type="text" class="form-control" id="nomeAtalho" name="nomeAcao" aria-describedby="nameHelp" placeholder="Exemplo">
 
                                 <br>
 
@@ -73,10 +73,18 @@
                                     <option value="1">Tirar print</option>
                                     <option value="2">Encerrar captura de aúdio</option>
                                     <option value="3">Fechar Câmera</option>
+                                    <option value="4">Ferramenta de captura</option>
                                 </select>
                             </div>
 
-                            <button type="submit" class="btn btn-primary" value="cadastrar_acao">Cadastrar</button>
+                            <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">Gesto/Número</span>
+                                    <input type="text" class="form-control" placeholder="Exemplo 'A' ou '1'" 
+                                        aria-label="" aria-describedby="basic-addon1" maxlength="1" pattern="[a-zA-Z0-9]"
+                                        name="letraNumeroAcao" id="letraNumeroAcao" style="width: 75px;" required>
+                            </div>
+
+                            <button type="submit" name="form_type" class="btn btn-primary" value="cadastrar_acao">Cadastrar</button>
                         </form>
                     </div>
                 </div>
@@ -93,7 +101,7 @@
                 <div class="accordion-body">
                     <div>
                         <div class="card card-body">
-                            <form>
+                            <form method="POST" action="{{ url_for('main.cadastro_atalho') }}">
                                 <div class="mb-3">
                                     <label for="siteNameInput" class="form-label">Nome</label>
                                     <input type="text" class="form-control" id="nomePrograma" name="nomePrograma" aria-describedby="nameHelp" placeholder="Exemplo">
@@ -105,10 +113,18 @@
                                         <option value="1">Calculadora</option>
                                         <option value="2">Bloco de notas</option>
                                         <option value="3">Explorador de Arquivos</option>
+                                        <option value="3">Chrome</option>
                                     </select>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary" value="cadastrar_programa">Cadastrar</button>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">Gesto/Número</span>
+                                    <input type="text" class="form-control" placeholder="Exemplo 'A' ou '1'" 
+                                        aria-label="" aria-describedby="basic-addon1" maxlength="1" pattern="[a-zA-Z0-9]"
+                                        name="letraNumeroPrograma" id="letraNumeroPrograma" style="width: 75px;" required>
+                                </div>
+
+                                <button type="submit" name="form_type" class="btn btn-primary" value="cadastrar_programa">Cadastrar</button>
                             </form>
                         </div>
                     </div>
