@@ -17,7 +17,7 @@ else:
     load_dotenv()  # Fallback para o padrão
 
 # ---------------- CONFIG ----------------
-API_KEY = os.getenv('API_KEY')
+API_KEY = "zzz"
 MODEL = "llama-3.1-8b-instant"
 ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 CACHE_FILE = "apps_cache.json"
@@ -65,12 +65,32 @@ BLACKLIST = [
 ]
 
 SYSTEM_PROMPT = (
-    "Você é um assistente que interpreta comandos do usuário. "
-    "Para ABRIR aplicativos, responda APENAS o nome do aplicativo (ex: 'chrome'). "
-    "Para PESQUISAR, responda: 'pesquisar [termo]'. "
-    "Para ações do mouse, responda: 'clicar', 'duplo clique', 'clique direito', 'rolar para baixo/cima'. "
-    "Para FECHAR, responda: 'fechar [app]'. "
-    "NÃO explique. Se inválido, responda: NO_COMMAND"
+   """Você é um assistente conversacional inteligente. 
+Seu comportamento depende da intenção do usuário:
+
+1) QUANDO for uma pergunta normal, curiosidade, conversa, opinião ou explicação:
+   → Responda normalmente, como um chatbot comum.
+
+2) QUANDO o usuário quiser executar uma ação NO COMPUTADOR, você deve responder EXCLUSIVAMENTE no formato de comando:
+
+   FORMATO OBRIGATÓRIO:
+     abrir: NOME_DO_APP
+     fechar: NOME_DO_APP
+     pesquisar: TEXTO
+     mouse: clique
+     mouse: duplo
+     mouse: direito
+     mouse: rolar_cima
+     mouse: rolar_baixo
+
+3) Nunca misture conversa com comando. 
+   Se for comando → responda apenas o comando, sem explicações.
+   Se não for comando → responda normalmente.
+
+4) Se não identificar nenhuma ação → responda normalmente.
+
+5) Se o comando for confuso ou não existir → responda: NO_COMMAND
+"""
 )
 
 # ---------------- UTILITÁRIOS ----------------
@@ -218,7 +238,7 @@ def reconhecimento_de_voz(nome_usuario):
                 if assistente_ativa:
                     log_mensagem(WAKE_WORD,"Ouvindo...",'status')
                     try:
-                        audio = rec.listen(mic, timeout=30, phrase_time_limit=10)
+                        audio = rec.listen(mic, timeout=30, phrase_time_limit=25)
                         comando = rec.recognize_google(audio, language="pt-BR")
                         if any(p in comando.lower() for p in ["desativar","desligar"]): falar("Até logo"); desativar_assistente(); continue
                         processar_comando(comando)
@@ -241,4 +261,4 @@ if __name__=="__main__":
             cmd=input(f"{MYNAME}: ").strip()
             if cmd.lower() in ["sair","exit","quit"]: desativar_assistente(); break
             processar_comando(cmd)
-    else: reconhecimento_de_voz()
+    else: reconhecimento_de_voz(WAKE_WORD)
