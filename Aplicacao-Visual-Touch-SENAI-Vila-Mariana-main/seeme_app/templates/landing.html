@@ -42,7 +42,7 @@
 
           {% if current_user.is_authenticated %}
           <div class="d-flex ms-auto">
-            <span class="navbar-text me-3">Olá, {{ current_user.email }}!</span>
+            <span class="navbar-text me-3">Olá, {{ <current_user class="nome"></current_user> }}!</span>
             <a href="{{ url_for ('main.logout') }}" class="btn btn-outline-light">Sair</a>
           </div>
 
@@ -76,7 +76,7 @@
       <div class="right-half-up">
         <h1>Sobre nós</h1>
         <p>
-          "O SeeMe é uma solução inovadora de acessibilidade digital que transforma a maneira como interagimos com o
+          O SeeMe é uma solução inovadora de acessibilidade digital que transforma a maneira como interagimos com o
           computador. Utilizando visão computacional e inteligência artificial, o projeto permite controlar o mouse com
           os olhos, realizar comandos por meio de gestos das mãos e até transcrever sinais em LIBRAS para texto em tempo
           real.
