@@ -42,7 +42,7 @@
 
           {% if current_user.is_authenticated %}
           <div class="d-flex ms-auto">
-            <span class="navbar-text me-3">Olá, {{ <current_user class="nome"></current_user> }}!</span>
+            <span class="navbar-text me-3">Olá, {{ current_user.nome }}!</span>
             <a href="{{ url_for ('main.logout') }}" class="btn btn-outline-light">Sair</a>
           </div>
 
