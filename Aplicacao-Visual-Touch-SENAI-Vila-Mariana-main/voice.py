@@ -17,7 +17,7 @@ else:
     load_dotenv()  # Fallback para o padrão
 
 # ---------------- CONFIG ----------------
-API_KEY = "zzz"
+API_KEY = "groq_api"
 MODEL = "llama-3.1-8b-instant"
 ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
 CACHE_FILE = "apps_cache.json"
