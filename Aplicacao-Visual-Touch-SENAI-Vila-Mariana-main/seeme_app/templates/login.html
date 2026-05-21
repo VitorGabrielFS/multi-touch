@@ -1,52 +1,339 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-    
-    <head>
-    
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/O_SeeMe_Icone.PNG') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/O_SeeMe_Icone.PNG') }}">
-    
-    </head>
-
-</html>
 {% block title %}Login - SeeMe{% endblock %}
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-            <div class="card shadow-sm p-4">
-                <div class="card-body">
 
-                    <h2 class="text-center mb-4 display-6">Bem-vindo de volta</h2>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
 
-                    <form method="POST" action="{{ url_for('main.login') }}">
-                        <div class="mb-3">
-                            <label for="entradaEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="entradaEmail" name="entradaEmail" aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">Usaremos apenas para seu login no site.</div>
-                        </div>
+  body, .seeme-auth-page {
+    background: #0d0b1a;
+    min-height: 100vh;
+  }
 
-                        <div class="mb-3">
-                            <label for="entradaSenha" class="form-label">Senha</label>
-                            <input type="password" class="form-control" id="entradaSenha" name="entradaSenha">
-                        </div>
+  .seeme-auth-page {
+    font-family: 'Sora', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 16px;
+    position: relative;
+    overflow: hidden;
+  }
 
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
-                        
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                        </div>
-                    </form>
+  .seeme-auth-page::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(112, 53, 204, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-                </div>
-            </div>
-        </div>
+  .seeme-auth-page::after {
+    content: '';
+    position: fixed;
+    bottom: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(112, 53, 204, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .seeme-card-wrapper {
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .seeme-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 36px;
+    gap: 4px;
+  }
+
+  .seeme-logo-text {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+  }
+
+  .seeme-logo-text span {
+    color: #9b59f5;
+  }
+
+  .seeme-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(155, 89, 245, 0.12);
+    border: 1px solid rgba(155, 89, 245, 0.35);
+    color: #b07cf8;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .seeme-badge::before {
+    content: '✦';
+    font-size: 0.6rem;
+  }
+
+  .seeme-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 20px;
+    padding: 40px 36px;
+    backdrop-filter: blur(12px);
+  }
+
+  .seeme-card-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .seeme-card-subtitle {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.88rem;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .seeme-form-group {
+    margin-bottom: 20px;
+  }
+
+  .seeme-label {
+    display: block;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+  }
+
+  .seeme-input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+  }
+
+  .seeme-input::placeholder {
+    color: rgba(255,255,255,0.2);
+  }
+
+  .seeme-input:focus {
+    border-color: rgba(155, 89, 245, 0.7);
+    background: rgba(155, 89, 245, 0.07);
+    box-shadow: 0 0 0 3px rgba(155, 89, 245, 0.12);
+  }
+
+  .seeme-form-hint {
+    color: rgba(255,255,255,0.3);
+    font-size: 0.75rem;
+    margin-top: 6px;
+  }
+
+  /* Row between label and "Esqueceu?" */
+  .seeme-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .seeme-forgot {
+    color: #9b59f5;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .seeme-forgot:hover {
+    color: #b07cf8;
+  }
+
+  /* Checkbox row */
+  .seeme-check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .seeme-check-input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 5px;
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .seeme-check-input:checked {
+    background: #7c3aed;
+    border-color: #7c3aed;
+  }
+
+  .seeme-check-input:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .seeme-check-label {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.83rem;
+    cursor: pointer;
+  }
+
+  .seeme-btn-primary {
+    width: 100%;
+    background: #7c3aed;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+
+  .seeme-btn-primary:hover {
+    background: #6d28d9;
+    box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .seeme-btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .seeme-divider {
+    text-align: center;
+    color: rgba(255,255,255,0.25);
+    font-size: 0.8rem;
+    margin: 24px 0 16px;
+    position: relative;
+  }
+
+  .seeme-divider::before,
+  .seeme-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 32px);
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .seeme-divider::before { left: 0; }
+  .seeme-divider::after { right: 0; }
+
+  .seeme-register-link {
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.85rem;
+  }
+
+  .seeme-register-link a {
+    color: #9b59f5;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .seeme-register-link a:hover {
+    color: #b07cf8;
+  }
+</style>
+
+<div class="seeme-auth-page">
+  <div class="seeme-card-wrapper">
+
+    <div class="seeme-logo">
+      <span class="seeme-logo-text">See<span>Me</span></span>
     </div>
+
+    <div style="text-align:center;">
+      <span class="seeme-badge">Acessibilidade Adaptativa</span>
+    </div>
+
+    <div class="seeme-card">
+      <h2 class="seeme-card-title">Bem-vindo de volta</h2>
+      <p class="seeme-card-subtitle">Entre na sua conta para continuar.</p>
+
+      <form method="POST" action="{{ url_for('main.login') }}">
+
+        <div class="seeme-form-group">
+          <label for="entradaEmail" class="seeme-label">Email</label>
+          <input type="email" class="seeme-input" id="entradaEmail" name="entradaEmail" placeholder="seu@email.com">
+          <div class="seeme-form-hint">Usaremos apenas para seu login no site.</div>
+        </div>
+
+        <div class="seeme-form-group">
+          <div class="seeme-label-row">
+            <label for="entradaSenha" class="seeme-label" style="margin-bottom:0;">Senha</label>
+            <a href="#" class="seeme-forgot">Esqueceu a senha?</a>
+          </div>
+          <input type="password" class="seeme-input" id="entradaSenha" name="entradaSenha" placeholder="••••••••">
+        </div>
+
+        <div class="seeme-check-row">
+          <input type="checkbox" class="seeme-check-input" id="lembrarMe">
+          <label class="seeme-check-label" for="lembrarMe">Lembrar de mim</label>
+        </div>
+
+        <button type="submit" class="seeme-btn-primary">Entrar →</button>
+
+      </form>
+
+      <div class="seeme-divider">ou</div>
+
+      <div class="seeme-register-link">
+        Não tem uma conta? <a href="{{ url_for('main.registrar') }}">Cadastre-se</a>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 {% endblock %}

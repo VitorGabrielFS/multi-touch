@@ -1,96 +1,349 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeeMe</title>
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/O_SeeMe_Icone.PNG') }}">
-<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/O_SeeMe_Icone.PNG') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-
+{% extends 'base.html' %}
+{% block title %}SeeMe{% endblock %}
+{% block content %}
 <style>
-    body {
-        /* 1. Define a imagem de fundo e a sobreposição escura */
-        background-image:
-            /* Esta é a camada escura. rgba(0,0,0,0.6) é um preto com 60% de opacidade. */
-            linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-            /* Substitua este URL pelo caminho da sua imagem */
-            url("{{ url_for('static', filename='img/fundo_tablet.jpg') }}");
+/* Hero Section */
+.hero-section {
+    margin-bottom: 2rem;
+}
 
-        /* 2. Ajusta como a imagem de fundo se comporta */
-        background-size: cover; /* Faz a imagem cobrir toda a tela sem distorcer */
-        background-position: center; /* Centraliza a imagem */
-        background-repeat: no-repeat; /* Impede que a imagem se repita */
-        background-attachment: fixed; /* Deixa a imagem fixa enquanto a página rola (efeito parallax) */
-    }
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(124,58,237,0.12);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: var(--radius-pill);
+    padding: 0.3rem 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-glow);
+    margin-bottom: 1rem;
+}
+.hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    box-shadow: 0 0 6px var(--accent-glow);
+}
+
+.hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 0.85rem;
+}
+.hero-title .highlight {
+    color: var(--accent-pink);
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Button System ─────────────────────────────── */
+
+.btn-primary,
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    border-radius: 10px;
+    padding: 0.72rem 1.75rem;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shimmer sweep on hover */
+.btn-primary::after,
+.btn-secondary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.12) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.45s ease;
+    pointer-events: none;
+}
+.btn-primary:hover::after,
+.btn-secondary:hover::after {
+    transform: translateX(100%);
+}
+
+/* Primary — filled, glowing */
+.btn-primary {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 60%, #5b21b6 100%);
+    color: #fff;
+    box-shadow:
+        0 0 0 1px rgba(124,58,237,0.4),
+        0 4px 16px rgba(124,58,237,0.35),
+        0 1px 0 rgba(255,255,255,0.08) inset;
+}
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        0 0 0 1px rgba(124,58,237,0.6),
+        0 8px 28px rgba(124,58,237,0.55),
+        0 0 40px rgba(124,58,237,0.2),
+        0 1px 0 rgba(255,255,255,0.12) inset;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 60%, #6d28d9 100%);
+    color: #fff;
+}
+.btn-primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Secondary — ghost */
+.btn-secondary {
+    background: rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    border: 1px solid rgba(255,255,255,0.12);
+}
+.btn-secondary:hover {
+    transform: translateY(-1px);
+    background: rgba(124,58,237,0.1);
+    border-color: rgba(124,58,237,0.35);
+    color: var(--text-primary);
+    box-shadow: 0 4px 14px rgba(124,58,237,0.15);
+}
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Hero actions row */
+.hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Cards */
+.features-wrapper {
+    position: relative;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+/* Blur backdrop behind features */
+.features-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg);
+    z-index: 0;
+}
+
+.features-wrapper > * {
+    position: relative;
+    z-index: 1;
+}
+
+.card-glass {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.card-glass:hover {
+    border-color: rgba(124,58,237,0.4);
+    background: rgba(124,58,237,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.card-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.1rem;
+    font-size: 1.2rem;
+}
+.card-icon.purple { background: rgba(124,58,237,0.2); }
+.card-icon.pink   { background: rgba(236,72,153,0.2); }
+.card-icon.blue   { background: rgba(59,130,246,0.2); }
+
+.card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+.card-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Section Title */
+.section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+}
+.section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(236,72,153,0.08) 100%);
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+.cta-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+}
+.cta-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Footer */
+footer {
+    background: rgba(13,10,26,0.85);
+    border-top: 1px solid var(--border);
+    padding: 1.25rem 2rem;
+    text-align: center;
+    margin-top: auto;
+}
+footer p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title { font-size: 2rem; }
+    .cta-section { flex-direction: column; text-align: center; }
+    .features-wrapper { padding: 1.25rem; }
+}
+
+/* Animations */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.5s ease both; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
 </style>
-<body class="d-flex flex-column vh-100">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <header>
-        <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand mb-0 h1" href="#">SeeMe</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ url_for ('main.home') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('main.ajustes') }}">Ajustes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for ('main.landing') }}">Sobre</a>
-                        </li>
-                    </ul>
 
-                    {% if current_user.is_authenticated %}
-                        <div class="d-flex ms-auto">
-                            <span class="navbar-text me-3">Olá, {{ current_user.nome }}!</span>
-                            <a href="{{ url_for ('main.logout') }}" class="btn btn-outline-light">Sair</a>
-                        </div>
-
-                    {% else %}
-                        <div class="d-flex ms-auto">
-                            <a href="{{ url_for ('main.login') }}" class="btn btn-outline-light me-2">Entrar</a>
-                            <a href="{{ url_for ('main.cadastrar_usuario') }}" class="btn btn-light">Cadastrar</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </nav>
-    </header>
-    
-    <main style="padding-top: 40px">
-        {% include '_flashes.html' %}
-        <div>
-            <div class="container d-flex justify-content-center align-items-center vh-100" style="padding: 10px;">
-            <div class="row">
-                    <div class="col-md-7 text-white">
-                        <h2 class="display-4">Acessibilidade ampliada com o <b>SeeMe</b></h2>
-                        <p class="lead">O SeeMe é uma aplicação inovadora que utiliza tecnologia de ponta para oferecer uma experiência única aos seus usuários. Com recursos avançados de reconhecimento facial e inteligência artificial, o SeeMe está aqui para transformar a maneira como você interage com o mundo digital.</p>
-                        <p class="lead">Navegue pelo menu acima para explorar as funcionalidades do SeeMe, ajustar suas preferências e aprender mais sobre nossa missão e visão.</p>
-
-                        <div class="row">
-                            <a type="button" class="btn btn-primary btn-lg" href="{{ url_for ('main.home') }}" style="margin: 20px; padding: 20px; width: 300px; border-radius: 90px;">Comece já!</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        
-                    </div>
-                </div>
-            </div>
+<!-- Hero -->
+<section class="hero-section">
+    <div class="fade-up">
+        <div class="hero-badge">✦ Acessibilidade Adaptativa</div>
+        <h1 class="hero-title">
+            Acessibilidade ampliada<br>
+            com o <span class="highlight">SeeMe</span>
+        </h1>
+        <p class="hero-subtitle">
+            Utilize tecnologia de ponta para uma experiência única. Reconhecimento facial
+            e inteligência artificial para transformar a forma como você interage com o mundo digital.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('main.home') }}" class="btn-primary">
+                Começar agora →
+            </a>
+            <a href="#funcionalidades" class="btn-secondary">
+                Saiba mais ↓
+            </a>
         </div>
-    </main>
+    </div>
+</section>
 
-    <footer class="bg-primary text-white text-center py-3 mt-auto">
-        <div class="container">
-            <p class="mb-0">&copy; 2025 SeeMe. Todos os direitos reservados.</p>
+<!-- CTA Final — posicionada antes das funcionalidades para aparecer sem scroll -->
+<section class="cta-section fade-up delay-1">
+    <div>
+        <h3 class="cta-title">Pronto para começar?</h3>
+        <p class="cta-subtitle">Navegue pelo menu para explorar funcionalidades, ajustar preferências e aprender mais sobre nossa missão.</p>
+    </div>
+    <a href="{{ url_for('main.home') }}" class="btn-primary">
+        Ir para o App →
+    </a>
+</section>
+
+<!-- Cards de funcionalidades -->
+<section id="funcionalidades" style="margin-bottom: 3rem;">
+    <div class="features-wrapper">
+        <p class="section-label fade-up delay-2">Funcionalidades</p>
+        <h2 class="section-title fade-up delay-2">O que o SeeMe oferece</h2>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:1rem;">
+
+            <div class="card-glass fade-up delay-2">
+                <div class="card-icon purple">👁️</div>
+                <div class="card-title">Rastreamento Ocular</div>
+                <p class="card-desc">Controle o cursor com o movimento dos seus olhos. Sem hardware especial — apenas sua câmera.</p>
+            </div>
+
+            <div class="card-glass fade-up delay-3">
+                <div class="card-icon pink">🎙️</div>
+                <div class="card-title">Controle por Voz</div>
+                <p class="card-desc">Execute ações e atalhos usando apenas a voz. Navegue com total liberdade.</p>
+            </div>
+
+            <div class="card-glass fade-up delay-4">
+                <div class="card-icon blue">🤚</div>
+                <div class="card-title">Gestos com as Mãos</div>
+                <p class="card-desc">Mapeie movimentos das mãos para ações no sistema. Interatividade natural e intuitiva.</p>
+            </div>
+
         </div>
-    </footer>
-</body>
-</html>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2025 SeeMe. Todos os direitos reservados.</p>
+</footer>
+
+{% endblock %}

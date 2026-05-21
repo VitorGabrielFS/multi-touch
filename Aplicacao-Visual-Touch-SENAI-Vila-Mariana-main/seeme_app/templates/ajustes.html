@@ -2,153 +2,661 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container" style="padding: 10px;">
-    
-    <h1 class="display-4"><b>Ajustes</b></h1>
-    <br>
+<style>
+/* ── Page Layout ─────────────────────────────── */
+.ajustes-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    padding: 0.5rem 0 3rem;
+}
 
-    <div class="row">
-        <div class="col-md-3 col-lg-2">
-            <div class="bg-light p-3 rounded shadow-sm">
-                <nav class="nav nav-pills flex-column me-3" id="v-pills-tab" 
-                    role="tablist" aria-orientation="vertical">
+/* ── Page Header ─────────────────────────────── */
+.page-header {
+    margin-bottom: 1.75rem;
+}
+.page-header-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-glow, #a78bfa);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.page-header-label::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-glow, #a78bfa);
+    box-shadow: 0 0 6px var(--accent-glow, #a78bfa);
+}
+.page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary, #f0eaff);
+    margin: 0;
+}
 
-                    <button class="nav-link active text-start" id="v-pills-atalhos-tab" data-bs-toggle="pill" 
-                            data-bs-target="#v-pills-atalhos" type="button" role="tab" 
-                            aria-controls="v-pills-atalhos" aria-selected="true">
-                        Meus Atalhos
-                    </button>
+/* ── Sidebar ─────────────────────────────── */
+.settings-sidebar {
+    position: sticky;
+    top: 1.5rem;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
 
-                    <button class="nav-link text-start" id="v-pills-ocular-tab" data-bs-toggle="pill" 
-                            data-bs-target="#v-pills-adicionar" type="button" role="tab" 
-                            aria-controls="v-pills-adicionar" aria-selected="false">
-                        Rastreamento Ocular
-                    </button>
+.sidebar-section-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    padding: 0.5rem 0.75rem 0.25rem;
+}
 
-                    <button class="nav-link text-start" id="v-pills-perfil-tab" data-bs-toggle="pill" 
-                            data-bs-target="#v-pills-perfil" type="button" role="tab" 
-                            aria-controls="v-pills-perfil" aria-selected="false">
-                        Modo de Voz
-                    </button>
-                </nav>
+.sidebar-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    position: relative;
+}
+.sidebar-btn .sidebar-icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+.sidebar-btn:hover {
+    background: rgba(124,58,237,0.1);
+    color: rgba(255,255,255,0.8);
+    transform: translateX(2px);
+}
+.sidebar-btn:hover .sidebar-icon {
+    opacity: 1;
+}
+.sidebar-btn.active {
+    background: linear-gradient(135deg, rgba(124,58,237,0.28) 0%, rgba(109,40,217,0.18) 100%);
+    color: #e0d4ff;
+    border: 1px solid rgba(124,58,237,0.3);
+    box-shadow: 0 0 16px rgba(124,58,237,0.12), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.sidebar-btn.active .sidebar-icon {
+    opacity: 1;
+}
+.sidebar-btn.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 25%; bottom: 25%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, #a78bfa, #7c3aed);
+    box-shadow: 0 0 8px rgba(167,139,250,0.6);
+}
+
+/* ── Content Panel ─────────────────────────────── */
+.settings-panel {
+    background: rgba(255,255,255,0.025);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2rem 2.25rem;
+    transition: box-shadow 0.3s ease;
+}
+.settings-panel:hover {
+    box-shadow: 0 8px 40px rgba(124,58,237,0.08);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary, #f0eaff);
+    margin: 0;
+}
+
+/* ── Button System (consistent with home.html) ── */
+.btn-primary,
+.btn-secondary,
+.btn-danger-soft,
+.btn-edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    border-radius: 10px;
+    padding: 0.62rem 1.4rem;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+.btn-primary::after, .btn-edit::after, .btn-danger-soft::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.45s ease;
+    pointer-events: none;
+}
+.btn-primary:hover::after, .btn-edit:hover::after, .btn-danger-soft:hover::after {
+    transform: translateX(100%);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 60%, #5b21b6 100%);
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(124,58,237,0.4), 0 4px 16px rgba(124,58,237,0.3);
+}
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 0 1px rgba(124,58,237,0.6), 0 8px 28px rgba(124,58,237,0.5), 0 0 36px rgba(124,58,237,0.18);
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 60%, #6d28d9 100%);
+    color: #fff;
+}
+.btn-primary:active { transform: scale(0.98); }
+
+/* Small row action buttons */
+.btn-edit {
+    background: rgba(99,102,241,0.12);
+    color: #a5b4fc;
+    border: 1px solid rgba(99,102,241,0.25);
+    padding: 0.38rem 0.9rem;
+    font-size: 0.78rem;
+}
+.btn-edit:hover {
+    background: rgba(99,102,241,0.22);
+    border-color: rgba(99,102,241,0.45);
+    color: #c7d2fe;
+    transform: translateY(-1px);
+}
+
+.btn-danger-soft {
+    background: rgba(239,68,68,0.1);
+    color: #fca5a5;
+    border: 1px solid rgba(239,68,68,0.22);
+    padding: 0.38rem 0.9rem;
+    font-size: 0.78rem;
+}
+.btn-danger-soft:hover {
+    background: rgba(239,68,68,0.2);
+    border-color: rgba(239,68,68,0.4);
+    color: #fecaca;
+    transform: translateY(-1px);
+}
+
+/* ── Atalhos Table ─────────────────────────────── */
+.atalhos-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.35rem;
+}
+.atalhos-table thead th {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.atalhos-table tbody tr {
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.atalhos-table tbody tr:hover {
+    background: rgba(124,58,237,0.09);
+    transform: translateX(2px);
+    box-shadow: 0 2px 12px rgba(124,58,237,0.08);
+}
+.atalhos-table tbody td {
+    padding: 0.75rem 1rem;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.875rem;
+    vertical-align: middle;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.atalhos-table tbody td:first-child {
+    border-left: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px 0 0 10px;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+.atalhos-table tbody td:last-child {
+    border-right: 1px solid rgba(255,255,255,0.04);
+    border-radius: 0 10px 10px 0;
+}
+
+.atalho-img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(124,58,237,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.atalho-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(124,58,237,0.12);
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 6px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #c4b5fd;
+    font-family: 'Syne', monospace;
+}
+
+.tipo-tag {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 6px;
+    padding: 0.18rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #93c5fd;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: rgba(255,255,255,0.25);
+}
+.empty-state-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.4;
+}
+.empty-state p {
+    font-size: 0.875rem;
+}
+
+/* ── Sliders ─────────────────────────────── */
+.slider-group {
+    margin-bottom: 2rem;
+}
+.slider-group:last-of-type {
+    margin-bottom: 1.5rem;
+}
+
+.slider-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+.slider-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+}
+.slider-value-badge {
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 8px;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #c4b5fd;
+    font-family: 'Syne', monospace;
+    min-width: 2.5rem;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+}
+.slider-value-badge.active {
+    box-shadow: 0 0 10px rgba(124,58,237,0.4);
+}
+
+/* Custom range input */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 99px;
+    /* background set entirely by JS so there's only ONE source of truth */
+    background: rgba(255,255,255,0.08);
+    outline: none;
+    cursor: pointer;
+}
+
+/* Webkit thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.2), 0 2px 8px rgba(124,58,237,0.5);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 4px rgba(124,58,237,0.25), 0 4px 14px rgba(124,58,237,0.6);
+}
+
+/* Webkit track — transparent so the input background shows through */
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 99px;
+    background: transparent;
+}
+
+/* Firefox thumb */
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.2), 0 2px 8px rgba(124,58,237,0.5);
+    cursor: pointer;
+    border: none;
+}
+/* Firefox track — also transparent, JS controls background on the input itself */
+input[type="range"]::-moz-range-track {
+    height: 5px;
+    border-radius: 99px;
+    background: transparent;
+}
+
+.range-wrap { position: relative; }
+
+/* ── Animations ─────────────────────────────── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.45s ease both; }
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.12s; }
+.delay-3 { animation-delay: 0.2s; }
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 768px) {
+    .ajustes-layout {
+        grid-template-columns: 1fr;
+    }
+    .settings-sidebar {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        padding: 0.5rem;
+    }
+    .sidebar-section-label { display: none; }
+    .sidebar-btn { flex: 1 1 auto; justify-content: center; padding: 0.55rem 0.75rem; }
+    .sidebar-btn.active::before { display: none; }
+    .settings-panel { padding: 1.25rem; }
+}
+</style>
+
+<!-- Page Header -->
+<div class="page-header fade-up">
+    <div class="page-header-label">Configurações</div>
+    <h1 class="page-title">Ajustes</h1>
+</div>
+
+<!-- Main Layout -->
+<div class="ajustes-layout">
+
+    <!-- Sidebar -->
+    <aside class="settings-sidebar fade-up delay-1" role="tablist" aria-orientation="vertical">
+        <div class="sidebar-section-label">Menu</div>
+
+        <button class="sidebar-btn active" id="tab-atalhos"
+                role="tab" aria-selected="true" aria-controls="panel-atalhos"
+                onclick="switchTab('atalhos')">
+            <span class="sidebar-icon">⚡</span>
+            Meus Atalhos
+        </button>
+
+        <button class="sidebar-btn" id="tab-ocular"
+                role="tab" aria-selected="false" aria-controls="panel-ocular"
+                onclick="switchTab('ocular')">
+            <span class="sidebar-icon">👁️</span>
+            Rastreamento Ocular
+        </button>
+
+        <button class="sidebar-btn" id="tab-voz"
+                role="tab" aria-selected="false" aria-controls="panel-voz"
+                onclick="switchTab('voz')">
+            <span class="sidebar-icon">🎙️</span>
+            Modo de Voz
+        </button>
+    </aside>
+
+    <!-- Panels -->
+    <main>
+
+        <!-- Panel: Atalhos -->
+        <div class="settings-panel fade-up delay-2" id="panel-atalhos" role="tabpanel" aria-labelledby="tab-atalhos">
+            <div class="panel-header">
+                <h2 class="panel-title">Meus Atalhos</h2>
+                <a href="{{ url_for('main.cadastro_atalho') }}" class="btn-primary">
+                    + Adicionar atalho
+                </a>
             </div>
-        </div>
 
-        <br>
-
-        <div class="col-md-9 col-lg-10">
-            <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-atalhos" role="tabpanel" 
-                    aria-labelledby="v-pills-atalhos-tab" tabindex="0">
-                    <div class="card shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="container" style="padding-bottom: 20px; padding-top: 30px;">
-                                <a href="{{ url_for ('main.cadastro_atalho') }}" class="btn btn-primary btn-lg">Adicionar atalho</a>
-                            </div>
-
-                            <div class="rounded-4 overflow-hidden border" style="padding: 13px">
-                                <h1 class="display-6">Atalhos</h1>
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Imagem</th>
-                                            <th scope="col">Letra/Número</th>
-                                            <th scope="col">Nome</th>
-                                            <th scope="col">Tipo</th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for atalho in lista_atalhos %}
-                                        <tr>
-                                            <th scope="row">{{ loop.index }}</th>
-                                            
-                                            <td>
-                                                {% if atalho.dados_imagem %}
-                                                <img src="{{ url_for('main.get_atalho_imagem', atalho_id=atalho.id) }}" alt="Imagem do Atalho" style="width: 50px; height: 50px; object-fit: cover;">
-                                                {% else %}
-                                                <img src="{{ url_for('static', filename='img/quick.png') }}" alt="Imagem Padrão" style="width: 50px; height: 50px; object-fit: cover;">
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ atalho.letra_relacionada or 'n/a'}}</td>
-                                            <td>{{ atalho.nome }}</td>
-                                            <td>{{ atalho.tipo }}</td>
-                                            <td>
-                                                <a class="btn btn-sm btn-outline-primary">Editar</a>
-                                                <form action="{{ url_for('main.excluir_atalho', atalho_id=atalho.id) }}" 
-                                                method="POST" style="display: inline;">
-                                                    <button class="btn btn-sm btn-outline-danger" type="submit"
-                                                    onclick="return confirm('Tem certeza que deseja excluir este atalho?');">Excluir</button>
-                                                </form>
-                                            </td>
-
-                                        </tr>
-
-                                        {% else %}
-                                        <tr>
-                                            <td colspan="6" class="text-center">Nenhum atalho cadastrado.</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="tab-pane fade" id="v-pills-adicionar" role="tabpanel" 
-                    aria-labelledby="v-pills-ocular-tab" tabindex="0">
-                    <div class="card shadow-sm">
-                        <div class="card-body p-4">
-                            <form method="POST" action="{{ url_for('main.salvar_ajustes_olhos') }}">
-                                <div>
-                                    <label for="sensibilidadeInput" class="form-label">Sensibilidade Ocular</label>
-                                    <input type="range" class="form-range" min="1" max="5" step="0.5" 
-                                        value="{{ current_user.config.eye_sensitivity }}" id="sensibilidadeInput" 
-                                        name="sensibilidadeInput">
-                                    <output for="sensibilidadeInput" id="sensibilidadeOutput" aria-hidden="true"></output>
-
-                                    <br><br>
-
-                                    <label for="deadzoneInput" class="form-label">Deadzone</label>
-                                    <input type="range" class="form-range" min="5" max="40" step="5" 
-                                        value="{{ current_user.config.eye_deadzone }}" id="deadzoneInput" name="deadzoneInput">
-                                    <output for="deadzoneInput" id="deadzoneOutput" aria-hidden="true"></output>
-
-                                    <br><br>
-                                    <button type="submit" class="btn btn-primary">Salvar alterações</button>
-                                </div>
+            <table class="atalhos-table" aria-label="Lista de atalhos">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Imagem</th>
+                        <th scope="col">Letra/Nº</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for atalho in lista_atalhos %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            {% if atalho.dados_imagem %}
+                            <img class="atalho-img" src="{{ url_for('main.get_atalho_imagem', atalho_id=atalho.id) }}" alt="Imagem do atalho {{ atalho.nome }}">
+                            {% else %}
+                            <img class="atalho-img" src="{{ url_for('static', filename='img/quick.png') }}" alt="Imagem padrão">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="atalho-badge">{{ atalho.letra_relacionada or '—' }}</span>
+                        </td>
+                        <td>{{ atalho.nome }}</td>
+                        <td><span class="tipo-tag">{{ atalho.tipo }}</span></td>
+                        <td style="display:flex; gap:0.4rem; align-items:center;">
+                            <a class="btn-edit">Editar</a>
+                            <form action="{{ url_for('main.excluir_atalho', atalho_id=atalho.id) }}"
+                                  method="POST" style="display:inline;">
+                                <button class="btn-danger-soft" type="submit"
+                                        onclick="return confirm('Tem certeza que deseja excluir este atalho?');">
+                                    Excluir
+                                </button>
                             </form>
-                        </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">⚡</div>
+                                <p>Nenhum atalho cadastrado ainda.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Panel: Rastreamento Ocular -->
+        <div class="settings-panel fade-up delay-2" id="panel-ocular" role="tabpanel" aria-labelledby="tab-ocular" style="display:none;">
+            <div class="panel-header">
+                <h2 class="panel-title">Rastreamento Ocular</h2>
+            </div>
+
+            <form method="POST" action="{{ url_for('main.salvar_ajustes_olhos') }}">
+
+                <div class="slider-group">
+                    <div class="slider-label-row">
+                        <label class="slider-label" for="sensibilidadeInput">Sensibilidade Ocular</label>
+                        <span class="slider-value-badge" id="sensibilidadeOutput" aria-hidden="true">—</span>
+                    </div>
+                    <div class="range-wrap">
+                        <input type="range" min="1" max="5" step="0.5"
+                               value="{{ current_user.config.eye_sensitivity }}"
+                               id="sensibilidadeInput" name="sensibilidadeInput"
+                               aria-describedby="sensibilidadeOutput">
                     </div>
                 </div>
+
+                <div class="slider-group">
+                    <div class="slider-label-row">
+                        <label class="slider-label" for="deadzoneInput">Deadzone</label>
+                        <span class="slider-value-badge" id="deadzoneOutput" aria-hidden="true">—</span>
+                    </div>
+                    <div class="range-wrap">
+                        <input type="range" min="5" max="40" step="5"
+                               value="{{ current_user.config.eye_deadzone }}"
+                               id="deadzoneInput" name="deadzoneInput"
+                               aria-describedby="deadzoneOutput">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" style="margin-top:0.5rem;">
+                    Salvar alterações
+                </button>
+
+            </form>
+        </div>
+
+        <!-- Panel: Modo de Voz (placeholder) -->
+        <div class="settings-panel fade-up delay-2" id="panel-voz" role="tabpanel" aria-labelledby="tab-voz" style="display:none;">
+            <div class="panel-header">
+                <h2 class="panel-title">Modo de Voz</h2>
+            </div>
+            <div class="empty-state" style="padding: 2.5rem 1rem;">
+                <div class="empty-state-icon">🎙️</div>
+                <p>Configurações de voz em breve.</p>
             </div>
         </div>
-    </div>
+
+    </main>
 </div>
 
 <script>
-  // This is an example script, please modify as needed
-  const sensibilidadeInput = document.getElementById('sensibilidadeInput');
-  const sensibilidadeOutput = document.getElementById('sensibilidadeOutput');
+/* ── Tab switching ─────────────────────────────── */
+function switchTab(name) {
+    const tabs   = ['atalhos', 'ocular', 'voz'];
+    const panels = { atalhos: 'panel-atalhos', ocular: 'panel-ocular', voz: 'panel-voz' };
+    const btns   = { atalhos: 'tab-atalhos',   ocular: 'tab-ocular',   voz: 'tab-voz'   };
 
-  const deadzoneInput = document.getElementById('deadzoneInput');
-  const deadzoneOutput = document.getElementById('deadzoneOutput');
+    tabs.forEach(t => {
+        const panel = document.getElementById(panels[t]);
+        const btn   = document.getElementById(btns[t]);
+        if (t === name) {
+            panel.style.display = '';
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+            // animate in
+            panel.style.animation = 'none';
+            requestAnimationFrame(() => {
+                panel.style.animation = 'fadeUp 0.3s ease both';
+            });
+        } else {
+            panel.style.display = 'none';
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        }
+    });
+}
 
-  // Set initial value
-  sensibilidadeOutput.textContent = sensibilidadeInput.value;
+/* ── Sliders ─────────────────────────────── */
+function initSlider(inputId, outputId) {
+    const input  = document.getElementById(inputId);
+    const output = document.getElementById(outputId);
+    if (!input || !output) return;
 
-  sensibilidadeInput.addEventListener('input', function() {
-    sensibilidadeOutput.textContent = this.value;
-  });
+    function update() {
+        const min = parseFloat(input.min);
+        const max = parseFloat(input.max);
+        const val = parseFloat(input.value);
+        const pct = ((val - min) / (max - min)) * 100;
 
-  // Set initial value
-  deadzoneOutput.textContent = deadzoneInput.value;
+        // Single background source — overrides both the CSS default and any stale value
+        input.style.setProperty('background',
+            `linear-gradient(to right, rgba(124,58,237,0.65) ${pct}%, rgba(255,255,255,0.08) ${pct}%)`,
+            'important'
+        );
 
-  deadzoneInput.addEventListener('input', function() {
-    deadzoneOutput.textContent = this.value;
-  });
+        output.textContent = val;
+
+        output.classList.add('active');
+        clearTimeout(output._timer);
+        output._timer = setTimeout(() => output.classList.remove('active'), 800);
+    }
+
+    update(); // run immediately on init so value is correct from the start
+    input.addEventListener('input', update);
+}
+
+initSlider('sensibilidadeInput', 'sensibilidadeOutput');
+initSlider('deadzoneInput', 'deadzoneOutput');
 </script>
 {% endblock %}

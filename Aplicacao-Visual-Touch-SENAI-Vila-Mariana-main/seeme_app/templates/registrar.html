@@ -3,44 +3,283 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-            <div class="card shadow-sm p-4">
-                <div class="card-body">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
 
-                    <h2 class="text-center mb-4 display-6">Vamos Começar</h2>
+  body, .seeme-auth-page {
+    background: #0d0b1a;
+    min-height: 100vh;
+  }
 
-                    <form method="POST" action="{{ url_for('main.registrar') }}">
-                        <div class="mb-3">
-                            <label for="entradaNome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="entradaNome" name="entradaNome" aria-describedby="nomeHelp" required>
-                        </div>
+  .seeme-auth-page {
+    font-family: 'Sora', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 16px;
+    position: relative;
+    overflow: hidden;
+  }
 
-                        <div class="mb-3">
-                            <label for="entradaEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="entradaEmail" name="entradaEmail" aria-describedby="emailHelp" required>
-                            <div id="emailHelp" class="form-text">Usaremos apenas para seu login no site.</div>
-                        </div>
+  /* Ambient glow background */
+  .seeme-auth-page::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(112, 53, 204, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-                        <div class="mb-3">
-                            <label for="entradaSenha" class="form-label">Senha</label>
-                            <input type="password" class="form-control" id="entradaSenha" name="entradaSenha" required>
-                        </div>
+  .seeme-auth-page::after {
+    content: '';
+    position: fixed;
+    bottom: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(112, 53, 204, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-                        <div class="mb-3">
-                            <label for="confirmacaoSenha" class="form-label">Confirmação Senha</label>
-                            <input type="password" class="form-control" id="confirmacaoSenha" name="confirmacaoSenha" required>
-                        </div>
-                        
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                        </div>
-                    </form>
+  .seeme-card-wrapper {
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    z-index: 1;
+  }
 
-                </div>
-            </div>
-        </div>
+  /* Logo */
+  .seeme-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 36px;
+    gap: 4px;
+  }
+
+  .seeme-logo-text {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+  }
+
+  .seeme-logo-text span {
+    color: #9b59f5;
+  }
+
+  /* Badge */
+  .seeme-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(155, 89, 245, 0.12);
+    border: 1px solid rgba(155, 89, 245, 0.35);
+    color: #b07cf8;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .seeme-badge::before {
+    content: '✦';
+    font-size: 0.6rem;
+  }
+
+  /* Card */
+  .seeme-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 20px;
+    padding: 40px 36px;
+    backdrop-filter: blur(12px);
+  }
+
+  .seeme-card-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .seeme-card-subtitle {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.88rem;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  /* Form */
+  .seeme-form-group {
+    margin-bottom: 20px;
+  }
+
+  .seeme-label {
+    display: block;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+  }
+
+  .seeme-input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+  }
+
+  .seeme-input::placeholder {
+    color: rgba(255,255,255,0.2);
+  }
+
+  .seeme-input:focus {
+    border-color: rgba(155, 89, 245, 0.7);
+    background: rgba(155, 89, 245, 0.07);
+    box-shadow: 0 0 0 3px rgba(155, 89, 245, 0.12);
+  }
+
+  .seeme-form-hint {
+    color: rgba(255,255,255,0.3);
+    font-size: 0.75rem;
+    margin-top: 6px;
+  }
+
+  /* Button primary */
+  .seeme-btn-primary {
+    width: 100%;
+    background: #7c3aed;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    margin-top: 8px;
+  }
+
+  .seeme-btn-primary:hover {
+    background: #6d28d9;
+    box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .seeme-btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Divider */
+  .seeme-divider {
+    text-align: center;
+    color: rgba(255,255,255,0.25);
+    font-size: 0.8rem;
+    margin: 24px 0 16px;
+    position: relative;
+  }
+
+  .seeme-divider::before,
+  .seeme-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 32px);
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .seeme-divider::before { left: 0; }
+  .seeme-divider::after { right: 0; }
+
+  .seeme-login-link {
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.85rem;
+  }
+
+  .seeme-login-link a {
+    color: #9b59f5;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .seeme-login-link a:hover {
+    color: #b07cf8;
+  }
+</style>
+
+<div class="seeme-auth-page">
+  <div class="seeme-card-wrapper">
+
+    <div class="seeme-logo">
+      <span class="seeme-logo-text">See<span>Me</span></span>
     </div>
+
+    <div style="text-align:center;">
+      <span class="seeme-badge">Acessibilidade Adaptativa</span>
+    </div>
+
+    <div class="seeme-card">
+      <h2 class="seeme-card-title">Vamos Começar</h2>
+      <p class="seeme-card-subtitle">Crie sua conta e acesse a plataforma.</p>
+
+      <form method="POST" action="{{ url_for('main.registrar') }}">
+
+        <div class="seeme-form-group">
+          <label for="entradaNome" class="seeme-label">Nome</label>
+          <input type="text" class="seeme-input" id="entradaNome" name="entradaNome" placeholder="Seu nome completo" required>
+        </div>
+
+        <div class="seeme-form-group">
+          <label for="entradaEmail" class="seeme-label">Email</label>
+          <input type="email" class="seeme-input" id="entradaEmail" name="entradaEmail" placeholder="seu@email.com" required>
+          <div class="seeme-form-hint">Usaremos apenas para seu login no site.</div>
+        </div>
+
+        <div class="seeme-form-group">
+          <label for="entradaSenha" class="seeme-label">Senha</label>
+          <input type="password" class="seeme-input" id="entradaSenha" name="entradaSenha" placeholder="••••••••" required>
+        </div>
+
+        <div class="seeme-form-group">
+          <label for="confirmacaoSenha" class="seeme-label">Confirmação de Senha</label>
+          <input type="password" class="seeme-input" id="confirmacaoSenha" name="confirmacaoSenha" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="seeme-btn-primary">Criar conta →</button>
+
+      </form>
+
+      <div class="seeme-divider">ou</div>
+
+      <div class="seeme-login-link">
+        Já tem uma conta? <a href="{{ url_for('main.login') }}">Entrar</a>
+      </div>
+
+    </div>
+  </div>
 </div>
+
 {% endblock %}

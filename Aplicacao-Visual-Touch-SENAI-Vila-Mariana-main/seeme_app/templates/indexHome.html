@@ -1,145 +1,771 @@
+<!-- IndexHome.html -->
 {% block title %}Funcionalidades - SeeMe{% endblock %}
 {% extends 'base.html' %}
-
 {% block content %}
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-<main class="flex-grow-1" style="padding-top: 10px;">
-    <div class="container col-md-8 col-lg-7 mx-auto">
-        <div class="card mb-3">
-            <div class="row g-0">
-                <div class="col-md-4 d-flex justify-content-center align-items-center">
-                    <img src="{{ url_for ('static', filename='img/camera.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Rastreamento Ocular</h5>
-                        <p class="card-text">Através do ponto médio de seus olhos, manipule o mouse, permitindo uma navegação acessível</p>
-                        <button onclick="startTracking()" class="btn btn-primary">Iniciar Rastreamento</button>
-                        <button onclick="stopTracking()" class="btn btn-danger">Parar Rastreamento</button>
-                    </div>
-                    <p class="card-text"><small id="status_camera" class="text-body-secondary"></small></p>
-                </div>
+:root {
+  --eye:  #8b5cf6;
+  --mic:  #ec4899;
+  --hand: #3b82f6;
+  --bg:   #07070c;
+  --sur:  rgba(255,255,255,.033);
+  --bdr:  rgba(255,255,255,.07);
+  --t1: #eeeef8;
+  --t2: #52527a;
+  --t3: #28283e;
+}
+
+body {
+  background: var(--bg) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  color: var(--t1) !important;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ambient — kept from original, slightly more vivid */
+.amb { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.ab  { position: absolute; border-radius: 50%; filter: blur(110px); opacity: .09; }
+.ab1 { width: 520px; height: 520px; background: var(--eye);  top: -140px; left: -140px; }
+.ab2 { width: 440px; height: 440px; background: var(--mic);  bottom: -110px; right: -100px; }
+.ab3 { width: 360px; height: 360px; background: var(--hand); top: 45%; left: 42%; transform: translate(-50%,-50%); }
+
+/* shell */
+.shell {
+  position: relative; z-index: 1;
+  height: calc(100vh - 64px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════
+   HERO TOPBAR — NEW
+   ═══════════════════════════════════════════════ */
+/* NEW: .topbar-hero — hero-style header replacing plain topbar */
+.topbar-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* NEW: .topbar-left — left side text block */
+.topbar-left {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+/* NEW: .hero-badge — pill label above title */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  font-family: 'Syne', sans-serif;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #c4b5fd;
+  border: 1px solid rgba(168,85,247,.28);
+  padding: 4px 14px;
+  border-radius: 100px;
+  background: rgba(168,85,247,.08);
+  animation: badge-in .5s ease both;
+}
+/* NEW: .hero-badge-dot */
+.hero-badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 6px rgba(168,85,247,.8);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .5; transform: scale(.7); }
+}
+
+/* NEW: .hero-title — large gradient headline */
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  background: linear-gradient(120deg, #ffffff 25%, #c4b5fd 60%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: title-in .5s .08s ease both;
+}
+
+/* NEW: .hero-sub — muted subtitle */
+.hero-sub {
+  font-size: .78rem;
+  color: var(--t2);
+  font-weight: 300;
+  line-height: 1.6;
+  animation: title-in .5s .16s ease both;
+}
+
+/* NEW: .hero-ctas — CTA button row */
+.hero-ctas {
+  display: flex;
+  gap: .6rem;
+  margin-top: .35rem;
+  animation: title-in .5s .24s ease both;
+}
+/* NEW: .cta-primary, .cta-ghost — hero CTA buttons */
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .76rem;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, rgba(139,92,246,.35), rgba(168,85,247,.22));
+  border: 1px solid rgba(139,92,246,.5);
+  color: #e9d5ff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .25s;
+  box-shadow: 0 0 20px rgba(139,92,246,.15);
+}
+.cta-primary:hover {
+  background: linear-gradient(135deg, rgba(139,92,246,.5), rgba(168,85,247,.36));
+  border-color: rgba(168,85,247,.8);
+  color: #fff;
+  box-shadow: 0 0 28px rgba(168,85,247,.35);
+  transform: translateY(-1px);
+}
+.cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .76rem;
+  font-weight: 400;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--t2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .25s;
+}
+.cta-ghost:hover {
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.18);
+  color: var(--t1);
+  transform: translateY(-1px);
+}
+
+@keyframes badge-in { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: none; } }
+@keyframes title-in { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+
+/* NEW: .topbar-orb-wrap — right side decorative orb */
+.topbar-orb-wrap {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: orb-emerge .8s ease both;
+}
+@keyframes orb-emerge { from { opacity:0; transform: scale(.7); } to { opacity:1; transform: scale(1); } }
+/* NEW: .orb-ring — outer rotating ring */
+.orb-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(168,85,247,.22);
+  animation: spin-ring 14s linear infinite;
+}
+/* NEW: .orb-ring-inner */
+.orb-ring-inner {
+  position: absolute;
+  inset: 16px;
+  border-radius: 50%;
+  border: 1px dashed rgba(168,85,247,.14);
+  animation: spin-ring 9s linear infinite reverse;
+}
+@keyframes spin-ring { to { transform: rotate(360deg); } }
+/* NEW: .orb-dot — orbiting dot on ring */
+.orb-dot {
+  position: absolute;
+  top: 4px; left: 50%;
+  transform: translateX(-50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 10px rgba(168,85,247,.9);
+}
+/* NEW: .orb-core — center glowing circle */
+.orb-core {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, rgba(192,132,252,.6), rgba(88,28,220,.3) 55%, rgba(55,15,120,.15));
+  border: 1px solid rgba(168,85,247,.4);
+  box-shadow: 0 0 30px rgba(168,85,247,.35), 0 0 60px rgba(88,28,220,.2), inset 0 0 20px rgba(168,85,247,.15);
+  animation: orb-pulse 4s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+@keyframes orb-pulse {
+  0%,100% { box-shadow: 0 0 30px rgba(168,85,247,.35), 0 0 60px rgba(88,28,220,.2); }
+  50%      { box-shadow: 0 0 45px rgba(168,85,247,.55), 0 0 90px rgba(88,28,220,.3); }
+}
+
+/* ═══════════════════════════════════════════════
+   TWO-PANEL LAYOUT
+   ═══════════════════════════════════════════════ */
+.panels {
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 1rem;
+  min-height: 0;
+  align-items: start;
+}
+
+/* LEFT col */
+.left-col {
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  min-height: 0;
+}
+
+.feat-list {
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE CARDS — ENHANCED
+   ═══════════════════════════════════════════════ */
+.fcard {
+  background: rgba(255,255,255,.033);
+  /* CHANGED: border with slightly more presence */
+  border: 1px solid rgba(255,255,255,.08);
+  /* CHANGED: larger radius for premium feel */
+  border-radius: 20px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 112px;
+  /* CHANGED: added backdrop-filter for glassmorphism */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color .3s, transform .3s, background .3s, box-shadow .3s;
+}
+.fcard::before {
+  content: ''; position: absolute; inset: 0; border-radius: 20px;
+  opacity: 0; transition: opacity .4s; pointer-events: none;
+}
+.fcard.eye::before  { background: radial-gradient(ellipse at 0 50%, rgba(139,92,246,.22), transparent 65%); }
+.fcard.mic::before  { background: radial-gradient(ellipse at 0 50%, rgba(236,72,153,.22), transparent 65%); }
+.fcard.hand::before { background: radial-gradient(ellipse at 0 50%, rgba(59,130,246,.22),  transparent 65%); }
+
+/* CHANGED: hover now uses scale instead of translateX for more dynamism */
+.fcard:hover {
+  transform: translateX(4px) scale(1.02);
+  border-color: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+}
+.fcard:hover::before { opacity: 1; }
+
+/* CHANGED: .sel now has neon glow shadow */
+.fcard.eye.sel  {
+  border-color: rgba(139,92,246,.45);
+  box-shadow: 0 0 0 1px rgba(139,92,246,.2), 0 4px 28px rgba(139,92,246,.2), 0 0 48px rgba(139,92,246,.08);
+}
+.fcard.mic.sel  {
+  border-color: rgba(236,72,153,.45);
+  box-shadow: 0 0 0 1px rgba(236,72,153,.2), 0 4px 28px rgba(236,72,153,.2), 0 0 48px rgba(236,72,153,.08);
+}
+.fcard.hand.sel {
+  border-color: rgba(59,130,246,.45);
+  box-shadow: 0 0 0 1px rgba(59,130,246,.2), 0 4px 28px rgba(59,130,246,.2), 0 0 48px rgba(59,130,246,.08);
+}
+.fcard.sel::before { opacity: 1; }
+
+/* accent bar */
+.fcard-bar {
+  position: absolute; left: 0; top: 22%; bottom: 22%;
+  width: 3px; border-radius: 0 3px 3px 0;
+  opacity: 0; transition: opacity .3s;
+}
+.fcard.eye  .fcard-bar { background: linear-gradient(180deg, #a78bfa, #8b5cf6); }
+.fcard.mic  .fcard-bar { background: linear-gradient(180deg, #f472b6, #ec4899); }
+.fcard.hand .fcard-bar { background: linear-gradient(180deg, #60a5fa, #3b82f6); }
+.fcard.sel  .fcard-bar { opacity: 1; }
+
+/* icon box */
+.fcard-img {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+  transition: box-shadow .3s;
+}
+.fcard.eye  .fcard-img { background: rgba(139,92,246,.12); border: 1px solid rgba(139,92,246,.25); }
+.fcard.mic  .fcard-img { background: rgba(236,72,153,.12); border: 1px solid rgba(236,72,153,.25); }
+.fcard.hand .fcard-img { background: rgba(59,130,246,.12);  border: 1px solid rgba(59,130,246,.25); }
+/* CHANGED: icon glow on sel */
+.fcard.eye.sel  .fcard-img { box-shadow: 0 0 16px rgba(139,92,246,.35); }
+.fcard.mic.sel  .fcard-img { box-shadow: 0 0 16px rgba(236,72,153,.35); }
+.fcard.hand.sel .fcard-img { box-shadow: 0 0 16px rgba(59,130,246,.35); }
+
+/* animated image */
+.fcard-img img {
+  width: 26px; height: 26px; object-fit: contain;
+  filter: brightness(0) invert(1) opacity(.8);
+  animation: imgfloat 3.8s ease-in-out infinite;
+}
+.fcard.eye  .fcard-img img { animation-delay: 0s; }
+.fcard.mic  .fcard-img img { animation-delay: -1.3s; }
+.fcard.hand .fcard-img img { animation-delay: -2.6s; }
+@keyframes imgfloat {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-5px) rotate(3deg); }
+}
+.fcard:hover .fcard-img img,
+.fcard.sel   .fcard-img img {
+  filter: brightness(0) invert(1) opacity(1);
+}
+
+/* card body text */
+.fcard-body {
+  flex: 1; min-width: 0;
+  position: relative; z-index: 1;
+}
+.fcard-name {
+  font-family: 'Syne', sans-serif;
+  font-size: .88rem; font-weight: 700;
+  color: var(--t1); line-height: 1.2;
+  margin-bottom: .2rem;
+}
+.fcard-desc {
+  font-size: .71rem; color: var(--t2);
+  font-weight: 300; line-height: 1.5;
+  margin-bottom: .7rem;
+}
+
+/* ═══════════════════════════════════════════════
+   TOGGLES — ENHANCED
+   ═══════════════════════════════════════════════ */
+.tog-wrap { display: flex; align-items: center; gap: .7rem; }
+.tog-track {
+  position: relative;
+  width: 54px; height: 28px;
+  border-radius: 100px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  cursor: pointer;
+  transition: background .3s, border-color .3s, box-shadow .3s;
+  flex-shrink: 0;
+}
+/* CHANGED: .on state has neon glow */
+.tog-track.on {
+  background: rgba(34,197,94,.18);
+  border-color: rgba(34,197,94,.5);
+  box-shadow: 0 0 14px rgba(34,197,94,.25), inset 0 0 8px rgba(34,197,94,.08);
+}
+.tog-thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(255,255,255,.22);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), background .3s, box-shadow .3s;
+}
+/* CHANGED: active thumb has stronger glow */
+.tog-track.on .tog-thumb {
+  transform: translateX(26px);
+  background: #22c55e;
+  box-shadow: 0 0 12px rgba(34,197,94,.8), 0 0 24px rgba(34,197,94,.35);
+}
+.tog-label { font-size: .78rem; color: var(--t3); transition: color .3s; white-space: nowrap; }
+.tog-track.on ~ .tog-label { color: #86efac; }
+
+/* ── Botão Ajustes ── */
+.ajustes-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 0;
+  border-radius: 16px;
+  border: 1px solid rgba(139,92,246,.4);
+  background: rgba(139,92,246,.08);
+  /* CHANGED: glassmorphism */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #c4b5fd;
+  font-family: 'Syne', sans-serif;
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-decoration: none;
+  transition: background .2s, border-color .2s, color .2s, transform .15s, box-shadow .2s;
+}
+.ajustes-btn:hover {
+  background: rgba(139,92,246,.18);
+  border-color: rgba(139,92,246,.7);
+  color: #e0d9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(139,92,246,.25);
+}
+
+/* ═══════════════════════════════════════════════
+   HOWTO PANEL — ENHANCED
+   ═══════════════════════════════════════════════ */
+.howto {
+  background: rgba(255,255,255,.033);
+  /* CHANGED: glassmorphism */
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 22px;
+  padding: 2.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  /* CHANGED: subtle entrance shadow */
+  box-shadow: 0 8px 48px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+  animation: panel-in .4s ease both;
+}
+@keyframes panel-in { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: none; } }
+
+.howto::before {
+  content: ''; position: absolute; inset: 0; border-radius: 22px;
+  pointer-events: none; transition: opacity .5s;
+}
+/* CHANGED: brighter gradient overlays */
+.howto.eye::before  { background: radial-gradient(ellipse at 5% 0%, rgba(139,92,246,.15), transparent 55%); }
+.howto.mic::before  { background: radial-gradient(ellipse at 5% 0%, rgba(236,72,153,.15), transparent 55%); }
+.howto.hand::before { background: radial-gradient(ellipse at 5% 0%, rgba(59,130,246,.15),  transparent 55%); }
+
+/* CHANGED: neon top-border accent per type */
+.howto::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  border-radius: 100px;
+  opacity: .7;
+  transition: background .4s;
+}
+.howto.eye::after  { background: linear-gradient(90deg, transparent, rgba(139,92,246,.6), transparent); }
+.howto.mic::after  { background: linear-gradient(90deg, transparent, rgba(236,72,153,.6), transparent); }
+.howto.hand::after { background: linear-gradient(90deg, transparent, rgba(59,130,246,.6),  transparent); }
+
+.howto.eye  { --accent-a: #a78bfa; --accent-b: #ec4899; }
+.howto.mic  { --accent-a: #ec4899; --accent-b: #f97316; }
+.howto.hand { --accent-a: #60a5fa; --accent-b: #34d399; }
+
+.ht-eyebrow {
+  font-size: .62rem; font-weight: 600; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--t3);
+  margin-bottom: 1.5rem; position: relative; z-index: 1;
+  display: flex; align-items: center; gap: 8px;
+}
+/* NEW: .ht-eyebrow-line — decorative line next to eyebrow */
+.ht-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 1px;
+  background: var(--t3);
+  border-radius: 2px;
+}
+
+/* CHANGED: larger, more impactful title */
+.ht-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.7rem; font-weight: 800;
+  letter-spacing: -.03em; color: var(--t1); line-height: 1.1;
+  margin-bottom: .65rem; position: relative; z-index: 1;
+}
+/* CHANGED: gradient text is now more vivid */
+.ht-title em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--accent-a) 20%, var(--accent-b) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 12px var(--accent-a));
+}
+
+.ht-lead {
+  font-size: .83rem; color: var(--t2); font-weight: 300;
+  line-height: 1.8; margin-bottom: 2.2rem;
+  position: relative; z-index: 1; max-width: 520px;
+}
+
+.ht-steps-label {
+  font-size: .62rem; font-weight: 600; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--t3);
+  margin-bottom: .9rem; position: relative; z-index: 1;
+}
+.ht-steps { display: flex; flex-direction: column; gap: .55rem; position: relative; z-index: 1; }
+
+/* CHANGED: steps have glassmorphism + hover */
+.ht-step {
+  display: flex; align-items: flex-start; gap: .85rem;
+  padding: .85rem 1.1rem; border-radius: 14px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.055);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background .2s, border-color .2s, transform .2s;
+  animation: stepIn .3s both;
+}
+.ht-step:hover {
+  background: rgba(255,255,255,.04);
+  border-color: rgba(255,255,255,.1);
+  transform: translateX(3px);
+}
+.ht-step:nth-child(1) { animation-delay: .05s; }
+.ht-step:nth-child(2) { animation-delay: .11s; }
+.ht-step:nth-child(3) { animation-delay: .17s; }
+@keyframes stepIn { from{opacity:0;transform:translateX(12px);} to{opacity:1;transform:translateX(0);} }
+
+.ht-step-pill {
+  font-size: .75rem; font-weight: 500;
+  padding: 4px 12px; border-radius: 8px;
+  flex-shrink: 0; white-space: nowrap;
+  font-family: 'Syne', sans-serif; line-height: 1.4;
+  transition: box-shadow .2s;
+}
+.howto.eye  .ht-step-pill { background: rgba(139,92,246,.14); color: #c4b5fd; border: 1px solid rgba(139,92,246,.22); }
+.howto.mic  .ht-step-pill { background: rgba(236,72,153,.14); color: #fbcfe8; border: 1px solid rgba(236,72,153,.22); }
+.howto.hand .ht-step-pill { background: rgba(59,130,246,.14);  color: #bfdbfe; border: 1px solid rgba(59,130,246,.22); }
+.ht-step:hover .ht-step-pill {
+  box-shadow: 0 0 12px rgba(139,92,246,.2);
+}
+
+.ht-step-arrow { font-size: .62rem; color: var(--t3); margin-top: 5px; flex-shrink: 0; }
+.ht-step-text  { font-size: .78rem; color: var(--t2); line-height: 1.55; font-weight: 300; }
+
+.howto-inner { animation: htIn .3s both; }
+@keyframes htIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+
+/* responsive */
+@media (max-width: 800px) {
+  body   { overflow: auto; }
+  .shell { height: auto; }
+  .panels { grid-template-columns: 1fr; }
+  .topbar-orb-wrap { display: none; }
+}
+</style>
+
+<div class="amb">
+  <div class="ab ab1"></div>
+  <div class="ab ab2"></div>
+  <div class="ab ab3"></div>
+</div>
+
+<div class="shell">
+
+  <!-- CHANGED: .topbar → .topbar-hero with badge, large title, CTAs, and orb -->
+  <div class="topbar-hero">
+    <div class="topbar-left">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Assistência adaptativa
+      </div>
+      <h1 class="hero-title">Controle sem barreiras</h1>
+      <p class="hero-sub">Ative as funcionalidades e veja como usá-las em tempo real</p>
+      <div class="hero-ctas">
+        <a class="cta-primary" href="{{ url_for('main.ajustes') }}">⚙ Configurar ações</a>
+        <a class="cta-ghost" href="{{ url_for('main.landing') }}">Saiba mais →</a>
+      </div>
+    </div>
+
+    <!-- NEW: decorative glowing orb -->
+    <div class="topbar-orb-wrap" aria-hidden="true">
+      <div class="orb-ring">
+        <div class="orb-dot"></div>
+      </div>
+      <div class="orb-ring-inner"></div>
+      <div class="orb-core">👁</div>
+    </div>
+  </div>
+
+  <div class="panels">
+
+    <!-- LEFT -->
+    <div class="left-col">
+
+      <div class="feat-list">
+
+        <!-- Eye -->
+        <div class="fcard eye sel" data-id="eye" onclick="selectFeat('eye')">
+          <div class="fcard-bar"></div>
+          <div class="fcard-img">
+            <img src="{{ url_for('static', filename='img/camera.png') }}" alt="">
+          </div>
+          <div class="fcard-body">
+            <div class="fcard-name">Rastreamento Ocular</div>
+            <div class="fcard-desc">Controle o cursor com o movimento dos seus olhos.</div>
+            <div class="tog-wrap">
+              <div class="tog-track" id="tog_eye" onclick="event.stopPropagation(); toggleFeat('eye')">
+                <div class="tog-thumb"></div>
+              </div>
+              <span class="tog-label" id="lbl_eye">Inativo</span>
             </div>
+          </div>
         </div>
-    </div>
 
-    <div class="container col-md-8 col-lg-7 mx-auto">
-        <div class="card mb-3">
-            <div class="row g-0">
-                <div class="col-md-4 d-flex justify-content-center align-items-center">
-                    <img src="{{ url_for ('static', filename='img/microfone.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Voice Recognition</h5>
-                        <p class="card-text">Utilize a sua voz para realizar determinadas ações em seu computador. Verifique as opções em “ajustes”</p>
-                        <button onclick="StartVoice()" class="btn btn-primary">Iniciar voz</button>
-                        <button onclick="StopVoice()" class="btn btn-danger">Parar voz</button>
-                    </div>
-                    <p class="card-text"><small id="status_voz" class="text-body-secondary"></small></p>
-                </div>
+        <!-- Mic -->
+        <div class="fcard mic" data-id="mic" onclick="selectFeat('mic')">
+          <div class="fcard-bar"></div>
+          <div class="fcard-img">
+            <img src="{{ url_for('static', filename='img/microfone.png') }}" alt="">
+          </div>
+          <div class="fcard-body">
+            <div class="fcard-name">Controle por Voz</div>
+            <div class="fcard-desc">Execute ações e atalhos usando só a voz.</div>
+            <div class="tog-wrap">
+              <div class="tog-track" id="tog_mic" onclick="event.stopPropagation(); toggleFeat('mic')">
+                <div class="tog-thumb"></div>
+              </div>
+              <span class="tog-label" id="lbl_mic">Inativo</span>
             </div>
+          </div>
         </div>
-    </div>
 
-    <div class="container col-md-8 col-lg-7 mx-auto">
-        <div class="card mb-3">
-            <div class="row g-0">
-                <div class="col-md-4 d-flex justify-content-center align-items-center">
-                    <img src="{{ url_for ('static', filename='img/hand.png') }}" class="img-fluid rounded-start" alt="Ícone de microfone">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Gestos</h5>
-                        <p class="card-text">Utilize a sua mão para realizar determinadas ações em seu computador. Verifique as opções em “ajustes”</p>
-                        <button onclick="StartGestos()" class="btn btn-primary">Iniciar Reconhecimento</button>
-                        <button onclick="StopGestos()" class="btn btn-danger">Parar Reconhecimento</button>
-                    </div>
-                    <p class="card-text"><small id="status_gestos" class="text-body-secondary"></small></p>
-                </div>
+        <!-- Hand -->
+        <div class="fcard hand" data-id="hand" onclick="selectFeat('hand')">
+          <div class="fcard-bar"></div>
+          <div class="fcard-img">
+            <img src="{{ url_for('static', filename='img/hand.png') }}" alt="">
+          </div>
+          <div class="fcard-body">
+            <div class="fcard-name">Gestos com as Mãos</div>
+            <div class="fcard-desc">Mapeie movimentos das mãos para ações no sistema.</div>
+            <div class="tog-wrap">
+              <div class="tog-track" id="tog_hand" onclick="event.stopPropagation(); toggleFeat('hand')">
+                <div class="tog-thumb"></div>
+              </div>
+              <span class="tog-label" id="lbl_hand">Inativo</span>
             </div>
+          </div>
         </div>
+
+      </div><!-- junção de lista -->
+
+      <!-- ajustes button -->
+      <a class="ajustes-btn" href="{{ url_for('main.ajustes') }}">⚙ Ajustes avançados →</a>
+
+    </div><!-- /esquerda-col -->
+
+    <!-- direita -->
+    <div class="howto eye" id="howto">
+      <div id="howtoInner"></div>
     </div>
 
-    <!-- Área para exibir o stream de vídeo dos gestos -->
-    <div class="container col-md-8 col-lg-7 mx-auto" id="video-container" style="display: none;">
-        <div class="card mb-3">
-            <div class="card-body text-center">
-                <h5 class="card-title">Stream de Rastreamento</h5>
-                <img id="gesture-stream" src="" alt="Stream de gestos" style="max-width: 100%; height: auto;">
-            </div>
-        </div>
-    </div>
-
-    <div class="row d-flex justify-content-center align-items-center">
-        <a class="btn btn-primary btn-lg" href="{{ url_for ('main.ajustes') }}" style="margin: 10px; padding: 10px; width: 300px; border-radius: 90px;">Ajustes e atalhos</a>    
-    </div>
-    <p id="status"></p>
-</main>
-
-<br>
+  </div>
+</div>
 
 <script>
-    function startTracking() {
-        fetch('/start-tracking')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('status_camera').innerText = data;
-            })
-            .catch(error => console.error('Erro:', error));
-    }
+const howtoData = {
+  eye: {
+    title: 'Rastreamento <em>Ocular</em>',
+    lead: 'O sistema usa sua câmera para rastrear o ponto de foco dos seus olhos em tempo real. Nenhum hardware especial necessário — apenas boa iluminação no rosto.',
+    steps: [
+      { pill: 'Olhar fixo',            result: 'Move o cursor para onde você está olhando' },
+      { pill: 'Piscar olho esquerdo',  result: 'Executa um clique esquerdo' },
+      { pill: 'Piscar olho direito',   result: 'Executa um clique direito' },
+    ]
+  },
+  mic: {
+    title: 'Controle por <em>Voz</em>',
+    lead: 'Os comandos são literais e diretos — fale exatamente o que quer fazer. O sistema reconhece português brasileiro e age imediatamente após ouvir o comando.',
+    steps: [
+      { pill: '"abrir youtube"',         result: 'Abre o YouTube no navegador padrão' },
+      { pill: '"pesquisar gatos fofos"', result: 'Realiza busca no navegador' },
+      { pill: '"fechar"',                result: 'Fecha a janela ativa no momento' },
+    ]
+  },
+  hand: {
+    title: 'Gestos com as <em>Mãos</em>',
+    lead: 'Posicione a mão dentro do campo de visão da câmera. O sistema detecta 21 pontos de referência para reconhecer posições e movimentos mapeados por você em Ajustes.',
+    steps: [
+      { pill: 'Mão aberta',     result: 'Pausa ou retoma todas as funções ativas' },
+      { pill: 'Punho fechado',  result: 'Rola a página para baixo' },
+      { pill: 'Dedo apontando', result: 'Executa um clique direito' },
+    ]
+  }
+};
 
-    function stopTracking() {
-        fetch('/stop-tracking')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('status_camera').innerText = data;
-            })
-            .catch(error => console.error('Erro:', error));
-    }
+const routes = {
+  eye:  { start: '/start-tracking', stop: '/stop-tracking'         },
+  mic:  { start: '/start-voice',    stop: '/stop-voice'            },
+  hand: { start: '/start-gestos',   stop: '/parar-rastreio-gestos' },
+};
 
-    function StartVoice() {
-        fetch('/start-voice')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('status_voz').innerText = data;
-            })
-            .catch(error => console.error('Erro:', error));
-    }
+const state = { eye: false, mic: false, hand: false };
 
-    function StopVoice() {
-        fetch('/stop-voice')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('status_voz').innerText = data;
-            })
-            .catch(error => console.error('Erro:', error));
-    }
+function renderHowto(id) {
+  const d  = howtoData[id];
+  const ht = document.getElementById('howto');
+  ht.className = 'howto ' + id;
+  document.getElementById('howtoInner').innerHTML = `
+    <div class="howto-inner">
+      <div class="ht-eyebrow">Como usar</div>
+      <div class="ht-title">${d.title}</div>
+      <div class="ht-lead">${d.lead}</div>
+      <div class="ht-steps-label">Exemplos práticos</div>
+      <div class="ht-steps">
+        ${d.steps.map(s => `
+          <div class="ht-step">
+            <div class="ht-step-pill">${s.pill}</div>
+            <div class="ht-step-arrow">→</div>
+            <div class="ht-step-text">${s.result}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
 
-    function StartGestos() {
-        fetch('/start-gestos')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('status_gestos').innerText = data;
-                if (data.includes('iniciado')) {
-                    // Mostra o container de vídeo e inicia o stream
-                    document.getElementById('video-container').style.display = 'block';
-                    document.getElementById('gesture-stream').src = '/rastreio-gestos';
-                }
-            })
-            .catch(error => console.error('Erro:', error));
-    }
+function selectFeat(id) {
+  document.querySelectorAll('.fcard').forEach(c => c.classList.remove('sel'));
+  document.querySelector('.fcard[data-id="' + id + '"]').classList.add('sel');
+  renderHowto(id);
+}
 
-    function StopGestos() {
-        fetch('/parar-rastreio-gestos')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('status_gestos').innerText = data;
-                // Oculta o container de vídeo e para o stream
-                document.getElementById('video-container').style.display = 'none';
-                document.getElementById('gesture-stream').src = '';
-            })
-            .catch(error => console.error('Erro:', error));
-    }
+function toggleFeat(id) {
+  const on    = !state[id];
+  state[id]   = on;
+  const track = document.getElementById('tog_' + id);
+  const lbl   = document.getElementById('lbl_' + id);
+  on ? track.classList.add('on') : track.classList.remove('on');
+  lbl.textContent  = on ? 'Ativo' : 'Inativo';
+  lbl.style.color  = on ? '#86efac' : '';
+  fetch(on ? routes[id].start : routes[id].stop).catch(() => {});
+}
+
+renderHowto('eye');
 </script>
+
 {% endblock %}

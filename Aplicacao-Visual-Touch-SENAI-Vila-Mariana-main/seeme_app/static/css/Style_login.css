@@ -1,3 +1,5 @@
+/*Style_login.css*/
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
@@ -9,6 +11,7 @@
 body {
     background-color: #2f213b;
     color: #fff;
+    font-size: 1.1rem;
 }
 
 .container {
@@ -25,7 +28,7 @@ header img {
 }
 
 header h1 {
-    font-size: 28px;
+    font-size: 36px;
     font-family: 'Poppins', sans-serif;
     margin-left: 88px;
     margin-top: -50px;
@@ -38,7 +41,7 @@ main {
 
 main h2 {
     color: #fff;
-    font-size: 68px;
+    font-size: 85px;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -48,7 +51,7 @@ button {
     height: 60px;
     border: none;
     border-radius: 40px;
-    font-size: 18px;
+    font-size: 22px;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
     color: #000005;
@@ -101,4 +104,3 @@ button {
         0 0 60px 30px #bf00ff, /* Halo mais vibrante */
         0 0 80px 40px #5a0077; /* Difusão maior */;
 }
-

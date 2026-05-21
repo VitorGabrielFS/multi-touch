@@ -1,4 +1,5 @@
 Execute os seguintes códigos no terminal para criar ambiente, e instalar tudo:
+cd C:\Users\gabri\Downloads\multi-touch\Aplicacao-Visual-Touch-SENAI-Vila-Mariana-main
 Set-ExecutionPolicy RemoteSigned -Scope Process
 python -m venv .venv
 .venv\Scripts\activate

@@ -1,7 +1,10 @@
+/*Style_landing.css*/
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  font-size: 1.1rem;
 }
 
 .split-section {
@@ -56,13 +59,13 @@ body {
 .right-half-up h1 {
   margin-top: 28px;
   font-weight: bold;
-  font-size: 2.7rem;
+  font-size: 3.3rem;
   margin-bottom: 28px;
   color: #3069f6;
 }
 
 .right-half-up p {
-  font-size: 1.25rem;
+  font-size: 1.55rem;
   color: #222;
   line-height: 1.7;
   margin-bottom: 0;
@@ -117,7 +120,7 @@ body {
 
 .titulo {
   margin-top: 1%;
-  font-size: 2.8rem;
+  font-size: 3.4rem;
   font-weight: bold;
   margin-bottom: 25px;
   color: #222;
@@ -138,7 +141,7 @@ body {
 /* Terceira Parte */
 .titulo-recursos {
   text-align: center;
-  font-size: 2.8rem;
+  font-size: 3.4rem;
   font-weight: bold;
   color: #000000;
 
@@ -198,7 +201,7 @@ body {
 
 .camera-icone {
   color: #fff;
-  font-size: 8rem; /* ícone grande */
+  font-size: 9rem; /* ícone grande */
 }
 
 .footer-preto {
@@ -214,7 +217,7 @@ body {
   color: #fff;
   text-align: center;
   font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 2.2rem;
+  font-size: 2.7rem;
   font-weight: 600;
   line-height: 1.1;
   display: flex;
@@ -261,7 +264,7 @@ body {
 }
 
 .profile-header .nome {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: bold;
   text-transform: uppercase;
   margin: 0;

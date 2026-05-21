@@ -8,12 +8,171 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/O_SeeMe_Icone.PNG') }}">
     <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/O_SeeMe_Icone.PNG') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        /* ── GLOBAL RESET & BASE ── */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        :root {
+            --neon: #a855f7;
+            --neon-dim: rgba(168,85,247,.18);
+            --neon-glow: rgba(168,85,247,.35);
+            --bg: #05050e;
+            --glass: rgba(255,255,255,.04);
+            --glass-border: rgba(255,255,255,.08);
+            --t1: #f0f0fa;
+            --t2: #6060a0;
+            --t3: #30304a;
+        }
+
+        html, body {
+            margin: 0; padding: 0;
+            background: var(--bg) !important;
+            color: var(--t1) !important;
+            font-family: 'DM Sans', Arial, sans-serif !important;
+            min-height: 100vh;
+        }
+
+        /* ── ANIMATED BACKGROUND ── */
+        /* NEW: .bg-scene — full-screen gradient + orb layer */
+        .bg-scene {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 80% 60% at 10% 0%, rgba(88,28,220,.18) 0%, transparent 60%),
+                        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(49,10,100,.22) 0%, transparent 55%),
+                        linear-gradient(165deg, #05050e 0%, #0a0520 45%, #070514 100%);
+        }
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            opacity: .12;
+            animation: orb-float 14s ease-in-out infinite alternate;
+        }
+        .bg-orb-1 { width: 560px; height: 560px; background: #7c3aed; top: -140px; left: -140px; animation-delay: 0s; }
+        .bg-orb-2 { width: 420px; height: 420px; background: #a21caf; top: 40%; right: -100px; animation-delay: -5s; }
+        .bg-orb-3 { width: 380px; height: 380px; background: #2563eb; bottom: -80px; left: 30%; animation-delay: -10s; }
+        @keyframes orb-float {
+            from { transform: translate(0,0) scale(1); }
+            to   { transform: translate(32px,40px) scale(1.1); }
+        }
+
+        /* ── GLASSMORPHISM NAVBAR ── */
+        /* NEW: .navbar-glass — overwrites Bootstrap bg-primary */
+        .navbar-glass {
+            background: rgba(10,5,30,.55) !important;
+            backdrop-filter: blur(22px) saturate(160%);
+            -webkit-backdrop-filter: blur(22px) saturate(160%);
+            border-bottom: 1px solid rgba(168,85,247,.18);
+            box-shadow: 0 1px 32px rgba(0,0,0,.45), 0 0 0 0 transparent;
+            padding: 0 0 !important;
+            transition: background .3s ease, box-shadow .3s ease;
+        }
+        .navbar-glass .container-fluid { padding: 12px 24px; }
+
+        /* Brand */
+        .navbar-glass .navbar-brand {
+            font-family: 'Syne', sans-serif !important;
+            font-weight: 800 !important;
+            font-size: 1.3rem !important;
+            letter-spacing: -.02em;
+            background: linear-gradient(120deg, #fff 30%, var(--neon) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: opacity .2s;
+        }
+        .navbar-glass .navbar-brand:hover { opacity: .85; }
+
+        /* Nav links */
+        .navbar-glass .nav-link {
+            color: rgba(240,240,250,.65) !important;
+            font-size: .84rem;
+            font-weight: 400;
+            padding: 6px 14px !important;
+            border-radius: 8px;
+            transition: color .2s, background .2s;
+        }
+        .navbar-glass .nav-link:hover {
+            color: var(--t1) !important;
+            background: rgba(255,255,255,.06);
+        }
+        .navbar-glass .nav-link.active { color: var(--t1) !important; }
+
+        /* Auth area */
+        .navbar-glass .navbar-text {
+            color: rgba(240,240,250,.55) !important;
+            font-size: .82rem;
+        }
+
+        /* NEW: .btn-glass-outline, .btn-glass-solid — navbar CTA buttons */
+        .btn-glass-outline {
+            background: transparent;
+            border: 1px solid rgba(168,85,247,.45);
+            color: #d8b4fe !important;
+            border-radius: 10px;
+            padding: 7px 18px;
+            font-size: .82rem;
+            font-weight: 500;
+            transition: all .25s;
+            text-decoration: none;
+        }
+        .btn-glass-outline:hover {
+            background: rgba(168,85,247,.14);
+            border-color: rgba(168,85,247,.7);
+            color: #ede9fe !important;
+            box-shadow: 0 0 16px rgba(168,85,247,.25);
+        }
+        .btn-glass-solid {
+            background: rgba(168,85,247,.22);
+            border: 1px solid rgba(168,85,247,.5);
+            color: #ede9fe !important;
+            border-radius: 10px;
+            padding: 7px 18px;
+            font-size: .82rem;
+            font-weight: 500;
+            transition: all .25s;
+            text-decoration: none;
+        }
+        .btn-glass-solid:hover {
+            background: rgba(168,85,247,.36);
+            border-color: var(--neon);
+            color: #fff !important;
+            box-shadow: 0 0 20px rgba(168,85,247,.3);
+        }
+
+        /* ── MAIN WRAPPER ── */
+        main.container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── FLASH MESSAGES ── */
+        .alert {
+            background: rgba(255,255,255,.04) !important;
+            border: 1px solid rgba(255,255,255,.1) !important;
+            color: var(--t1) !important;
+            border-radius: 14px !important;
+            backdrop-filter: blur(10px);
+        }
+    </style>
 </head>
 
-<body style="background-color: #f8f9fa;">
+<body>
+    <!-- NEW: full-screen ambient background -->
+    <div class="bg-scene" aria-hidden="true">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
     <header>
-        <nav style="background-color: #1500FF; padding: 10px;" class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
+        <!-- CHANGED: replaced inline bg-primary style with .navbar-glass class -->
+        <nav class="navbar navbar-expand-lg fixed-top navbar-glass" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand mb-0 h1" href="{{ url_for ('main.index') }}">SeeMe</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,15 +192,16 @@
                     </ul>
 
                     {% if current_user.is_authenticated %}
-                        <div class="d-flex ms-auto">
-                            <span class="navbar-text me-3">Olá, {{ current_user.nome }}!</span>
-                            <a href="{{ url_for ('main.logout') }}" class="btn btn-outline-light">Sair</a>
+                        <div class="d-flex ms-auto align-items-center gap-3">
+                            <span class="navbar-text">Olá, {{ current_user.nome }}!</span>
+                            <!-- CHANGED: btn-outline-light → btn-glass-outline -->
+                            <a href="{{ url_for ('main.logout') }}" class="btn-glass-outline">Sair</a>
                         </div>
-
                     {% else %}
-                        <div class="d-flex ms-auto">
-                            <a href="{{ url_for ('main.login') }}" class="btn btn-outline-light me-2">Entrar</a>
-                            <a href="{{ url_for ('main.cadastrar_usuario') }}" class="btn btn-light">Cadastrar</a>
+                        <div class="d-flex ms-auto align-items-center gap-2">
+                            <!-- CHANGED: btn-outline-light → btn-glass-outline, btn-light → btn-glass-solid -->
+                            <a href="{{ url_for ('main.login') }}" class="btn-glass-outline">Entrar</a>
+                            <a href="{{ url_for ('main.cadastrar_usuario') }}" class="btn-glass-solid">Cadastrar</a>
                         </div>
                     {% endif %}
                 </div>
@@ -49,10 +209,8 @@
         </nav>
     </header>
 
-
     <main class="container" style="padding-top: 70px; padding-bottom: 20px;">
-        {% include '_flashes.html' %} 
-        
+        {% include '_flashes.html' %}
         {% block content %}{% endblock %}
     </main>
 </body>
