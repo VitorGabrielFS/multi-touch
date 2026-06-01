@@ -1,67 +1,209 @@
-<div>
-<h1> 
-  <img width="40" height="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />
-    SeeMe
-  <img src="/O_SeeMe_Icone.PNG" alt="Logo SeeMe" width="50" height="50">
-</h1>
-</div>
+# SeeMe
 
-<div align="center">
-    <img width='400' height='100' src="https://github.com/user-attachments/assets/480dcbb4-cef2-41ea-8dc4-27303433bb46" />
-  </a>
-</div>
+Sistema de acessibilidade desenvolvido para permitir que usuários controlem o computador utilizando visão computacional, rastreamento ocular, gestos, voz e reconhecimento de LIBRAS, reduzindo a dependência de teclado e mouse convencionais.
+
+Projeto desenvolvido durante o **Samsung Innovation Campus 2025** em parceria com o **SENAI Vila Mariana**, com foco em inclusão digital e acessibilidade.
 
 ---
 
-# 👁️ SeeMe – Solução de Inclusão Digital Acessível com Visão Computacional
+## Tecnologias
 
-O **SeeMe** é um projeto inovador que nasceu com o objetivo de promover a **inclusão digital** e a **autonomia** de pessoas com deficiência ou mobilidade reduzida.
-
-Desenvolvido como **Trabalho de Conclusão de Curso (TCC)** do **SAMSUNG Innovation Campus 2025** em parceria com o **SENAI**, o SeeMe transforma a câmera de um notebook em um **hub de acessibilidade digital**, utilizando **Visão Computacional e Inteligência Artificial** para oferecer novas formas de interação.
-
-🚀 **O SeeMe vai além, integrando:**
-- **Controle do mouse com os olhos** para navegação.
-- **Interação por gestos das mãos** para comandos e atalhos.
-- **Transcrição de LIBRAS para texto em tempo real**, promovendo a comunicação.
-- **Compatibilidade com máquinas de baixo custo**, garantindo a acessibilidade.
-
-Tudo isso com foco em **autonomia total, inclusão social e hardware leve**.
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-FF6F00?style=for-the-badge)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite)
+![PyAutoGUI](https://img.shields.io/badge/PyAutoGUI-2E8B57?style=for-the-badge)
+![Computer Vision](https://img.shields.io/badge/Computer%20Vision-008080?style=for-the-badge)
 
 ---
 
-## 🎥 Demonstrações
+## Sobre o Projeto
 
+O **SeeMe** foi criado para oferecer formas alternativas de interação com computadores utilizando apenas uma webcam comum.
 
-```markdown
-![Funções](Funçoes.png) 
+A plataforma integra múltiplos módulos de acessibilidade em uma única aplicação:
 
+- Controle do cursor pelos olhos e movimentos faciais
+- Comandos por gestos das mãos
+- Reconhecimento de voz
+- Sistema de atalhos personalizados
+- Painel web para gerenciamento
+- Reconhecimento de sinais em LIBRAS utilizando redes neurais convolucionais (CNN)
 
-🌍 Impacto e Objetivos
-O projeto visa solucionar a carência de ferramentas integradas e práticas, retirando a dependência do teclado e oferecendo maior utilidade e melhor interface humano-máquina.
+O objetivo é proporcionar maior autonomia para pessoas com deficiência, mobilidade reduzida ou dificuldades de interação com dispositivos tradicionais.
 
-Resultados Esperados
-Inclusão Social: Abranger diversos grupos sociais e minorias com o software.
+---
 
-Autonomia Total: Garantir autonomia para usuários com mobilidade reduzida.
+## Funcionalidades
 
-Transcrições: Transcrever LIBRAS com legendas na tela, adaptável a diferentes qualidades de webcam.
+### Rastreamento Ocular
 
-Hardware Leve: Execução em uma variedade maior de hardwares, utilizando modelos de IA mais leves.
+- Controle do cursor em tempo real
+- Suavização de movimento
+- Deadzone configurável
+- Filtro anti-tremor
+- Calibração de sensibilidade
+- Piscadas para clique
 
-🧩 Funcionalidades Atuais
-👁 Controle do Mouse com os Olhos: Navegação do cursor através de movimentos oculares.
+### Controle por Gestos
 
-🖐 Interação por Gestos Manuais: Reconhecimento e interpretação de gestos para ações no computador (ex: clicar ou rolar a tela).
+- Reconhecimento de dedos levantados
+- Execução de atalhos personalizados
+- Abertura de programas
+- Abertura de sites
+- Comandos automatizados
 
-🤟 Transcrição de LIBRAS para Texto: Reconhecimento de sinais da Língua Brasileira de Sinais (LIBRAS) e transcrição em tempo real.
+### Reconhecimento de Voz
 
-🖥 Compatibilidade de Hardware: Projetado para funcionar com webcams comuns e máquinas de baixo custo.
+- Captura de comandos falados
+- Integração com ações do sistema
+- Controle sem teclado
 
-🛠️ Tecnologias e Deep Learning
-🧠 Módulo LIBRAS - Deep Learning (CNN) :hand: :raised_hand: :fist: :point_up:
-A funcionalidade de Transcrição de LIBRAS é alimentada por um classificador de Deep Learning dedicado.
+### Reconhecimento de LIBRAS
 
-Este módulo tem como objetivo gerar um classificador com Redes Neurais Convolucionais (CNNs) para reconhecimento de gestos estáticos do alfabeto em LIBRAS.
+- CNN treinada para reconhecimento de sinais
+- Processamento em tempo real
+- Base para tradução assistida
 
-Contexto
-Este projeto é o TCC do curso Pocket Python + Inteligência Artificial (240 horas) do SAMSUNG Innovation Campus 2025.
+### Painel Web
+
+- Cadastro de usuários
+- Login seguro
+- Configuração de preferências
+- Gerenciamento dos atalhos
+
+---
+
+## Demonstração
+
+### Controle Ocular
+
+<p align="center">
+  <img src="Aplicacao-Visual-Touch-SENAI-Vila-Mariana-main/demo/demo_eye.gif" width="700">
+</p>
+
+### Reconhecimento de LIBRAS
+
+<p align="center">
+  <img src="Aplicacao-Visual-Touch-SENAI-Vila-Mariana-main/demo/demo_cnn_libras.gif" width="700">
+</p>
+
+> Adicione aqui GIFs e capturas reais do projeto para melhorar a apresentação do repositório.
+
+---
+
+## Arquitetura Simplificada
+
+```text
+Webcam
+   │
+   ▼
+MediaPipe / OpenCV
+   │
+   ├── Eye Tracking
+   ├── Hand Tracking
+   └── Face Mesh
+   │
+   ▼
+Controlador Principal
+   │
+   ├── PyAutoGUI
+   ├── Voice Commands
+   ├── Atalhos
+   └── Interface Flask
+   │
+   ▼
+Sistema Operacional
+```
+
+---
+
+## Estrutura do Projeto
+
+```text
+multi-touch/
+│
+├── README.md
+├── requirements.txt
+├── requirementslab.txt
+│
+└── Aplicacao-Visual-Touch-SENAI-Vila-Mariana-main/
+    │
+    ├── run.py
+    ├── config.py
+    ├── voice.py
+    │
+    ├── seeme_app/
+    │   ├── app.py
+    │   ├── rotas.py
+    │   ├── eye.py
+    │   ├── exec_mao.py
+    │   ├── control.py
+    │   ├── modelos.py
+    │   ├── templates/
+    │   └── static/
+    │
+    ├── libras/
+    │   ├── train.py
+    │   ├── cnn/
+    │   └── app_64x64x3.py
+    │
+    ├── models/
+    ├── dataset/
+    └── demo/
+```
+
+---
+
+## Desafios Técnicos
+
+Durante o desenvolvimento do projeto, alguns dos principais desafios foram:
+
+- Rastreamento ocular utilizando apenas webcam convencional
+- Redução de ruído e tremores no movimento do cursor
+- Detecção confiável de piscadas para cliques
+- Integração simultânea entre OpenCV, MediaPipe e Flask
+- Processamento em tempo real sem hardware especializado
+- Treinamento de CNN para reconhecimento de sinais em LIBRAS
+- Execução de ações do sistema operacional de forma segura
+
+---
+
+## Resultados
+
+- Mais de 100 commits no desenvolvimento
+- Múltiplos módulos integrados em uma única plataforma
+- Controle em tempo real utilizando visão computacional
+- Interface web para gerenciamento do sistema
+- Projeto apresentado durante o Samsung Innovation Campus 2025
+
+---
+
+## Melhorias Futuras
+
+- Aplicativo desktop dedicado
+- Instalador para Windows
+- Sistema avançado de calibração ocular
+- Tradução completa de LIBRAS
+- Dashboard com estatísticas de uso
+- Treinamento de modelos mais robustos
+- Arquitetura modular baseada em serviços
+- Documentação técnica completa
+
+---
+
+## Autor
+
+**Vitor Gabriel**
+
+Desenvolvedor focado em Python, Inteligência Artificial, Visão Computacional e Desenvolvimento de Sistemas.
+
+GitHub:
+https://github.com/VitorGabrielFS
+
+---
+
+## Licença
+
+Este projeto foi desenvolvido para fins educacionais e de pesquisa em acessibilidade digital.
