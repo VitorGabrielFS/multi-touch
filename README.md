@@ -75,24 +75,6 @@ O objetivo é proporcionar maior autonomia para pessoas com deficiência, mobili
 
 ---
 
-## Demonstração
-
-### Controle Ocular
-
-<p align="center">
-  <img src="Aplicacao-Visual-Touch-SENAI-Vila-Mariana-main/demo/demo_eye.gif" width="700">
-</p>
-
-### Reconhecimento de LIBRAS
-
-<p align="center">
-  <img src="Aplicacao-Visual-Touch-SENAI-Vila-Mariana-main/demo/demo_cnn_libras.gif" width="700">
-</p>
-
-> Adicione aqui GIFs e capturas reais do projeto para melhorar a apresentação do repositório.
-
----
-
 ## Arquitetura Simplificada
 
 ```text
